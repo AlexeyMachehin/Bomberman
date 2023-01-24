@@ -1,3 +1,4 @@
+import { ControlState } from './ControlState';
 import { Scene } from './Scene';
 import { GameLevel } from './scenes/GameLevel';
 import { Loading } from './scenes/Loading';
@@ -18,6 +19,7 @@ export class GameLoop {
   screen: Screen;
   scenes: Record<string, Scene>;
   currentScene: Scene;
+  control: ControlState;
 
   constructor({ width, height, canvas }: GameLoopPropsType) {
     this.screen = new Screen(width, height, canvas);
@@ -26,6 +28,7 @@ export class GameLoop {
     this.step = 1 / this.fps;
     this.deltaTime = 0;
     this.now = 0;
+    this.control = new ControlState();
     this.scenes = {
       loading: new Loading(this),
       gameLevel: new GameLevel(this),
