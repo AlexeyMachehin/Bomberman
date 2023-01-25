@@ -1,4 +1,5 @@
 import { ImageLoader } from './ImageLoader';
+import { Sprite } from './Sprite';
 
 export class Screen {
   width: number;
@@ -35,5 +36,23 @@ export class Screen {
       this.isImagesloaded = true;
       console.log(names); // оставил пока чтобы видеть в консоли что изображения прогрузились
     });
+  }
+
+  drawImage(x: number, y: number, imageName: string) {
+    this.context.drawImage(this.images[imageName], x, y);
+  }
+
+  drawSprite(sprite: Sprite) {
+    this.context.drawImage(
+      this.images[sprite.imageName],
+      sprite.sourceX,
+      sprite.sourceY,
+      16,
+      16,
+      sprite.x,
+      sprite.y,
+      sprite.width,
+      sprite.height
+    );
   }
 }
