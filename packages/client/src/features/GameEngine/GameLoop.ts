@@ -3,6 +3,7 @@ import { Scene } from './Scene';
 import { GameLevel } from './scenes/GameLevel';
 import { Loading } from './scenes/Loading';
 import { Screen } from './Screen';
+import generalSpritesheet from '../../assets/general-sprite-sheet.png';
 
 export type GameLoopPropsType = {
   width: number;
@@ -23,12 +24,15 @@ export class GameLoop {
 
   constructor({ width, height, canvas }: GameLoopPropsType) {
     this.screen = new Screen(width, height, canvas);
+    this.screen.loadImages({
+      spritesheet: generalSpritesheet,
+    });
+    this.control = new ControlState();
     this.last = performance.now();
     this.fps = 60;
     this.step = 1 / this.fps;
     this.deltaTime = 0;
     this.now = 0;
-    this.control = new ControlState();
     this.scenes = {
       loading: new Loading(this),
       gameLevel: new GameLevel(this),
