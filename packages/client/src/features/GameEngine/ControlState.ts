@@ -30,7 +30,7 @@ export class ControlState {
       event.preventDefault();
       event.stopPropagation();
       if (direction !== undefined) (this as any)[direction] = pressed;
-      console.log(this);
+      // console.log(this);
     }
   }
 }

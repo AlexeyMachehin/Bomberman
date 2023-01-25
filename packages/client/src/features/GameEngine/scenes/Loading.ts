@@ -16,7 +16,7 @@ export class Loading extends Scene {
 
   update(step: number) {
     //TODO поставить проверку прогрузки ресурсов
-    if (this.loadedAt < 2) {
+    if (this.loadedAt < 1) {
       this.loadedAt += step;
     } else {
       this.finish(Scene.LOADED);

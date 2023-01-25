@@ -1,4 +1,5 @@
 import { Sprite } from './Sprite';
+import { Animation } from './Animation';
 
 export class SpriteSheet {
   imageName: string;
@@ -43,6 +44,24 @@ export class SpriteSheet {
       imageName: this.imageName,
       sourceX: this.getSourceX(index),
       sourceY: this.getSourceY(index),
+    });
+  }
+
+  getAnimation(
+    indexes: number[],
+    speed: number,
+    repeat = true,
+    autorun = true
+  ) {
+    return new Animation({
+      imageName: this.imageName,
+      frames: indexes.map(index => ({
+        sx: this.getSourceX(index),
+        sy: this.getSourceY(index),
+      })),
+      speed: speed,
+      repeat: repeat,
+      autorun: autorun,
     });
   }
 }

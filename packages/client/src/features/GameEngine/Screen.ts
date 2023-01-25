@@ -41,7 +41,6 @@ export class Screen {
     loader.load().then(names => {
       this.images = Object.assign(this.images, loader.images);
       this.isImagesloaded = true;
-      console.log(names); // оставил пока чтобы видеть в консоли что изображения прогрузились
     });
   }
 
@@ -50,14 +49,41 @@ export class Screen {
   }
 
   drawSprite(sprite: Sprite) {
+    // console.log(sprite.width)
+
+    let spriteX = sprite.x;
+    let spriteY = sprite.y;
+
+    if (this.isCameraSet) {
+      spriteX -= this.camera!.x;
+      spriteY -= this.camera!.y;
+    }
+
+    if (
+      spriteX >= this.width ||
+      spriteY >= this.height ||
+      spriteX + sprite.width <= 0 ||
+      spriteY + sprite.height <= 0
+    ) {
+      return;
+    }
+
+    // Подумать про отрисовку только видимой части спрайта
+    // let sourceX = sprite.sourceX + Math.abs(Math.min(0, spriteX))
+    // let sourceY = sprite.sourceY + Math.abs(Math.min(0, spriteY))
+    // let width =
+    //   Math.min(this.width, spriteX + sprite.width) - Math.max(0, spriteX)
+    // let height =
+    //   Math.min(this.height, spriteY + sprite.height) - Math.max(0, spriteY)
+
     this.context.drawImage(
       this.images[sprite.imageName],
       sprite.sourceX,
       sprite.sourceY,
       sprite.sourceWidth,
       sprite.sourceHeight,
-      sprite.x,
-      sprite.y,
+      spriteX,
+      spriteY,
       sprite.width,
       sprite.height
     );
