@@ -49,8 +49,6 @@ export class Screen {
   }
 
   drawSprite(sprite: Sprite) {
-    // console.log(sprite.width)
-
     let spriteX = sprite.x;
     let spriteY = sprite.y;
 
@@ -69,12 +67,17 @@ export class Screen {
     }
 
     // Подумать про отрисовку только видимой части спрайта
-    // let sourceX = sprite.sourceX + Math.abs(Math.min(0, spriteX))
-    // let sourceY = sprite.sourceY + Math.abs(Math.min(0, spriteY))
-    // let width =
-    //   Math.min(this.width, spriteX + sprite.width) - Math.max(0, spriteX)
-    // let height =
-    //   Math.min(this.height, spriteY + sprite.height) - Math.max(0, spriteY)
+    // карта у нас небольшая, может не составит проблемы
+    // const sourceX = sprite.sourceX + Math.abs(Math.min(0, spriteX));
+    // const sourceY = sprite.sourceY + Math.abs(Math.min(0, spriteY));
+    // const width =
+    //   Math.min(this.width, sprite.sourceX + sprite.sourceWidth) -
+    //   Math.max(0, sprite.sourceX);
+    // const height =
+    //   Math.min(this.height, sprite.sourceY + sprite.sourceHeight) -
+    //   Math.max(0, sprite.sourceY);
+
+    // console.log(height * (sprite.height / sprite.sourceHeight));
 
     this.context.drawImage(
       this.images[sprite.imageName],
