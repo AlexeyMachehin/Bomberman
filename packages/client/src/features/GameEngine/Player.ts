@@ -6,7 +6,7 @@ export class Player extends Body {
   control: ControlState;
 
   constructor(control: ControlState, animations: any) {
-    super({ animations: animations, speed: 100 });
+    super({ animations: animations, speed: 150 });
     this.control = control;
   }
 

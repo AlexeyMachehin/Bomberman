@@ -23,7 +23,7 @@ export class GameLoop {
   control: ControlState;
 
   constructor({ width = 500, height = 500, canvas }: GameLoopPropsType) {
-    this.last = performance.now();
+    this.last = 0;
     this.fps = 60;
     this.step = 1 / this.fps;
     this.deltaTime = 0;

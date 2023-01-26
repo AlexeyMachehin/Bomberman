@@ -39,8 +39,8 @@ export class Body {
   }
 
   update(step: number) {
-    this.x += (this.velocity.x! / 100) * 2;
-    this.y += (this.velocity.y! / 100) * 2;
+    this.x += this.velocity.x! * step;
+    this.y += this.velocity.y! * step;
     this.view.setXY(Math.trunc(this.x), Math.trunc(this.y));
     this.view.update(step);
   }
