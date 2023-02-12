@@ -3,6 +3,8 @@ import classes from './GamePage2.module.css';
 import sprite from '../../assets/sprite.png';
 
 export default function GamePage2() {
+  let gameState = 'active';
+  let door = null;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cell = 32;
   const columns = 31;
@@ -468,6 +470,7 @@ export default function GamePage2() {
 
   const generateMap = () => {
     cells = [];
+    door = null;
 
     for (let row = 0; row < rows; row++) {
       cells[row] = [];
@@ -487,6 +490,16 @@ export default function GamePage2() {
         }
       }
     }
+
+    while (!door) {
+      const row = Math.floor(Math.random() * rows);
+      const column = Math.floor(Math.random() * columns);
+
+      if (!cells[row][column]) {
+        cells[row][column] = MapElement.softWall;
+        door = { x: column * cell, y: row * cell };
+      }
+    }
   };
 
   useEffect(() => {
@@ -503,6 +516,7 @@ export default function GamePage2() {
         for (let column = 0; column < columns; column++) {
           if (cells[row][column] === MapElement.enemy) {
             entities.push(new Enemy(row, column));
+            cells[row][column] = null;
           }
         }
       }
@@ -544,22 +558,63 @@ export default function GamePage2() {
     function Enemy(row, col) {
       this.row = row;
       this.col = col;
-      this.dir = 1;
+      this.dir = -1;
+      this.initialDirection = Math.random() < 0.5 ? 'x' : 'y';
       this.speed = 1;
       this.alive = true;
+      this.type = MapElement.enemy;
       this.x = col * cell;
       this.y = row * cell;
 
       this.update = function (dt) {
-        // if (this.dir === 1 && this.x + cell + this.speed > canvas.width) {
-        //   this.dir = -1;
-        //   return;
-        // }
-
-        // if (this.dir === -1 && this.x - this.speed < 0) {
-        //   this.dir = 1;
-        // }
         let count = 0;
+
+        if (
+          ((x + cell > this.x && x < this.x) ||
+            (x < this.x + cell && x > this.x)) &&
+          ((y >= this.y && y < this.y + cell) ||
+            (y <= this.y && y + cell > this.y))
+        ) {
+          alert('Game over. Your score: 100500');
+          gameState = 'game over';
+        } else if (
+          ((x + cell > this.x && x <= this.x) ||
+            (x < this.x + cell && x >= this.x)) &&
+          ((y > this.y && y < this.y + cell) ||
+            (y < this.y && y + cell > this.y))
+        ) {
+          alert('Game over. Your score: 100500');
+          gameState = 'game over';
+        }
+
+        for (let row = 0; row < rows; row++) {
+          for (let column = 0; column < columns; column++) {
+            switch (cells[row][column]) {
+              case MapElement.wall:
+              case MapElement.softWall:
+              case MapElement.bomb:
+                if (this.x === (column + 1) * cell && this.y === row * cell) {
+                  count++;
+                }
+
+                if (this.x + cell === column * cell && this.y === row * cell) {
+                  count++;
+                }
+
+                if (this.y === (row + 1) * cell && this.x === column * cell) {
+                  count++;
+                }
+
+                if (this.y + cell === row * cell && this.x === column * cell) {
+                  count++;
+                }
+            }
+          }
+        }
+
+        if (count === 4) {
+          return;
+        }
 
         for (let row = 0; row < rows; row++) {
           for (let column = 0; column < columns; column++) {
@@ -568,36 +623,51 @@ export default function GamePage2() {
               case MapElement.softWall:
               case MapElement.bomb:
                 if (
-                  
-                  this.x - this.speed < (column + 1) * cell &&
-                  this.x >= (column + 1) * cell &&
-                  ((this.y >= row * cell && this.y < (row + 1) * cell) ||
-                    (this.y + cell > row * cell &&
-                      this.y + cell <= (row + 1) * cell))
+                  this.dir === -1 &&
+                  this.initialDirection === 'x' &&
+                  this.x === (column + 1) * cell &&
+                  this.y === row * cell
                 ) {
+                  this.initialDirection = Math.random() < 0.5 ? 'x' : 'y';
+                  this.dir = Math.random() < 0.5 ? -1 : 1;
                   this.dir = 1;
-                  count++;
-                } 
-                
-                if (
-                  
-                  this.x + cell + this.speed > column * cell &&
-                  this.x + cell <= column * cell &&
-                  ((this.y >= row * cell && this.y < (row + 1) * cell) ||
-                    (this.y + cell > row * cell &&
-                      this.y + cell <= (row + 1) * cell))
+                  return;
+                } else if (
+                  this.dir === 1 &&
+                  this.initialDirection === 'x' &&
+                  this.x + cell === column * cell &&
+                  this.y === row * cell
                 ) {
+                  this.initialDirection = Math.random() < 0.5 ? 'x' : 'y';
+                  this.dir = Math.random() < 0.5 ? -1 : 1;
                   this.dir = -1;
-                  count++;
+                  return;
+                } else if (
+                  this.dir === -1 &&
+                  this.initialDirection === 'y' &&
+                  this.y === (row + 1) * cell &&
+                  this.x === column * cell
+                ) {
+                  this.initialDirection = Math.random() < 0.5 ? 'x' : 'y';
+                  this.dir = Math.random() < 0.5 ? -1 : 1;
+                  this.dir = 1;
+                  return;
+                } else if (
+                  this.dir === 1 &&
+                  this.initialDirection === 'y' &&
+                  this.y + cell === row * cell &&
+                  this.x === column * cell
+                ) {
+                  this.initialDirection = Math.random() < 0.5 ? 'x' : 'y';
+                  this.dir = Math.random() < 0.5 ? -1 : 1;
+                  this.dir = -1;
+                  return;
                 }
             }
           }
         }
 
-        if (count === 2) {
-          return;
-        }
-        this.x += this.speed * this.dir;
+        this[this.initialDirection] += this.speed * this.dir;
       };
 
       this.render = function () {
@@ -737,16 +807,85 @@ export default function GamePage2() {
         for (let i = 0; i < bomb.size; i++) {
           const row = bomb.row + dir.row * i;
           const col = bomb.col + dir.col * i;
-          const cell = cells[row][col];
+          const mapCell = cells[row][col];
 
-          if (cell === MapElement.wall) {
+          if (mapCell === MapElement.wall) {
             return;
           }
 
           entities.push(new Explosion(row, col, dir, i === 0 ? true : false));
-          cells[row][col] = null;
 
-          if (cell === MapElement.bomb) {
+          if (mapCell === MapElement.softWall) {
+            cells[row][col] = null;
+            return;
+          }
+
+          if (x === col * cell && y === row * cell) {
+            setTimeout(() => alert('Game over. Your score: 100500'));
+            gameState = 'game over';
+          } else if (
+            x === col * cell &&
+            y > row * cell &&
+            y < (row + 1) * cell
+          ) {
+            setTimeout(() => alert('Game over. Your score: 100500'));
+            gameState = 'game over';
+          } else if (
+            x === col * cell &&
+            y + cell > row * cell &&
+            y + cell < (row + 1) * cell
+          ) {
+            setTimeout(() => alert('Game over. Your score: 100500'));
+            gameState = 'game over';
+          } else if (
+            y === row * cell &&
+            x > col * cell &&
+            x < (col + 1) * cell
+          ) {
+            setTimeout(() => alert('Game over. Your score: 100500'));
+            gameState = 'game over';
+          } else if (
+            y === row * cell &&
+            x + cell > col * cell &&
+            x + cell < (col + 1) * cell
+          ) {
+            setTimeout(() => alert('Game over. Your score: 100500'));
+            gameState = 'game over';
+          }
+
+          entities
+            .filter(entity => entity.type === MapElement.enemy)
+            .forEach((enemy, index) => {
+              if (enemy.x === col * cell && enemy.y === row * cell) {
+                enemy.alive = false;
+              } else if (
+                enemy.x === col * cell &&
+                enemy.y > row * cell &&
+                enemy.y < (row + 1) * cell
+              ) {
+                enemy.alive = false;
+              } else if (
+                enemy.x === col * cell &&
+                enemy.y + cell > row * cell &&
+                enemy.y + cell < (row + 1) * cell
+              ) {
+                enemy.alive = false;
+              } else if (
+                enemy.y === row * cell &&
+                enemy.x > col * cell &&
+                enemy.x < (col + 1) * cell
+              ) {
+                enemy.alive = false;
+              } else if (
+                enemy.y === row * cell &&
+                enemy.x + cell > col * cell &&
+                enemy.x + cell < (col + 1) * cell
+              ) {
+                enemy.alive = false;
+              }
+            });
+
+          if (mapCell === MapElement.bomb) {
             const nextBomb = entities.find(entity => {
               return (
                 entity.type === MapElement.bomb &&
@@ -756,15 +895,23 @@ export default function GamePage2() {
             });
             blowUpBomb(nextBomb);
           }
-
-          // if (cell) {
-          //   return;
-          // }
         }
       });
     }
 
     const update = (step: number) => {
+      entities.forEach(entity => {
+        entity.update(step);
+      });
+
+      // удаляем отработанные сущности, например, взорванные бомбы
+      entities = entities.filter(entity => entity.alive);
+
+      if (entities.filter(entity => entity.type === MapElement.enemy).length === 0 && x === door.x && y === door.y) {
+        gameState = 'you win';
+        alert('You win!. Your score: 100500');
+      }
+
       for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
           switch (cells[row][column]) {
@@ -833,18 +980,12 @@ export default function GamePage2() {
         y += playerSpeed;
       }
 
-      entities.forEach(entity => {
-        entity.update(step);
-      });
-
-      // удаляем отработанные сущности, например, взорванные бомбы
-      entities = entities.filter(entity => entity.alive);
-
       player.update(step);
     };
 
     const render = (dt: number) => {
       context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(img, 176, 48, 16, 16, door.x, door.y, cell, cell);
 
       for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
@@ -890,7 +1031,13 @@ export default function GamePage2() {
     let dt = 0;
     let now;
 
+    let req;
+
     const frame = () => {
+      if (gameState === 'game over' || gameState === 'you win') {
+        cancelAnimationFrame(req);
+        return;
+      }
       now = performance.now();
       dt = dt + Math.min(1, (now - last) / 1000);
       while (dt > step) {
@@ -900,7 +1047,7 @@ export default function GamePage2() {
       last = now;
 
       render(dt);
-      requestAnimationFrame(frame);
+      req = requestAnimationFrame(frame);
     };
 
     generateMap();
