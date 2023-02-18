@@ -4,8 +4,8 @@ import { GameLoop } from '../../features/GameEngine/GameLoop';
 export default function GamePage() {
   const canvasRef = useRef(null);
 
-  const screenWidth = 500;
-  const screenHeight = 500;
+  const screenWidth = 400;
+  const screenHeight = 400;
 
   useEffect(() => {
     if (!canvasRef.current) {
