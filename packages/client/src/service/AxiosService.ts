@@ -32,4 +32,11 @@ export abstract class AxiosService {
   ): Promise<Payload> {
     return this.axios.post(url, payload);
   }
+
+  public async put<Request, Payload extends IBasePayload>(
+    url: string,
+    payload?: Request
+  ): Promise<Payload> {
+    return this.axios.put(url, payload);
+  }
 }
