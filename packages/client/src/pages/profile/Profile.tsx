@@ -16,25 +16,25 @@ import { EmojiEvents } from '@mui/icons-material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { userService } from '../../service/UserService';
-import { Route as RoutePath } from '../../const';
-
-// Temporary data
-const user = {
-  id: 123,
-  firstName: 'Petya',
-  secondName: 'Pupkin',
-  displayName: 'PetyaTop',
-  login: 'userLogin',
-  email: 'my@email.com',
-  phone: '89223332211',
-  avatar: '',
-  record: '2530',
-};
+import { Route as RoutePath, RESOURCE_URL } from '../../const';
+import { selectorUser } from '@/store/user/selectors';
+import { useAppSelector } from '@/utils/hooks';
+import { getUser, updateAvatar } from '@/store/user/thunk';
+import { useAppDispatch } from '@/utils/hooks';
 
 const Profile = () => {
+  const dispatch = useAppDispatch();
   const [file, setFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
+  const {
+    first_name: firstName,
+    second_name: secondName,
+    display_name: displayName,
+    login,
+    email,
+    phone,
+    avatar,
+  } = useAppSelector(selectorUser)!;
 
   useEffect(() => {
     if (!file) {
@@ -59,12 +59,9 @@ const Profile = () => {
       return;
     }
 
-    try {
-      await userService.updateAvatar(file);
-      setFile(undefined);
-    } catch (e) {
-      console.log(e);
-    }
+    dispatch(updateAvatar(file))
+      .then(() => dispatch(getUser()))
+      .then(() => setFile(undefined));
   };
 
   return (
@@ -81,10 +78,10 @@ const Profile = () => {
           md={3}
           alignItems="center">
           <Avatar
-            src={user.avatar}
-            alt={user.displayName}
+            src={`${RESOURCE_URL}${avatar}`}
+            alt={displayName}
             sx={{ width: 200, height: 200, fontSize: 48 }}>
-            {`${user.firstName[0]}${user.secondName[0]}`}
+            {`${firstName[0]}${secondName[0]}`}
           </Avatar>
 
           <Box sx={{ transform: 'translateY(-50%)' }}>
@@ -115,38 +112,38 @@ const Profile = () => {
           )}
 
           <Typography component="h3" variant="h5" mt={3} mb={1}>
-            {user.firstName} {user.secondName}
+            {firstName} {secondName}
           </Typography>
 
-          <Stack direction="row" spacing={1} alignItems="center" mb={3}>
+          {/* <Stack direction="row" spacing={1} alignItems="center" mb={3}>
             <EmojiEvents fontSize="large" sx={{ color: 'orange' }} />
-            <Typography variant="h6">{user.record}</Typography>
-          </Stack>
+            <Typography variant="h6">{record}</Typography>
+          </Stack> */}
         </Grid>
         <Grid item xs={12} md={9}>
           <List>
             <ListItem disableGutters>
-              <ListItemText primary="Имя" secondary={user.firstName} />
+              <ListItemText primary="Имя" secondary={firstName} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Фамилия" secondary={user.secondName} />
+              <ListItemText primary="Фамилия" secondary={secondName} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Имя в игре" secondary={user.displayName} />
+              <ListItemText primary="Имя в игре" secondary={displayName} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Логин" secondary={user.login} />
+              <ListItemText primary="Логин" secondary={login} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Email" secondary={user.email} />
+              <ListItemText primary="Email" secondary={email} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Телефон" secondary={user.phone} />
+              <ListItemText primary="Телефон" secondary={phone} />
             </ListItem>
             <Divider />
           </List>

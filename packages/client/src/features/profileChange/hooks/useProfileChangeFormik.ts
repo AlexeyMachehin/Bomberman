@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 import { useFormik } from 'formik';
+import { selectorUser } from '@/store/user/selectors';
+import { useAppSelector } from '@/utils/hooks';
 
 interface IFormValue {
   firstName: string;
@@ -14,18 +16,25 @@ interface IParams {
   onSubmit(values: IFormValue): void;
 }
 
-const initialValues = {
-  firstName: '',
-  secondName: '',
-  displayName: '',
-  login: '',
-  email: '',
-  phone: '',
-};
-
-export type IProfileChangeFormValues = typeof initialValues;
+export interface IProfileChangeFormValues {
+  firstName: string;
+  secondName: string;
+  displayName: string;
+  login: string;
+  email: string;
+  phone: string;
+}
 
 export const useProfileChangeFormik = ({ onSubmit }: IParams) => {
+  const {
+    first_name: firstName,
+    second_name: secondName,
+    display_name: displayName,
+    login,
+    email,
+    phone,
+  } = useAppSelector(selectorUser)!;
+
   const validationSchema = yup.object({
     firstName: yup.string().required('First name is required'),
     secondName: yup.string().required('Second name is required'),
@@ -39,7 +48,14 @@ export const useProfileChangeFormik = ({ onSubmit }: IParams) => {
   });
 
   return useFormik({
-    initialValues: initialValues,
+    initialValues: {
+      firstName,
+      secondName,
+      displayName,
+      login,
+      email,
+      phone,
+    },
     validationSchema,
     onSubmit,
   });

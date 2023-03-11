@@ -3,14 +3,24 @@ import {
   IPasswordChangeFormValues,
   usePasswordChangeFormik,
 } from '../../features/passwordChange/hooks/usePasswordChangeFormik';
-import { userService } from '../../service/UserService';
+import { useAppDispatch } from '@/utils/hooks';
+import { useNavigate } from 'react-router-dom';
+import { getUser, updatePassword } from '@/store/user/thunk';
+import { Route as RoutePath } from '@/const';
 
 const PasswordChange = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const handleSubmit = async (values: IPasswordChangeFormValues) => {
-    await userService.updatePassword({
-      oldPassword: values.oldPassword,
-      newPassword: values.newPassword,
-    });
+    dispatch(
+      updatePassword({
+        oldPassword: values.oldPassword,
+        newPassword: values.newPassword,
+      })
+    )
+      .then(() => dispatch(getUser()))
+      .then(() => navigate(RoutePath.PROFILE));
   };
 
   const formik = usePasswordChangeFormik({ onSubmit: handleSubmit });

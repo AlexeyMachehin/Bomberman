@@ -42,8 +42,14 @@ function App() {
               <Route path={RoutePath.INDEX} element={<StartPage />} />
               <Route path={RoutePath.GAME} element={<GamePage />} />
               <Route path={RoutePath.PROFILE} element={<ProfilePage />} />
-              <Route path={RoutePath.PROFILE_CHANGE} element={<ProfileChangePage />} />
-              <Route path={RoutePath.PASSWORD_CHANGE} element={<PasswordChangePage />} />
+              <Route
+                path={RoutePath.PROFILE_CHANGE}
+                element={<ProfileChangePage />}
+              />
+              <Route
+                path={RoutePath.PASSWORD_CHANGE}
+                element={<PasswordChangePage />}
+              />
               <Route path={RoutePath.LEADERBOARD} element={<LeaderBoard />} />
               <Route path={RoutePath.FORUM} element={<ForumPage />} />
               <Route path={`${RoutePath.FORUM}/:mainTopic`} element={<Chat />}>

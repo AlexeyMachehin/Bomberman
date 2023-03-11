@@ -3,18 +3,28 @@ import {
   IProfileChangeFormValues,
   useProfileChangeFormik,
 } from '../../features/profileChange/hooks/useProfileChangeFormik';
-import { userService } from '../../service/UserService';
+import { getUser, updateProfile } from '@/store/user/thunk';
+import { useAppDispatch } from '@/utils/hooks';
+import { useNavigate } from 'react-router-dom';
+import { Route as RoutePath } from '@/const';
 
 const ProfileChange = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const handleSubmit = async (values: IProfileChangeFormValues) => {
-    await userService.updateProfile({
-      first_name: values.firstName,
-      second_name: values.secondName,
-      display_name: values.displayName,
-      login: values.login,
-      email: values.email,
-      phone: values.phone,
-    });
+    dispatch(
+      updateProfile({
+        first_name: values.firstName,
+        second_name: values.secondName,
+        display_name: values.displayName,
+        login: values.login,
+        email: values.email,
+        phone: values.phone,
+      })
+    )
+      .then(() => dispatch(getUser()))
+      .then(() => navigate(RoutePath.PROFILE));
   };
 
   const formik = useProfileChangeFormik({ onSubmit: handleSubmit });
@@ -27,6 +37,7 @@ const ProfileChange = () => {
       <form onSubmit={formik.handleSubmit}>
         <Stack spacing={1} width={{ xs: '100%', md: '50%' }} mb={2}>
           <TextField
+            value={formik.values.firstName}
             required
             id="firstName"
             label="Имя"
@@ -37,6 +48,7 @@ const ProfileChange = () => {
             onChange={formik.handleChange}
           />
           <TextField
+            value={formik.values.secondName}
             required
             id="secondName"
             label="Фамилия"
@@ -48,6 +60,7 @@ const ProfileChange = () => {
             onChange={formik.handleChange}
           />
           <TextField
+            value={formik.values.displayName}
             required
             id="displayName"
             label="Имя в игре"
@@ -59,6 +72,7 @@ const ProfileChange = () => {
             onChange={formik.handleChange}
           />
           <TextField
+            value={formik.values.login}
             required
             id="login"
             label="Логин"
@@ -68,6 +82,7 @@ const ProfileChange = () => {
             onChange={formik.handleChange}
           />
           <TextField
+            value={formik.values.email}
             required
             id="email"
             label="Email"
@@ -77,6 +92,7 @@ const ProfileChange = () => {
             onChange={formik.handleChange}
           />
           <TextField
+            value={formik.values.phone}
             required
             id="phone"
             label="Телефон"
