@@ -19,7 +19,7 @@ export class Bomb extends Entity {
     super(row, column, context);
     this.size = size;
     this.alive = true;
-    this.timer = 3;
+    this.timer = 1.8;
     this.spriteX = 0;
     this.blowUpCb = blowUpCb;
   }
@@ -31,7 +31,7 @@ export class Bomb extends Entity {
       return this.blowUpCb(this);
     }
 
-    const interval = Math.ceil(this.timer / 0.5);
+    const interval = Math.ceil(this.timer / 0.3);
 
     switch (interval % 6) {
       case 0:

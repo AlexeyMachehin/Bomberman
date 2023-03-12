@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classes from './GamePage2.module.css';
 import sprite from '../../assets/sprite.png';
 import { Player } from '../../features/GameEngine2/Player';
 import { Enemy } from '../../features/GameEngine2/Enemy';
 import { Bomb } from '../../features/GameEngine2/Bomb';
 import { Explosion, Direction } from '../../features/GameEngine2/Explosion';
+import { leaderBoardService } from '@/service/LeaderBoardService';
 
 interface Door {
   x: number;
@@ -20,8 +21,18 @@ export enum MapElement {
   empty = ' ',
 }
 
+enum GameState {
+  Active,
+  Over,
+  Win,
+}
+
 export default function GamePage2() {
-  let gameState = 'active';
+  let canvasGameState = GameState.Active;
+  let canvasScore = 0;
+  const [gameState, setGameState] = useState<GameState>(canvasGameState);
+  const [score, setScore] = useState<number>(canvasScore);
+  const [canvasKey, setCanvasKey] = useState<number>(1);
   let door: Door | null = null;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cell = 32;
@@ -33,435 +44,19 @@ export default function GamePage2() {
   img.src = sprite;
 
   const initialMap = [
-    [
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-    ],
-    [
-      '▉',
-      'x',
-      'x',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      'x',
-      'x',
-      '▉',
-    ],
-    [
-      '▉',
-      'x',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      'x',
-      '▉',
-    ],
-    [
-      '▉',
-      'x',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      'x',
-      '▉',
-    ],
-    [
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-    ],
-    [
-      '▉',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      '▉',
-    ],
-    [
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-    ],
-    [
-      '▉',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      '▉',
-    ],
-    [
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-    ],
-    [
-      '▉',
-      'x',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      'x',
-      '▉',
-    ],
-    [
-      '▉',
-      'x',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      ' ',
-      '▉',
-      'x',
-      '▉',
-    ],
-    [
-      '▉',
-      'x',
-      'x',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      ' ',
-      'x',
-      'x',
-      '▉',
-    ],
-    [
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-      '▉',
-    ],
+    ['▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉'],
+    ['▉', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', '▉'],
+    ['▉', 'x', '▉', 'x', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', 'x', '▉'],
+    ['▉', 'x', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '▉'],
+    ['▉', 'x', '▉', 'x', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉'],
+    ['▉', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '▉'],
+    ['▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉'],
+    ['▉', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '▉'],
+    ['▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', 'x', '▉', 'x', '▉'],
+    ['▉', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', '▉'],
+    ['▉', 'x', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', ' ', '▉', 'x', '▉', 'x', '▉'],
+    ['▉', 'x', 'x', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'x', 'x', 'x', '▉'],
+    ['▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉', '▉'],
   ];
 
   let cells: (MapElement | null)[][] = [];
@@ -565,36 +160,31 @@ export default function GamePage2() {
           }
 
           if (player.x === col * cell && player.y === row * cell) {
-            setTimeout(() => alert('Game over. Your score: 100500'));
-            gameState = 'game over';
+            canvasGameState = GameState.Over;
           } else if (
             player.x === col * cell &&
             player.y > row * cell &&
             player.y < (row + 1) * cell
           ) {
-            setTimeout(() => alert('Game over. Your score: 100500'));
-            gameState = 'game over';
+            canvasGameState = GameState.Over;
           } else if (
             player.x === col * cell &&
             player.y + cell > row * cell &&
             player.y + cell < (row + 1) * cell
           ) {
-            setTimeout(() => alert('Game over. Your score: 100500'));
-            gameState = 'game over';
+            canvasGameState = GameState.Over;
           } else if (
             player.y === row * cell &&
             player.x > col * cell &&
             player.x < (col + 1) * cell
           ) {
-            setTimeout(() => alert('Game over. Your score: 100500'));
-            gameState = 'game over';
+            canvasGameState = GameState.Over;
           } else if (
             player.y === row * cell &&
             player.x + cell > col * cell &&
             player.x + cell < (col + 1) * cell
           ) {
-            setTimeout(() => alert('Game over. Your score: 100500'));
-            gameState = 'game over';
+            canvasGameState = GameState.Over;
           }
 
           entities
@@ -602,30 +192,35 @@ export default function GamePage2() {
             .forEach(enemy => {
               if (enemy.x === col * cell && enemy.y === row * cell) {
                 enemy.alive = false;
+                canvasScore += 100;
               } else if (
                 enemy.x === col * cell &&
                 enemy.y > row * cell &&
                 enemy.y < (row + 1) * cell
               ) {
                 enemy.alive = false;
+                canvasScore += 100;
               } else if (
                 enemy.x === col * cell &&
                 enemy.y + cell > row * cell &&
                 enemy.y + cell < (row + 1) * cell
               ) {
                 enemy.alive = false;
+                canvasScore += 100;
               } else if (
                 enemy.y === row * cell &&
                 enemy.x > col * cell &&
                 enemy.x < (col + 1) * cell
               ) {
                 enemy.alive = false;
+                canvasScore += 100;
               } else if (
                 enemy.y === row * cell &&
                 enemy.x + cell > col * cell &&
                 enemy.x + cell < (col + 1) * cell
               ) {
                 enemy.alive = false;
+                canvasScore += 100;
               }
             });
 
@@ -650,8 +245,7 @@ export default function GamePage2() {
 
       enemies.forEach(enemy => {
         if (enemy.checkPlayerTouch(player)) {
-          alert('Game over. Your score: 100500');
-          gameState = 'game over';
+          canvasGameState = GameState.Over;
         }
       });
 
@@ -669,8 +263,7 @@ export default function GamePage2() {
         player.x === door.x &&
         player.y === door.y
       ) {
-        gameState = 'you win';
-        alert('You win!. Your score: 100500');
+        canvasGameState = GameState.Win;
       }
 
       player.move(cells);
@@ -733,8 +326,13 @@ export default function GamePage2() {
     let req: number;
 
     const frame = () => {
-      if (gameState === 'game over' || gameState === 'you win') {
+      if (
+        canvasGameState === GameState.Over ||
+        canvasGameState === GameState.Win
+      ) {
         cancelAnimationFrame(req);
+        setGameState(canvasGameState);
+        setScore(canvasScore);
         return;
       }
       now = performance.now();
@@ -746,6 +344,7 @@ export default function GamePage2() {
       last = now;
 
       render(dt);
+
       req = requestAnimationFrame(frame);
     };
 
@@ -753,7 +352,7 @@ export default function GamePage2() {
     generateEnemies();
     requestAnimationFrame(frame);
 
-    document.addEventListener('keydown', function (e) {
+    function onKeyDown(e: KeyboardEvent) {
       const row = Math.round(player.y / cell);
       const col = Math.round(player.x / cell);
 
@@ -782,9 +381,9 @@ export default function GamePage2() {
         entities.push(bomb);
         cells[row][col] = MapElement.bomb;
       }
-    });
+    }
 
-    document.addEventListener('keyup', function (e) {
+    function onKeyUp(e: KeyboardEvent) {
       // влево
       if (e.which === 37) {
         player.direction.LEFT = false;
@@ -801,15 +400,52 @@ export default function GamePage2() {
       else if (e.which === 40) {
         player.direction.DOWN = false;
       }
-    });
-  }, []);
+    }
+
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('keyup', onKeyUp);
+
+    return function cleanUp() {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('keyup', onKeyUp);
+    };
+  }, [canvasKey]);
+
+  // useEffect(() => {
+  //   leaderBoardService.addPlayer({
+  //     name: 'qwerty123',
+  //     score,
+  //     avatarURL: '',
+  //     id: 123456787,
+  //   });
+  // }, [score]);
+
+  const restart = () => {
+    setScore(0);
+    setCanvasKey(canvasKey + 1);
+    setGameState(GameState.Active);
+  };
 
   return (
-    <canvas
-      className={classes.canvas}
-      ref={canvasRef}
-      width={screenWidth}
-      height={screenHeight}
-    />
+    <div className={classes.page}>
+      {gameState === GameState.Active ? (
+        <canvas
+          className={classes.canvas}
+          ref={canvasRef}
+          width={screenWidth}
+          height={screenHeight}
+          key={canvasKey}
+        />
+      ) : null}
+      {gameState === GameState.Over ? (
+        <p>
+          You Lose. You score: {score}{' '}
+          <button type="button" onClick={restart}>
+            Restart
+          </button>
+        </p>
+      ) : null}
+      {gameState === GameState.Win ? <p>You Win!</p> : null}
+    </div>
   );
 }

@@ -34,6 +34,10 @@ export class Player extends Entity {
   }
 
   canMove(row: number, column: number) {
+    if ((this.direction.LEFT || this.direction.RIGHT) && (this.direction.UP || this.direction.DOWN))  {
+      return false;
+    }
+
     if (
       (this.direction.LEFT &&
         this.x - this.speed < (column + 1) * this.cellSize &&
