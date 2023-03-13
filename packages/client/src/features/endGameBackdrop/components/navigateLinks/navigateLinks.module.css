@@ -1,0 +1,15 @@
+* {
+  font-size: 20px;
+}
+
+.navigateLinksWrapper {
+  display: flex;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.nextLevelButton {
+  color: var(--nextLevelButton) !important;
+}

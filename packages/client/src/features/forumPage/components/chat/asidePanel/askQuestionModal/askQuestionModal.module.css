@@ -1,0 +1,16 @@
+.askQuestionInput {
+  min-width: 400px;
+}
+
+.askQuestionButton {
+  height: 58px;
+}
+
+.askQuestionAvatar {
+  background-color: var(--nextLevelButton) !important;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}

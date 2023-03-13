@@ -1,0 +1,31 @@
+.name {
+  margin-right: 15px;
+}
+
+.name p {
+  font-weight: bold;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.message {
+  width: fit-content !important;
+  align-items: flex-start !important;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.message {
+  word-break: break-word;
+}
+
+.messageContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+}

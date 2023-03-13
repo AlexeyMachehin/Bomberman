@@ -1,0 +1,25 @@
+:root {
+  /* general colors */
+  --backdrop: black;
+  --borderColor: black;
+  --modalBackground: white;
+  --error: #ef5350;
+  /* start page colors */
+  --startPageTitle: #ffb74d;
+  --startPageBackground: black;
+  --startButtons: white;
+  /* end page colors */
+  --userCardBackground: #bdbdbd;
+  --nextLevelButton: #4caf50;
+  /* forum page colors */
+  --forumPageBackground: white;
+  --forumPageHeader: black;
+  --asidePanelBorder: 1px solid rgba(128, 128, 128, 0.212);
+  --forumPageShadow: inset 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
+  --searchQuestionDashboard: 0px 0px 25px 0px rgba(0, 0, 0, 0.253);
+  --closeIcon: #1976d2;
+  --myMessageColor: #2e94fa11;
+  /* leaderBoard page colors */
+  --leaderBoardPageTitle: white;
+  --leaderBoardBorder: white;
+}

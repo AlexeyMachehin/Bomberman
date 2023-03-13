@@ -1,0 +1,26 @@
+.name p {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+}
+
+.title {
+  overflow: hidden;
+  max-height: 24px;
+}
+
+.time p {
+  text-align: center;
+}
+
+.AsidePanelItemContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.AsidePanelItemFooter {
+  display: flex;
+  flex-direction: row;
+  width: 220px;
+}

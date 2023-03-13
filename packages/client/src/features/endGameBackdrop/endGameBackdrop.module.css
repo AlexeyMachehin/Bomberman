@@ -1,0 +1,42 @@
+.backdrop {
+  backdrop-filter: blur(9px);
+  overflow-y: auto;
+}
+
+.backdropContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cardsWrapper {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.endGameTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  font-size: 70px;
+  margin: 30px 0;
+}
+
+.winColor {
+  color: var(--startPageTitle);
+}
+
+.gameOverColor {
+  color: var(--error);
+}
+
+.stageTitle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  font-size: 50px;
+  color: var(--startButtons);
+}

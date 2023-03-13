@@ -1,0 +1,8 @@
+.userCard {
+  width: 500px;
+  background-color: var(--userCardBackground);
+}
+
+.userCardAvatar {
+  height: 500px;
+}

@@ -1,0 +1,60 @@
+
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 300;
+  width: 100%;
+  align-items: center;
+}
+
+.image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--startButtons);
+}
+
+.imageBackdrop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: var(--backdrop);
+  opacity: 0.4;
+  transition: 0.2s;
+}
+
+.imageSrc {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center 40%;
+}
+
+.imageMarked {
+  height: 3px;
+  width: 18px;
+  background-color: var(--startButtons);
+  position: absolute;
+  bottom: -2px;
+  left: calc(50% - 9px);
+  transition: 0.2s;
+}
+
+.buttonTitle {
+  position: relative;
+  font-size: 1.5rem;
+  word-spacing: 10px;
+  padding: 32px;
+  padding-top: 16px;
+}

@@ -1,0 +1,16 @@
+.navigateLinksWrapper {
+  display: flex;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.errorWrapper {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+}

@@ -1,0 +1,21 @@
+.dashBoardWrapper {
+  position: fixed !important;
+  z-index: 9999;
+  top: 51px;
+  left: 8px;
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--forumPageBackground);
+  box-shadow: var(--searchQuestionDashboard);
+  overflow: auto;
+  max-height: 600px;
+  padding: 5px;
+  border: var(--asidePanelBorder);
+  border-radius: 4px;
+}
+
+.dashBoardItem {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start !important;
+}

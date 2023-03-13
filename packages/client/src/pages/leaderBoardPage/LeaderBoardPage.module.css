@@ -1,0 +1,23 @@
+.liderBoard {
+  height: 100vh;
+  padding-top: 60px;
+  overflow: auto;
+  color: var(--leaderBoardPageTitle);
+  background-color: var(--backdrop);
+  font-family: 'Orbitron', sans-serif !important;
+}
+
+.title {
+  font-size: 64px;
+  line-height: 1.2;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+.listItem {
+  border-bottom: 1px solid var(--leaderBoardBorder);
+}
+
+.listItem:first-child {
+  border-top: 1px solid var(--leaderBoardBorder);
+}
