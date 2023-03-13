@@ -16,5 +16,9 @@ export default defineConfig({
         dir: 'ssr-dist',
       },
     },
+
+  },
+  resolve: {
+    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
   },
 });

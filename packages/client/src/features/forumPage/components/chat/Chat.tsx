@@ -25,7 +25,7 @@ export default function Chat() {
   });
 
   return (
-    <div className={classes.chatWrapper}>
+    <div data-testid="chat-component" className={classes.chatWrapper}>
       <AsidePanel
         foundedQuestions={foundedQuestions}
         selectedQuestion={selectedQuestion}

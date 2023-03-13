@@ -13,7 +13,7 @@ const theme = createTheme({
 export default function StartPage() {
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.startPageWrapper}>
+      <div data-testid="startPage-component" className={classes.startPageWrapper}>
         <Typography variant="h2" className={classes.startPageTitle}>
           BOMBERMAN
         </Typography>
