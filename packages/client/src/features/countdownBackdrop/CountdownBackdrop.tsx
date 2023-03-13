@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import classes from './countdownBackdrop.module.css';
 
-export default function CountdownBackdrop() {
+export default function CountdownBackdrop({ level, closeCb }) {
   const [isBackdropOpen, setOpen] = useState(false);
   const [timer, setTimer] = useState(3);
   const idRef = useRef<null | number>(null);
@@ -23,6 +23,7 @@ export default function CountdownBackdrop() {
     if (timer === 0) {
       clear();
       setOpen(false);
+      closeCb();
     }
   }, [timer]);
 
@@ -31,7 +32,7 @@ export default function CountdownBackdrop() {
       sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
       open={isBackdropOpen}>
       <div className={classes.backdropTimer}>
-        <div className={classes.backdropStage}>Stage 1</div>
+        <div className={classes.backdropStage}>Stage {level}</div>
         {timer}
       </div>
     </Backdrop>

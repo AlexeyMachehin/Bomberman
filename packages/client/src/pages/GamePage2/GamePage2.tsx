@@ -5,7 +5,11 @@ import { Player } from '../../features/GameEngine2/Player';
 import { Enemy } from '../../features/GameEngine2/Enemy';
 import { Bomb } from '../../features/GameEngine2/Bomb';
 import { Explosion, Direction } from '../../features/GameEngine2/Explosion';
-import { leaderBoardService } from '@/service/LeaderBoardService';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { addPlayer } from '@/store/user/thunk';
+import { selectorUser } from '@/store/user/selectors';
+import CountdownBackdrop from '@/features/countdownBackdrop/CountdownBackdrop';
+import EndGameBackdrop from '@/features/endGameBackdrop/EndGameBackdrop';
 
 interface Door {
   x: number;
@@ -22,15 +26,19 @@ export enum MapElement {
 }
 
 enum GameState {
+  StartBackdrop,
   Active,
   Over,
   Win,
 }
 
 export default function GamePage2() {
-  let canvasGameState = GameState.Active;
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectorUser)!;
+  let canvasGameState = GameState.StartBackdrop;
   let canvasScore = 0;
   const [gameState, setGameState] = useState<GameState>(canvasGameState);
+  const [level, setLevel] = useState(1);
   const [score, setScore] = useState<number>(canvasScore);
   const [canvasKey, setCanvasKey] = useState<number>(1);
   let door: Door | null = null;
@@ -332,7 +340,8 @@ export default function GamePage2() {
       ) {
         cancelAnimationFrame(req);
         setGameState(canvasGameState);
-        setScore(canvasScore);
+        setScore(score + canvasScore);
+
         return;
       }
       now = performance.now();
@@ -409,43 +418,65 @@ export default function GamePage2() {
       document.removeEventListener('keydown', onKeyDown);
       document.removeEventListener('keyup', onKeyUp);
     };
-  }, [canvasKey]);
+  }, [gameState]);
 
-  // useEffect(() => {
-  //   leaderBoardService.addPlayer({
-  //     name: 'qwerty123',
-  //     score,
-  //     avatarURL: '',
-  //     id: 123456787,
-  //   });
-  // }, [score]);
+  const player = {
+    name: user.display_name,
+    score,
+    avatarURL: user.avatar,
+    id: user.id,
+  };
 
-  const restart = () => {
-    setScore(0);
-    setCanvasKey(canvasKey + 1);
+  useEffect(() => {
+    if (score === 0) {
+      return;
+    }
+
+    dispatch(addPlayer(player));
+  }, [score]);
+
+  const startLevel = () => {
     setGameState(GameState.Active);
   };
 
+  const restart = () => {
+    setScore(0);
+    setLevel(1);
+    setCanvasKey(canvasKey + 1);
+    setGameState(GameState.StartBackdrop);
+  };
+
+  const startNextLevel = () => {
+    setLevel(level + 1);
+    setCanvasKey(canvasKey + 1);
+    setGameState(GameState.StartBackdrop);
+  };
+
   return (
-    <div className={classes.page}>
-      {gameState === GameState.Active ? (
-        <canvas
-          className={classes.canvas}
-          ref={canvasRef}
-          width={screenWidth}
-          height={screenHeight}
-          key={canvasKey}
-        />
+    <>
+      {gameState === GameState.StartBackdrop ? (
+        <CountdownBackdrop level={level} closeCb={startLevel} />
       ) : null}
-      {gameState === GameState.Over ? (
-        <p>
-          You Lose. You score: {score}{' '}
-          <button type="button" onClick={restart}>
-            Restart
-          </button>
-        </p>
-      ) : null}
-      {gameState === GameState.Win ? <p>You Win!</p> : null}
-    </div>
+      <div className={classes.page}>
+        {gameState === GameState.Active ? (
+          <canvas
+            className={classes.canvas}
+            ref={canvasRef}
+            width={screenWidth}
+            height={screenHeight}
+            key={canvasKey}
+          />
+        ) : null}
+        {gameState === GameState.Over || gameState === GameState.Win ? (
+          <EndGameBackdrop
+            user={player}
+            level={level}
+            isWin={gameState === GameState.Win}
+            winCb={startNextLevel}
+            loseCb={restart}
+          />
+        ) : null}
+      </div>
+    </>
   );
 }
