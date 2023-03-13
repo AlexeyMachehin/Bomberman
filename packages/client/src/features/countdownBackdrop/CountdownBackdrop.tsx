@@ -2,7 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import classes from './countdownBackdrop.module.css';
 
-export default function CountdownBackdrop({ level, closeCb }) {
+interface Props {
+  level: number;
+  closeCb: () => void;
+}
+
+export default function CountdownBackdrop({ level, closeCb }: Props) {
   const [isBackdropOpen, setOpen] = useState(false);
   const [timer, setTimer] = useState(3);
   const idRef = useRef<null | number>(null);
