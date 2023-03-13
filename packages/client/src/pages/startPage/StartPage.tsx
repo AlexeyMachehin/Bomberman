@@ -18,6 +18,7 @@ export default function StartPage() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (!user?.id || !user?.display_name) return;
     dispatch(addUserToDB({ userId: user?.id, userName: user?.display_name }));
   }, [user]);
 
