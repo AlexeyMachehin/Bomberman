@@ -3,6 +3,7 @@ import { authService } from './../../service/AuthService';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ISignupRequestDto } from '../../service/types/Signup/request/ISignupRequestDto';
 import { oAuthService } from './../../service/OAuthService';
+import { userService } from '@/service/UserService';
 
 export const getUser = createAsyncThunk('user/getUser', async () => {
   const response = await authService.getUser();
@@ -17,6 +18,13 @@ export const signup = createAsyncThunk(
   'auth/signup',
   async (userData: ISignupRequestDto) => {
     await authService.signup(userData);
+  }
+);
+
+export const addUserToDB = createAsyncThunk(
+  'forum/adduser',
+  async (userData: { userId: number; userName: string }) => {
+    await userService.addUserToDB(userData);
   }
 );
 
