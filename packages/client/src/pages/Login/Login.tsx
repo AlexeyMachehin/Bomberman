@@ -30,7 +30,7 @@ const Login: FC = () => {
   const formik = useLoginFormik({ onSubmit: handleSubmit });
 
   return (
-    <div className={styles.mainWrapper}>
+    <div data-testid="Login-component" className={styles.mainWrapper}>
       <div className={styles.mainBackground} />
       <div className={styles.loginWrapper}>
         <Avatar sx={{ m: 1 }}>

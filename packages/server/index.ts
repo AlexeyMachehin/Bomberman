@@ -1,12 +1,28 @@
 import dotenv from 'dotenv';
 import cors from 'cors';
+import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import type { ViteDevServer } from 'vite';
-dotenv.config();
-import express from 'express';
+import { db } from './models';
+import { router } from './routes/index';
+import { errorMiddleware } from './middlewares/errorMiddleware';
 import * as fs from 'fs';
 import * as path from 'path';
+
+const app = express();
+
+app.use(cors());
+app.use(express.json()); // parse requests of content-type - application/json
+app.use(express.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
+app.use('/bomberapi', router);
+app.use(errorMiddleware);
+
+db.sequelize.sync();
+
+dotenv.config();
+
 const isDev = process.env.NODE_ENV === 'development';
+
 async function startServer() {
   const app = express();
   app.use(cors());
@@ -45,7 +61,13 @@ async function startServer() {
         );
       }
 
-      let render: ({ store, path }: { store: any, path: string; }) => Promise<string>;
+      let render: ({
+        store,
+        path,
+      }: {
+        store: any;
+        path: string;
+      }) => Promise<string>;
       let createStore: () => any;
 
       if (!isDev) {
@@ -54,9 +76,10 @@ async function startServer() {
       } else {
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render;
+        createStore = (
+          await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))
+        ).createStoreForSSR;
       }
-      createStore = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx'))).createStoreForSSR;
-
 
       const store = createStore();
 
@@ -76,4 +99,5 @@ async function startServer() {
     console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
   });
 }
+
 startServer();

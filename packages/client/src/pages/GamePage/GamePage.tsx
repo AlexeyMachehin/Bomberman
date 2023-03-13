@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { GameLoop } from '../../features/GameEngine/GameLoop';
 import classes from './GamePage.module.css';
 
-export default function GapmePage() {
+export default function GamePage() {
   const canvasRef = useRef(null);
 
   const screenWidth = 400;
