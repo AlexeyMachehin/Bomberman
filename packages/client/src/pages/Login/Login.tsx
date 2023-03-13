@@ -12,6 +12,7 @@ import {
 import YandexAuth from './components/YandexAuth';
 import Link from '@mui/material/Link';
 import styles from './Login.module.css';
+import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -25,7 +26,11 @@ const Login: FC = () => {
       })
     )
       .then(() => dispatch(getUser()))
-      .then(() => navigate('/'));
+      .then(() => dispatch(setAudioTrackSRC('@/../static/Main.mp3')))
+      .then(() => navigate('/'))
+      .then(() => {
+        document.getElementById('audioPlayerToggleButtonId')?.click();
+      });
   };
   const formik = useLoginFormik({ onSubmit: handleSubmit });
 

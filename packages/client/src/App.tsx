@@ -11,10 +11,11 @@ import AuthGuard from './features/authGuard/AuthGuard';
 import UnAuthGuard from './features/unAuthGuard/UnAuthGuard';
 import { Layout } from './features/layout/Layout';
 import ErrorSnackbar from './features/alerts/ErrorSnackbar';
-import './styles/App.css';
 import { useAppSelector } from './utils/hooks';
 import { selectorIsLoaderOn } from './store/user/selectors';
 import Loader from './features/loader/Loader';
+import AudioPlayer from './features/audioPlayer/AudioPlayer';
+import './styles/App.css';
 
 function App() {
   const theme = createTheme();
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <AudioPlayer />
       <ErrorSnackbar />
       {isLoaderOn && <Loader />}
       <Layout>
