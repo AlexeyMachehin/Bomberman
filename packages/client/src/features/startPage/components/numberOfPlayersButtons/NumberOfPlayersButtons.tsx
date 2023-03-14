@@ -3,9 +3,6 @@ import { Box } from '@mui/material';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '@/utils/hooks';
-import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
-import { localStoragePlayerUtil } from '@/features/audioPlayer/localStoragePlayerUtil';
 import classes from './numberOfPlayersButtons.module.css';
 
 const images = [
@@ -46,7 +43,6 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
 
 export default function NumberOfPlayersButtons() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   return (
     <Box className={classes.container}>
@@ -54,13 +50,7 @@ export default function NumberOfPlayersButtons() {
         <ImageButton
           onClick={() => {
             navigate('/game');
-            const isOnPlayerLOcalStorage =
-              localStoragePlayerUtil.getIsOnPlayer();
-            dispatch(setAudioTrackSRC('@/../static/LevelTheme1.mp3'));
-
-            if (isOnPlayerLOcalStorage) {
-              document.getElementById('audioPlayerToggleButtonId')?.click();
-            }
+            document.getElementById('audioPlayerOnButtonId')?.click();
           }}
           focusRipple
           key={image.title}

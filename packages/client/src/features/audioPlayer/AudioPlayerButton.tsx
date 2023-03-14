@@ -4,20 +4,41 @@ import {
   selectorVolumeLevel,
 } from '@/store/audioPlayer/selectors';
 import Button from '@mui/material/Button';
-import { setVolumeLevel } from '@/store/audioPlayer/audioPlayerSlice';
+import {
+  setIsOnMusic,
+  setVolumeLevel,
+} from '@/store/audioPlayer/audioPlayerSlice';
+import { localStorageAudioPlayerUtil } from './localStorageAudioPlayerUtil';
+import { useEffect } from 'react';
+import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import classes from './audioPlayerButton.module.css';
 
 export const AudioPlayerButton = () => {
   const dispatch = useAppDispatch();
   const isOnPlayer = useAppSelector(selectorIsOnMusic);
-  const volumeLevel = useAppSelector(selectorVolumeLevel);
+  const volumeLevelState = useAppSelector(selectorVolumeLevel);
 
   const handleVolumeChange = (event: any) => {
     const player = document.getElementById('audioPlayer');
     const value = parseFloat(event.target.value);
     (player as HTMLAudioElement).volume = value;
     dispatch(setVolumeLevel(value));
+    localStorageAudioPlayerUtil.setVolumeLevel(value);
   };
+
+  useEffect(() => {
+    const volumeLevel = localStorageAudioPlayerUtil.getVolumeLevel();
+    const isOnPlayer = localStorageAudioPlayerUtil.getIsOnPlayer();
+
+    if (volumeLevel) {
+      dispatch(setVolumeLevel(volumeLevel));
+    }
+
+    if (isOnPlayer) {
+      dispatch(setIsOnMusic(true));
+    }
+  }, []);
 
   return (
     <div>
@@ -28,14 +49,14 @@ export const AudioPlayerButton = () => {
           onClick={() =>
             document.getElementById('audioPlayerToggleButtonId')?.click()
           }>
-          {isOnPlayer ? 'mute' : 'audio on'}
+          {isOnPlayer ? <VolumeMuteIcon /> : <VolumeOffIcon />}
         </Button>
         <input
           type="range"
           min="0"
           max="1"
-          step="0.1"
-          value={volumeLevel}
+          step="0.05"
+          value={volumeLevelState}
           onChange={handleVolumeChange}
         />
       </div>

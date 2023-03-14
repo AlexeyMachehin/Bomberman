@@ -7,7 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useAppDispatch } from '../../../../utils/hooks';
 import { logout } from '../../../../store/user/thunk';
 import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
-import { localStoragePlayerUtil } from '@/features/audioPlayer/localStoragePlayerUtil';
+import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
 import classes from './navigateLinks.module.css';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -18,10 +18,8 @@ export default function NavigateLinks() {
 
   const handleLogout = async () => {
     dispatch(logout()).then(() => {
-      const isOnPlayerLOcalStorage = localStoragePlayerUtil.getIsOnPlayer();
-      if (isOnPlayerLOcalStorage) {
-        document.getElementById('audioPlayerToggleButtonId')?.click();
-      }
+      document.getElementById('audioPlayerOffButtonId')?.click();
+      dispatch(setAudioTrackSRC('@/../static/Main.mp3'));
       navigate('/login');
     });
   };
@@ -49,10 +47,21 @@ export default function NavigateLinks() {
         </Button>
       </Tooltip>
       <Tooltip title="Go to Forum">
-        <Button onClick={() => navigate('/forum')}>Forum</Button>
+        <Button
+          onClick={() => {
+            navigate('/forum');
+            document.getElementById('audioPlayerOnButtonId')?.click();
+          }}>
+          Forum
+        </Button>
       </Tooltip>
       <Tooltip title="Go to Leaderboard">
-        <Button onClick={() => navigate('/leaderboard')}>Leaderboard</Button>
+        <Button
+          onClick={() => {
+            navigate('/leaderboard');
+          }}>
+          Leaderboard
+        </Button>
       </Tooltip>
       <HowToPlayModal />
       <AudioPlayerButton />

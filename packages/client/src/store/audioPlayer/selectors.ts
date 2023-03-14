@@ -17,3 +17,8 @@ export const selectorAudioTrackSRC = createSelector(
   [select],
   store => store.audioPlayerReducer.trackSRC
 );
+
+export const selectorIsOnLoop = createSelector(
+  [select],
+  store => store.audioPlayerReducer.loop
+);

@@ -14,8 +14,11 @@ export const audioPlayerSlice = createSlice({
     setVolumeLevel(state, action) {
       state.volumeLevel = action.payload;
     },
+    setIsOnLoop(state, action) {
+      state.loop = action.payload;
+    },
   },
 });
 
-export const { setIsOnMusic, setAudioTrackSRC, setVolumeLevel } =
+export const { setIsOnMusic, setAudioTrackSRC, setVolumeLevel, setIsOnLoop } =
   audioPlayerSlice.actions;
