@@ -7,12 +7,8 @@ import Tooltip from '@mui/material/Tooltip';
 import classes from './navigateLinks.module.css';
 import Alert from '@mui/material/Alert';
 import { useState } from 'react';
-import { useAppDispatch } from '../../../../utils/hooks';
-import { logout } from '../../../../store/user/thunk';
-import {
-  setError,
-  isOpenErrorSnackbar,
-} from '../../../../store/errorSnackbar/errorSnackbarSlice';
+import { logout } from '@/store/user/thunk';
+import { useAppDispatch } from '@/utils/hooks';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
@@ -24,10 +20,6 @@ export default function NavigateLinks() {
   const handleLogout = async () => {
     try {
       dispatch(logout())
-        .catch(error => {
-          dispatch(isOpenErrorSnackbar(true));
-          dispatch(setError(error));
-        })
         .then(() => navigate('/login'));
       setLogoutError(null);
     } catch (e) {

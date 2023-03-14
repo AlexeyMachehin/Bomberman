@@ -4,7 +4,7 @@ import classes from './forumPage.module.css';
 
 export default function ForumPage() {
   return (
-    <div className={classes.forumPageWrapper}>
+    <div data-testid="forum-component" className={classes.forumPageWrapper}>
       <Header />
       <MainList />
     </div>

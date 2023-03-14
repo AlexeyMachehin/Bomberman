@@ -32,7 +32,7 @@ const Signup: FC = () => {
   const formik = useSignupFormik({ onSubmit: handleSubmit });
 
   return (
-    <div className={styles.mainWrapper}>
+    <div data-testid="Signup-component" className={styles.mainWrapper}>
       <div className={styles.loginWrapper}>
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <CheckBoxIcon />

@@ -39,7 +39,7 @@ const LiderBoardPage = () => {
   }, []);
 
   return (
-    <div className={styles.liderBoard}>
+    <div data-testid="leaderBoardPage-component" className={styles.liderBoard}>
       <Container maxWidth="lg">
         <h1 className={styles.title}>LiderboardPage</h1>
         <List>
