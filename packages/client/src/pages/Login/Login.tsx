@@ -12,6 +12,8 @@ import {
 import YandexAuth from './components/YandexAuth';
 import Link from '@mui/material/Link';
 import styles from './Login.module.css';
+import { setIsOnMusic } from '@/store/audioPlayer/audioPlayerSlice';
+import { localStorageAudioPlayerUtil } from '@/features/audioPlayer/localStorageAudioPlayerUtil';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -25,7 +27,12 @@ const Login: FC = () => {
       })
     )
       .then(() => dispatch(getUser()))
-      .then(() => navigate('/'));
+      .then(() => navigate('/'))
+      .then(() => {
+        localStorageAudioPlayerUtil.setIsOnPlayer();
+        dispatch(setIsOnMusic(true));
+        document.getElementById('audioPlayerOnButtonId')?.click();
+      });
   };
   const formik = useLoginFormik({ onSubmit: handleSubmit });
 

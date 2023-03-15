@@ -14,6 +14,7 @@ import ErrorSnackbar from './features/alerts/ErrorSnackbar';
 import { useAppSelector } from './utils/hooks';
 import { selectorIsLoaderOn } from './store/user/selectors';
 import Loader from './features/loader/Loader';
+import AudioPlayer from './features/audioPlayer/AudioPlayer';
 import './styles/App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <AudioPlayer />
       <ErrorSnackbar />
       {isLoaderOn && <Loader />}
       <Layout>

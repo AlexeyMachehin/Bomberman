@@ -4,29 +4,24 @@ import { Box } from '@mui/material';
 import HowToPlayModal from '../howToPlayModal/HowToPlayModal';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import { useAppDispatch } from '../../../../utils/hooks';
+import { logout } from '../../../../store/user/thunk';
+import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
+import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
 import classes from './navigateLinks.module.css';
-import Alert from '@mui/material/Alert';
-import { useState } from 'react';
-import { logout } from '@/store/user/thunk';
-import { useAppDispatch } from '@/utils/hooks';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
 export default function NavigateLinks() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [logoutError, setLogoutError] = useState<null | string>(null);
 
   const handleLogout = async () => {
-    try {
-      dispatch(logout())
-        .then(() => navigate('/login'));
-      setLogoutError(null);
-    } catch (e) {
-      if (typeof e === 'string') {
-        setLogoutError(e);
-      }
-    }
+    dispatch(logout()).then(() => {
+      document.getElementById('audioPlayerOffButtonId')?.click();
+      dispatch(setAudioTrackSRC('@/../static/Main.mp3'));
+      navigate('/login');
+    });
   };
 
   return (
@@ -43,22 +38,33 @@ export default function NavigateLinks() {
       }}
       onClick={preventDefault}>
       <Tooltip title="Logout from system">
-        <Button href="#text-buttons" onClick={handleLogout}>
+        <Button
+          href="#text-buttons"
+          onClick={() => {
+            handleLogout();
+          }}>
           Logout
         </Button>
       </Tooltip>
       <Tooltip title="Go to Forum">
-        <Button onClick={() => navigate('/forum')}>Forum</Button>
+        <Button
+          onClick={() => {
+            navigate('/forum');
+            document.getElementById('audioPlayerOnButtonId')?.click();
+          }}>
+          Forum
+        </Button>
       </Tooltip>
       <Tooltip title="Go to Leaderboard">
-        <Button onClick={() => navigate('/leaderboard')}>Leaderboard</Button>
+        <Button
+          onClick={() => {
+            navigate('/leaderboard');
+          }}>
+          Leaderboard
+        </Button>
       </Tooltip>
       <HowToPlayModal />
-      {logoutError && (
-        <Alert className={classes.errorWrapper} severity="error">
-          {logoutError}
-        </Alert>
-      )}
+      <AudioPlayerButton />
     </Box>
   );
 }
