@@ -7,4 +7,7 @@ export enum ApiEndpoint {
   GET_USER = '/auth/user',
   GET_SERVICE_ID = '/oauth/yandex/service-id',
   OAUTH_YANDEX = '/oauth/yandex',
+  PROFILE = '/user/profile',
+  PASSWORD = '/user/password',
+  AVATAR = '/user/profile/avatar',
 }

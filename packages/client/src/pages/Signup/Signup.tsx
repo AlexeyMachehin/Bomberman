@@ -9,6 +9,8 @@ import {
   ISignupFormValues,
   useSignupFormik,
 } from '../../features/Signup/hooks/useSignupFormik';
+import { Link } from 'react-router-dom';
+import { Route as RoutePath } from '../../const';
 import styles from './Signup.module.css';
 
 const Signup: FC = () => {
@@ -148,7 +150,7 @@ const Signup: FC = () => {
             size="large">
             Sign Up
           </Button>
-          <Button onClick={() => navigate('/login')} fullWidth size="large">
+          <Button fullWidth size="large" component={Link} to={RoutePath.LOGIN}>
             Login
           </Button>
         </form>
