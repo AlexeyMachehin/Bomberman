@@ -19,7 +19,7 @@ export const AudioPlayerButton = () => {
   const isOnPlayer = useAppSelector(selectorIsOnMusic);
   const volumeLevelState = useAppSelector(selectorVolumeLevel);
 
-  const handleVolumeChange = (event: any) => {
+  const handleVolumeChange = (event: { target: { value: string } }) => {
     const player = document.getElementById('audioPlayer');
     const value = parseFloat(event.target.value);
     (player as HTMLAudioElement).volume = value;

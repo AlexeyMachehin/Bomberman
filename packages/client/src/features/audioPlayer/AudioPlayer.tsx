@@ -20,13 +20,14 @@ export default function AudioPlayer() {
   const trackSRC = useAppSelector(selectorAudioTrackSRC);
   const isOnLoop = useAppSelector(selectorIsOnLoop);
   const playerRef = useRef(null);
+  const defaultVolume = 1;
 
   const location = useLocation();
 
   useEffect(() => {
     if (!localStorageAudioPlayerUtil.getVolumeLevel()) {
       localStorageAudioPlayerUtil.setVolumeLevel(1);
-      dispatch(setVolumeLevel(1));
+      dispatch(setVolumeLevel(defaultVolume));
     }
   }, []);
 
