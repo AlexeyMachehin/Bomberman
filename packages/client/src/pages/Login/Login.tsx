@@ -11,6 +11,8 @@ import {
 } from '../../features/Login/hooks/useLoginFormik';
 import YandexAuth from './components/YandexAuth';
 import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
+import { Route as RoutePath } from '../../const';
 import styles from './Login.module.css';
 import { setIsOnMusic } from '@/store/audioPlayer/audioPlayerSlice';
 import { localStorageAudioPlayerUtil } from '@/features/audioPlayer/localStorageAudioPlayerUtil';
@@ -83,7 +85,7 @@ const Login: FC = () => {
             Sign In
           </Button>
           <YandexAuth />
-          <Link href="#" onClick={() => navigate('/signup')}>
+          <Link variant="body2" component={RouterLink} to={RoutePath.SIGNUP}>
             "Don't have an account? Sign Up"
           </Link>
         </form>
