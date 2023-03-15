@@ -8,6 +8,7 @@ import { useAppDispatch } from '../../../../utils/hooks';
 import { logout } from '../../../../store/user/thunk';
 import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
 import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
+import AboutGameModal from '../aboutGameModal/AboutGameModal';
 import classes from './navigateLinks.module.css';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -64,6 +65,7 @@ export default function NavigateLinks() {
         </Button>
       </Tooltip>
       <HowToPlayModal />
+      <AboutGameModal />
       <AudioPlayerButton />
     </Box>
   );
