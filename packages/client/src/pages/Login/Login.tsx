@@ -1,21 +1,21 @@
 import { FC } from 'react';
+import { useAppDispatch } from '@/utils/hooks';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../utils/hooks';
-import { getUser, login } from '../../store/user/thunk';
 import { Avatar, Button, TextField } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import {
-  ILoginFormValues,
-  useLoginFormik,
-} from '../../features/Login/hooks/useLoginFormik';
 import YandexAuth from './components/YandexAuth';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { Route as RoutePath } from '@/const';
-import styles from './Login.module.css';
 import { setIsOnMusic } from '@/store/audioPlayer/audioPlayerSlice';
 import { localStorageAudioPlayerUtils } from '@/features/audioPlayer/localStorageAudioPlayerUtils';
+import {
+  ILoginFormValues,
+  useLoginFormik,
+} from '@/features/Login/hooks/useLoginFormik';
+import { getUser, login } from '@/store/user/thunk';
+import styles from './Login.module.css';
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -29,11 +29,10 @@ const Login: FC = () => {
       })
     )
       .then(() => dispatch(getUser()))
-      .then(() => navigate('/'))
+      .then(() => navigate(RoutePath.INDEX))
       .then(() => {
         localStorageAudioPlayerUtils.setIsOnPlayer();
         dispatch(setIsOnMusic(true));
-        document.getElementById('audioPlayerOnButtonId')?.click();
       });
   };
   const formik = useLoginFormik({ onSubmit: handleSubmit });

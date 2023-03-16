@@ -1,4 +1,4 @@
-import LiderBoardPage from '@/pages/leaderBoardPage/LeaderBoardPage';
+import LeaderBoardPage from '@/pages/leaderBoardPage/LeaderBoardPage';
 import { render } from '@testing-library/react';
 import { store } from '@/store/store';
 import { Provider } from 'react-redux';
@@ -10,7 +10,7 @@ test('LeaderBoardPage renders correctly', () => {
     <MemoryRouter>
       <Provider store={store}>
         <Routes>
-          <Route path={RoutePath.LEADERBOARD} element={<LiderBoardPage />} />
+          <Route path={RoutePath.LEADERBOARD} element={<LeaderBoardPage />} />
         </Routes>
       </Provider>
     </MemoryRouter>

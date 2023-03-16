@@ -1,14 +1,14 @@
-import { Container, Typography, Button, Stack, TextField } from '@mui/material';
-import {
-  IPasswordChangeFormValues,
-  usePasswordChangeFormik,
-} from '../../features/passwordChange/hooks/usePasswordChangeFormik';
 import { useAppDispatch } from '@/utils/hooks';
 import { useNavigate } from 'react-router-dom';
+import { Container, Typography, Button, Stack, TextField } from '@mui/material';
 import { getUser, updatePassword } from '@/store/user/thunk';
 import { Route as RoutePath } from '@/const';
 import { StartPageButton } from '@/features/startPageButton/StartPageButton';
 import { GoBackButton } from '@/features/goBackButton/GoBackButton';
+import {
+  IPasswordChangeFormValues,
+  usePasswordChangeFormik,
+} from '@/features/passwordChange/hooks/usePasswordChangeFormik';
 
 const PasswordChange = () => {
   const navigate = useNavigate();

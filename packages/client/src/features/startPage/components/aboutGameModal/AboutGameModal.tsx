@@ -1,9 +1,9 @@
 import { useState, forwardRef } from 'react';
-import { Box, Link } from '@mui/material';
+import { useSpring, animated } from 'react-spring';
+import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useSpring, animated } from 'react-spring';
 import Tooltip from '@mui/material/Tooltip';
 import classes from './aboutGameModal.module.css';
 

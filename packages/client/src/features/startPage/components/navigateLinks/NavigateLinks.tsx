@@ -1,15 +1,15 @@
 import * as React from 'react';
+import { useAppDispatch } from '@/utils/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import HowToPlayModal from '../howToPlayModal/HowToPlayModal';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import { useAppDispatch } from '../../../../utils/hooks';
-import { logout } from '../../../../store/user/thunk';
 import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
 import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
 import AboutGameModal from '../aboutGameModal/AboutGameModal';
-import { Route as RoutePath } from '../../../../const';
+import { logout } from '@/store/user/thunk';
+import { Route as RoutePath } from '@/const';
 import classes from './navigateLinks.module.css';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -22,7 +22,7 @@ export default function NavigateLinks() {
     dispatch(logout()).then(() => {
       document.getElementById('audioPlayerOffButtonId')?.click();
       dispatch(setAudioTrackSRC('@/../static/Main.mp3'));
-      navigate('/login');
+      navigate(RoutePath.LOGIN);
     });
   };
 
@@ -52,7 +52,6 @@ export default function NavigateLinks() {
         <Button
           onClick={() => {
             navigate(RoutePath.PROFILE);
-            document.getElementById('audioPlayerOnButtonId')?.click();
           }}>
           Profile
         </Button>
@@ -61,7 +60,6 @@ export default function NavigateLinks() {
         <Button
           onClick={() => {
             navigate(RoutePath.FORUM);
-            document.getElementById('audioPlayerOnButtonId')?.click();
           }}>
           Forum
         </Button>

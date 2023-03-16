@@ -1,8 +1,8 @@
+import { IPlayerProfile } from '@/service/types/game/IPlayerProfile';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { IPlayerProfile } from '../../../../service/types/game/IPlayerProfile';
 import classes from './userCard.module.css';
 
 export default function UserCard(props: { user: IPlayerProfile }) {

@@ -2,13 +2,13 @@ import { Container, Typography, Button, Stack, TextField } from '@mui/material';
 import {
   IProfileChangeFormValues,
   useProfileChangeFormik,
-} from '../../features/profileChange/hooks/useProfileChangeFormik';
+} from '@/features/profileChange/hooks/useProfileChangeFormik';
 import { getUser, updateProfile } from '@/store/user/thunk';
 import { useAppDispatch } from '@/utils/hooks';
 import { useNavigate } from 'react-router-dom';
-import { Route as RoutePath } from '@/const';
 import { StartPageButton } from '@/features/startPageButton/StartPageButton';
 import { GoBackButton } from '@/features/goBackButton/GoBackButton';
+import { Route as RoutePath } from '@/const';
 
 const ProfileChange = () => {
   const navigate = useNavigate();

@@ -1,16 +1,16 @@
 import { FC } from 'react';
 import { Avatar, Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getUser, signup } from '../../store/user/thunk';
-import { useAppDispatch } from '../../utils/hooks';
+import { useAppDispatch } from '@/utils/hooks';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
+import { Route as RoutePath } from '@/const';
 import {
   ISignupFormValues,
   useSignupFormik,
-} from '../../features/Signup/hooks/useSignupFormik';
-import { Link } from 'react-router-dom';
-import { Route as RoutePath } from '@/const';
+} from '@/features/Signup/hooks/useSignupFormik';
+import { getUser, signup } from '@/store/user/thunk';
 import styles from './Signup.module.css';
 
 const Signup: FC = () => {
@@ -28,7 +28,7 @@ const Signup: FC = () => {
       })
     )
       .then(() => dispatch(getUser()))
-      .then(() => navigate('/'));
+      .then(() => navigate(RoutePath.INDEX));
   };
 
   const formik = useSignupFormik({ onSubmit: handleSubmit });

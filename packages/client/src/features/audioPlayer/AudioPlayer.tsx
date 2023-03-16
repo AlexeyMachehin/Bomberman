@@ -1,3 +1,7 @@
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { selectorUser } from '@/store/user/selectors';
 import {
   setAudioTrackSRC,
   setIsOnLoop,
@@ -9,14 +13,12 @@ import {
   selectorIsOnLoop,
   selectorIsOnMusic,
 } from '@/store/audioPlayer/selectors';
-import { useAppDispatch, useAppSelector } from '@/utils/hooks';
-import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import { localStorageAudioPlayerUtils } from './localStorageAudioPlayerUtils';
 import { Route as RoutePath } from '@/const';
 
 export default function AudioPlayer() {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectorUser);
   const isOnPlayer = useAppSelector(selectorIsOnMusic);
   const trackSRC = useAppSelector(selectorAudioTrackSRC);
   const isOnLoop = useAppSelector(selectorIsOnLoop);
@@ -59,7 +61,9 @@ export default function AudioPlayer() {
       dispatch(setAudioTrackSRC('@/../static/LevelTheme.mp3'));
     }
     setTimeout(() => {
-      playerOn();
+      if (user) {
+        playerOn();
+      }
     }, 0);
   }, [location]);
 
@@ -99,7 +103,6 @@ export default function AudioPlayer() {
     <>
       <audio loop={isOnLoop} ref={playerRef} id="audioPlayer" src={trackSRC} />
       <div id="audioPlayerToggleButtonId" onClick={togglePlay}></div>
-      <div id="audioPlayerOnButtonId" onClick={playerOn}></div>
       <div id="audioPlayerOffButtonId" onClick={playerOff}></div>
     </>
   );

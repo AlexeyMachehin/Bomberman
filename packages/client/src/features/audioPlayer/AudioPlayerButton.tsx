@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { useEffect } from 'react';
 import {
   selectorIsOnMusic,
   selectorVolumeLevel,
@@ -9,7 +10,6 @@ import {
   setVolumeLevel,
 } from '@/store/audioPlayer/audioPlayerSlice';
 import { localStorageAudioPlayerUtils } from './localStorageAudioPlayerUtils';
-import { useEffect } from 'react';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import classes from './audioPlayerButton.module.css';
