@@ -9,23 +9,17 @@ import { errorMiddleware } from './middlewares/errorMiddleware';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const app = express();
-
-app.use(cors());
-app.use(express.json()); // parse requests of content-type - application/json
-app.use(express.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
-app.use('/bomberapi', router);
-app.use(errorMiddleware);
-
-db.sequelize.sync();
-
 dotenv.config();
-
 const isDev = process.env.NODE_ENV === 'development';
 
 async function startServer() {
   const app = express();
   app.use(cors());
+  app.use(express.json()); // parse requests of content-type - application/json
+  app.use(express.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
+  app.use(errorMiddleware);
+  app.use('/bomberapi', router);
+
   const port = Number(process.env.SERVER_PORT) || 3001;
 
   let vite: ViteDevServer | undefined;
@@ -42,10 +36,6 @@ async function startServer() {
 
     app.use(vite.middlewares);
   }
-
-  app.get('/api', (_, res) => {
-    res.json('👋 Howdy from the server :)');
-  });
 
   app.use('/assets', express.static(path.resolve(distPath, 'assets')));
 
@@ -111,4 +101,9 @@ async function startServer() {
   });
 }
 
-startServer();
+const start = async () => {
+  await db.sequelize.sync();
+  startServer();
+};
+
+start();
