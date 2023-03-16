@@ -9,7 +9,6 @@ import { errorMiddleware } from './middlewares/errorMiddleware';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const PORT = Number(process.env.SERVER_PORT) || 3001;
 const app = express();
 
 app.use(cors());
