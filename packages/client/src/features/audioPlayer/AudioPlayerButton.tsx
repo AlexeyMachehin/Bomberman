@@ -8,7 +8,7 @@ import {
   setIsOnMusic,
   setVolumeLevel,
 } from '@/store/audioPlayer/audioPlayerSlice';
-import { localStorageAudioPlayerUtil } from './localStorageAudioPlayerUtil';
+import { localStorageAudioPlayerUtils } from './localStorageAudioPlayerUtils';
 import { useEffect } from 'react';
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
@@ -24,12 +24,12 @@ export const AudioPlayerButton = () => {
     const value = parseFloat(event.target.value);
     (player as HTMLAudioElement).volume = value;
     dispatch(setVolumeLevel(value));
-    localStorageAudioPlayerUtil.setVolumeLevel(value);
+    localStorageAudioPlayerUtils.setVolumeLevel(value);
   };
 
   useEffect(() => {
-    const volumeLevel = localStorageAudioPlayerUtil.getVolumeLevel();
-    const isOnPlayer = localStorageAudioPlayerUtil.getIsOnPlayer();
+    const volumeLevel = localStorageAudioPlayerUtils.getVolumeLevel();
+    const isOnPlayer = localStorageAudioPlayerUtils.getIsOnPlayer();
 
     if (volumeLevel) {
       dispatch(setVolumeLevel(volumeLevel));

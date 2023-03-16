@@ -8,6 +8,8 @@ import { useAppDispatch } from '../../../../utils/hooks';
 import { logout } from '../../../../store/user/thunk';
 import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
 import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
+import AboutGameModal from '../aboutGameModal/AboutGameModal';
+import { Route as RoutePath } from '../../../../const';
 import classes from './navigateLinks.module.css';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -46,10 +48,19 @@ export default function NavigateLinks() {
           Logout
         </Button>
       </Tooltip>
+      <Tooltip title="Go to Profile/Change profile data">
+        <Button
+          onClick={() => {
+            navigate(RoutePath.PROFILE);
+            document.getElementById('audioPlayerOnButtonId')?.click();
+          }}>
+          Profile
+        </Button>
+      </Tooltip>
       <Tooltip title="Go to Forum">
         <Button
           onClick={() => {
-            navigate('/forum');
+            navigate(RoutePath.FORUM);
             document.getElementById('audioPlayerOnButtonId')?.click();
           }}>
           Forum
@@ -58,12 +69,13 @@ export default function NavigateLinks() {
       <Tooltip title="Go to Leaderboard">
         <Button
           onClick={() => {
-            navigate('/leaderboard');
+            navigate(RoutePath.LEADERBOARD);
           }}>
           Leaderboard
         </Button>
       </Tooltip>
       <HowToPlayModal />
+      <AboutGameModal />
       <AudioPlayerButton />
     </Box>
   );

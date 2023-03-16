@@ -13,6 +13,7 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useEffect, useState } from 'react';
 import { leaderBoardService } from '../../service/LeaderBoardService';
 import { IPlayer } from '../../service/types/liderBoard/IPlayer';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
 
 const Colors = ['gold', 'silver', 'goldenrod', 'tan'];
 
@@ -41,7 +42,11 @@ const LiderBoardPage = () => {
   return (
     <div data-testid="leaderBoardPage-component" className={styles.liderBoard}>
       <Container maxWidth="lg">
-        <h1 className={styles.title}>LiderboardPage</h1>
+        <div className={styles.titleContainer}>
+          <h1 className={styles.title}>LeaderboardPage</h1>
+          <StartPageButton />
+        </div>
+       
         <List>
           {leaders.map((lider, index) => (
             <ListItem key={lider.id} className={styles.listItem}>

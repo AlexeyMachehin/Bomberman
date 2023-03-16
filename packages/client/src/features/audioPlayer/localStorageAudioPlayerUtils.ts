@@ -1,4 +1,4 @@
-class LocalStorageAudioPlayerUtil {
+class LocalStorageAudioPlayerUtils {
   isOnMusicPlayer: string;
   volumeLevel: string;
 
@@ -40,4 +40,4 @@ class LocalStorageAudioPlayerUtil {
     localStorage.setItem(this.volumeLevel, JSON.stringify(volumeLevel));
   }
 }
-export const localStorageAudioPlayerUtil = new LocalStorageAudioPlayerUtil();
+export const localStorageAudioPlayerUtils = new LocalStorageAudioPlayerUtils();
