@@ -10,7 +10,7 @@ import {
   useSignupFormik,
 } from '../../features/Signup/hooks/useSignupFormik';
 import { Link } from 'react-router-dom';
-import { Route as RoutePath } from '../../const';
+import { Route as RoutePath } from '@/const';
 import styles from './Signup.module.css';
 
 const Signup: FC = () => {

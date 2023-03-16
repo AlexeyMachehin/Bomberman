@@ -9,9 +9,8 @@ import { IForumState } from '../../../../service/types/forumPage/IForumState';
 import { IQuestion } from '../../../../service/types/forumPage/IQuestion';
 import { forumState } from '../../../mockData/forumState';
 import { QuestionWithTopic } from '../../../../service/types/forumPage/questionWithTopic';
-import { Button } from '@mui/material';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
 import classes from './header.module.css';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
 
 const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -86,13 +85,7 @@ export default function Header() {
           Forum
         </Typography>
       </div>
-      <Button
-        className={classes.startPageButton}
-        onClick={() => navigate('/')}
-        variant="outlined"
-        startIcon={<FirstPageIcon />}>
-        start page
-      </Button>
+      <StartPageButton />
     </div>
   );
 }

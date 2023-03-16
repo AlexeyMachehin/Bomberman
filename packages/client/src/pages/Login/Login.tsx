@@ -12,7 +12,7 @@ import {
 import YandexAuth from './components/YandexAuth';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
-import { Route as RoutePath } from '../../const';
+import { Route as RoutePath } from '@/const';
 import styles from './Login.module.css';
 import { setIsOnMusic } from '@/store/audioPlayer/audioPlayerSlice';
 import { localStorageAudioPlayerUtil } from '@/features/audioPlayer/localStorageAudioPlayerUtil';

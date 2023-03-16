@@ -12,15 +12,16 @@ import {
   Fab,
   Box,
 } from '@mui/material';
-import { EmojiEvents } from '@mui/icons-material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { Link } from 'react-router-dom';
 import { useState, useEffect, ChangeEvent } from 'react';
-import { Route as RoutePath, RESOURCE_URL } from '../../const';
+import { Route as RoutePath, RESOURCE_URL } from '@/const';
 import { selectorUser } from '@/store/user/selectors';
 import { useAppSelector } from '@/utils/hooks';
 import { getUser, updateAvatar } from '@/store/user/thunk';
 import { useAppDispatch } from '@/utils/hooks';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
+import { GoBackButton } from '@/features/goBackButton/GoBackButton';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -66,9 +67,12 @@ const Profile = () => {
 
   return (
     <Container>
-      <Typography component="h1" variant="h4" mb={3}>
-        Профиль
-      </Typography>
+      <div className="profilePageTitle">
+        <Typography component="h1" variant="h4" mb={3}>
+          Profile
+        </Typography>
+        <StartPageButton />
+      </div>
       <Grid container spacing={3}>
         <Grid
           container
@@ -114,28 +118,23 @@ const Profile = () => {
           <Typography component="h3" variant="h5" mt={3} mb={1}>
             {firstName} {secondName}
           </Typography>
-
-          {/* <Stack direction="row" spacing={1} alignItems="center" mb={3}>
-            <EmojiEvents fontSize="large" sx={{ color: 'orange' }} />
-            <Typography variant="h6">{record}</Typography>
-          </Stack> */}
         </Grid>
         <Grid item xs={12} md={9}>
           <List>
             <ListItem disableGutters>
-              <ListItemText primary="Имя" secondary={firstName} />
+              <ListItemText primary="Name" secondary={firstName} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Фамилия" secondary={secondName} />
+              <ListItemText primary="Surname" secondary={secondName} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Имя в игре" secondary={displayName} />
+              <ListItemText primary="Name in game" secondary={displayName} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Логин" secondary={login} />
+              <ListItemText primary="Login" secondary={login} />
             </ListItem>
             <Divider />
             <ListItem disableGutters>
@@ -143,7 +142,7 @@ const Profile = () => {
             </ListItem>
             <Divider />
             <ListItem disableGutters>
-              <ListItemText primary="Телефон" secondary={phone} />
+              <ListItemText primary="Phone" secondary={phone} />
             </ListItem>
             <Divider />
           </List>
@@ -152,14 +151,15 @@ const Profile = () => {
               variant="outlined"
               component={Link}
               to={RoutePath.PROFILE_CHANGE}>
-              Изменить данные
+              Change data
             </Button>
             <Button
               variant="outlined"
               component={Link}
               to={RoutePath.PASSWORD_CHANGE}>
-              Изменить пароль
+              Change password
             </Button>
+            <GoBackButton />
           </Stack>
         </Grid>
       </Grid>
