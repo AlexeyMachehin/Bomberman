@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { localStorageAudioPlayerUtil } from './localStorageAudioPlayerUtil';
+import { localStorageAudioPlayerUtils } from './localStorageAudioPlayerUtils';
 import { Route as RoutePath } from '@/const';
 
 export default function AudioPlayer() {
@@ -26,9 +26,9 @@ export default function AudioPlayer() {
   const location = useLocation();
 
   useEffect(() => {
-    const currentVolumeLevel = localStorageAudioPlayerUtil.getVolumeLevel();
+    const currentVolumeLevel = localStorageAudioPlayerUtils.getVolumeLevel();
     if (!currentVolumeLevel) {
-      localStorageAudioPlayerUtil.setVolumeLevel(1);
+      localStorageAudioPlayerUtils.setVolumeLevel(1);
       dispatch(setVolumeLevel(defaultVolume));
     } else {
       dispatch(setVolumeLevel(currentVolumeLevel));
@@ -65,21 +65,21 @@ export default function AudioPlayer() {
 
   const togglePlay = () => {
     const player = document.getElementById('audioPlayer');
-    const isOnPlayerLOcalStorage = localStorageAudioPlayerUtil.getIsOnPlayer();
+    const isOnPlayerLOcalStorage = localStorageAudioPlayerUtils.getIsOnPlayer();
 
     if (isOnPlayerLOcalStorage && isOnPlayer) {
-      localStorageAudioPlayerUtil.setIsOffPlayer();
+      localStorageAudioPlayerUtils.setIsOffPlayer();
       dispatch(setIsOnMusic(false));
       (player as HTMLAudioElement).pause();
     } else {
-      localStorageAudioPlayerUtil.setIsOnPlayer();
+      localStorageAudioPlayerUtils.setIsOnPlayer();
       dispatch(setIsOnMusic(true));
       (player as HTMLAudioElement).play();
     }
   };
 
   const playerOn = () => {
-    const isOnPlayerLOcalStorage = localStorageAudioPlayerUtil.getIsOnPlayer();
+    const isOnPlayerLOcalStorage = localStorageAudioPlayerUtils.getIsOnPlayer();
     const player = document.getElementById('audioPlayer');
 
     if (isOnPlayerLOcalStorage) {
@@ -90,7 +90,7 @@ export default function AudioPlayer() {
   const playerOff = () => {
     const player = document.getElementById('audioPlayer');
 
-    localStorageAudioPlayerUtil.setIsOffPlayer();
+    localStorageAudioPlayerUtils.setIsOffPlayer();
     dispatch(setIsOnMusic(false));
     (player as HTMLAudioElement).pause();
   };
