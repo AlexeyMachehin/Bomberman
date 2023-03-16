@@ -1,0 +1,17 @@
+.container {
+  color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: medium dashed red;
+  background-color: black;
+}
+
+.header {
+  font-size: 3vw;
+}
+
+.error {
+  font-size: 2vw;
+}

@@ -27,7 +27,10 @@ class LeaderBoardService extends AxiosService {
       limit: 10,
     };
 
-    return this.post(`${ApiEndpoint.LEADERBOARD}/${this.TEAM_NAME}`, requestData);
+    return this.post(
+      `${ApiEndpoint.LEADERBOARD}/${this.TEAM_NAME}`,
+      requestData
+    );
   }
 }
 

@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { audioPlayerSlice } from './audioPlayer/audioPlayerSlice';
 import { userSlice } from './user/userSlice';
 import { forumSlice } from './forum/forumSlice';
 
@@ -7,6 +8,7 @@ export const createStore = () => {
     reducer: {
       userReducer: userSlice.reducer,
       forumReducer: forumSlice.reducer,
+      audioPlayerReducer: audioPlayerSlice.reducer,
     },
   });
 };

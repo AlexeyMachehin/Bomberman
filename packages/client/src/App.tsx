@@ -11,9 +11,14 @@ import AuthGuard from './features/authGuard/AuthGuard';
 import UnAuthGuard from './features/unAuthGuard/UnAuthGuard';
 import { Layout } from './features/layout/Layout';
 import ErrorSnackbar from './features/alerts/ErrorSnackbar';
+import ProfilePage from './pages/profile/Profile';
+import ProfileChangePage from './pages/profileChange/ProfileChange';
+import PasswordChangePage from './pages/passwordChange/PasswordChange';
+import { Route as RoutePath } from './const';
 import { useAppSelector } from './utils/hooks';
 import { selectorIsLoaderOn } from './store/user/selectors';
 import Loader from './features/loader/Loader';
+import AudioPlayer from './features/audioPlayer/AudioPlayer';
 import './styles/App.css';
 
 function App() {
@@ -22,24 +27,34 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <AudioPlayer />
       <ErrorSnackbar />
       {isLoaderOn && <Loader />}
       <Layout>
         <div id="App" className="App">
           <Routes>
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<Navigate to={RoutePath.INDEX} />} />
             <Route element={<UnAuthGuard />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path={RoutePath.LOGIN} element={<Login />} />
+              <Route path={RoutePath.SIGNUP} element={<Signup />} />
             </Route>
             <Route element={<AuthGuard />}>
-              <Route path="/" element={<StartPage />} />
-              <Route path="/game" element={<GamePage />} />
-              <Route path="forum" element={<ForumPage />} />
-              <Route path="forum/:mainTopic" element={<Chat />}>
+              <Route path={RoutePath.INDEX} element={<StartPage />} />
+              <Route path={RoutePath.GAME} element={<GamePage />} />
+              <Route path={RoutePath.PROFILE} element={<ProfilePage />} />
+              <Route
+                path={RoutePath.PROFILE_CHANGE}
+                element={<ProfileChangePage />}
+              />
+              <Route
+                path={RoutePath.PASSWORD_CHANGE}
+                element={<PasswordChangePage />}
+              />
+              <Route path={RoutePath.LEADERBOARD} element={<LeaderBoard />} />
+              <Route path={RoutePath.FORUM} element={<ForumPage />} />
+              <Route path={`${RoutePath.FORUM}/:mainTopic`} element={<Chat />}>
                 <Route path=":id" element={<Chat />} />
               </Route>
-              <Route path="/leaderboard" element={<LeaderBoard />} />
             </Route>
           </Routes>
         </div>
