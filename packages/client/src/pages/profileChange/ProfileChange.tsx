@@ -29,6 +29,8 @@ const ProfileChange = () => {
 
   const formik = useProfileChangeFormik({ onSubmit: handleSubmit });
 
+  if (!formik) return null;
+
   return (
     <Container>
       <Typography component="h1" variant="h4" mb={3}>
