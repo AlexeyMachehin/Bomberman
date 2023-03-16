@@ -26,9 +26,14 @@ export default function AudioPlayer() {
   const location = useLocation();
 
   useEffect(() => {
-    if (!localStorageAudioPlayerUtil.getVolumeLevel()) {
+    const currentVolumeLevel = localStorageAudioPlayerUtil.getVolumeLevel();
+    if (!currentVolumeLevel) {
       localStorageAudioPlayerUtil.setVolumeLevel(1);
       dispatch(setVolumeLevel(defaultVolume));
+    } else {
+      dispatch(setVolumeLevel(currentVolumeLevel));
+      const player = document.getElementById('audioPlayer');
+      (player as HTMLAudioElement).volume = currentVolumeLevel;
     }
   }, []);
 
