@@ -20,14 +20,14 @@ class LeaderBoardService extends AxiosService {
     return this.post(ApiEndpoint.LEADERBOARD, requestData);
   }
 
-  public getPlayers(): Promise<IPlayerPayload> {
+  public async getPlayers(): Promise<IPlayerPayload> {
     const requestData = {
       ratingFieldName: this.RATING_FIELD_NAME,
       cursor: 0,
       limit: 10,
     };
 
-    return this.post(
+    return await this.post(
       `${ApiEndpoint.LEADERBOARD}/${this.TEAM_NAME}`,
       requestData
     );
