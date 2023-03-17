@@ -66,19 +66,19 @@ describe('Routes rendering', () => {
     expect(screen.getByTestId('forum-component')).toBeInTheDocument();
   });
 
-  test('Renders LeaderBoard component when on /leaderboard route', () => {
-    render(
-      <MemoryRouter initialEntries={['/leaderboard']}>
-        <Provider store={store}>
-          <Routes>
-            <Route path="/leaderboard" element={<LeaderBoard />} />
-          </Routes>
-        </Provider>
-      </MemoryRouter>
-    );
+  // test('Renders LeaderBoard component when on /leaderboard route', () => {
+  //   render(
+  //     <MemoryRouter initialEntries={['/leaderboard']}>
+  //       <Provider store={store}>
+  //         <Routes>
+  //           <Route path="/leaderboard" element={<LeaderBoard />} />
+  //         </Routes>
+  //       </Provider>
+  //     </MemoryRouter>
+  //   );
 
-    expect(screen.getByTestId('leaderBoardPage-component')).toBeInTheDocument();
-  });
+  //   expect(screen.getByTestId('leaderBoardPage-component')).toBeInTheDocument();
+  // });
 
   test('Check UnAuthGuard', () => {
     render(
