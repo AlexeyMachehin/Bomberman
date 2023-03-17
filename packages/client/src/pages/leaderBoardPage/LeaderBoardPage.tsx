@@ -35,7 +35,7 @@ const LeaderBoardPage = () => {
     leaderBoardService.getPlayers().then(({ data }) => {
       const leaders = data.map(player => player.data);
       setLeaders(leaders);
-    });
+    }).catch(error => console.log(error));
   }, []);
 
   return (
