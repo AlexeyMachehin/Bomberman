@@ -1,12 +1,14 @@
+import { useAppDispatch } from '@/utils/hooks';
+import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Button, Stack, TextField } from '@mui/material';
+import { getUser, updatePassword } from '@/store/user/thunk';
+import { Route as RoutePath } from '@/const';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
+import { GoBackButton } from '@/features/goBackButton/GoBackButton';
 import {
   IPasswordChangeFormValues,
   usePasswordChangeFormik,
-} from '../../features/passwordChange/hooks/usePasswordChangeFormik';
-import { useAppDispatch } from '@/utils/hooks';
-import { useNavigate } from 'react-router-dom';
-import { getUser, updatePassword } from '@/store/user/thunk';
-import { Route as RoutePath } from '@/const';
+} from '@/features/passwordChange/hooks/usePasswordChangeFormik';
 
 const PasswordChange = () => {
   const navigate = useNavigate();
@@ -26,16 +28,19 @@ const PasswordChange = () => {
   const formik = usePasswordChangeFormik({ onSubmit: handleSubmit });
 
   return (
-    <Container>
-      <Typography component="h1" variant="h4" mb={3}>
-        Изменить пароль
-      </Typography>
+    <Container data-testid="passwordChange-component">
+      <div className="profilePageTitle">
+        <Typography component="h1" variant="h4" mb={3}>
+          Change password
+        </Typography>
+        <StartPageButton />
+      </div>
       <form onSubmit={formik.handleSubmit}>
         <Stack spacing={1} width={{ xs: '100%', md: '50%' }} mb={2}>
           <TextField
             required
             id="oldPassword"
-            label="Текущий пароль"
+            label="Current password"
             name="oldPassword"
             type="password"
             error={
@@ -47,7 +52,7 @@ const PasswordChange = () => {
           <TextField
             required
             id="newPassword"
-            label="Новый пароль"
+            label="New password"
             name="newPassword"
             type="password"
             error={
@@ -58,8 +63,9 @@ const PasswordChange = () => {
           />
         </Stack>
         <Button type="submit" variant="contained">
-          Сохранить
+          Save
         </Button>
+        <GoBackButton />
       </form>
     </Container>
   );

@@ -1,5 +1,4 @@
-import styles from './LeaderBoardPage.module.css';
-
+import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,9 +9,10 @@ import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { useEffect, useState } from 'react';
-import { leaderBoardService } from '../../service/LeaderBoardService';
-import { IPlayer } from '../../service/types/liderBoard/IPlayer';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
+import { IPlayer } from '@/service/types/liderBoard/IPlayer';
+import { leaderBoardService } from '@/service/LeaderBoardService';
+import styles from './LeaderBoardPage.module.css';
 
 const Colors = ['gold', 'silver', 'goldenrod', 'tan'];
 
@@ -29,7 +29,7 @@ const getColor = (index: number) => {
   return Colors[index] ?? Colors[-1];
 };
 
-const LiderBoardPage = () => {
+const LeaderBoardPage = () => {
   const [leaders, setLeaders] = useState<IPlayer[]>([]);
   useEffect(() => {
     leaderBoardService.getPlayers().then(({ data }) => {
@@ -41,7 +41,11 @@ const LiderBoardPage = () => {
   return (
     <div data-testid="leaderBoardPage-component" className={styles.liderBoard}>
       <Container maxWidth="lg">
-        <h1 className={styles.title}>LiderboardPage</h1>
+        <div className={styles.titleContainer}>
+          <h1 className={styles.title}>LeaderboardPage</h1>
+          <StartPageButton />
+        </div>
+
         <List>
           {leaders.map((lider, index) => (
             <ListItem key={lider.id} className={styles.listItem}>
@@ -68,4 +72,4 @@ const LiderBoardPage = () => {
   );
 };
 
-export default LiderBoardPage;
+export default LeaderBoardPage;

@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import { Route as RoutePath } from '@/const';
 import classes from './numberOfPlayersButtons.module.css';
 
 const images = [
@@ -49,8 +50,7 @@ export default function NumberOfPlayersButtons() {
       {images.map(image => (
         <ImageButton
           onClick={() => {
-            navigate('/game');
-            document.getElementById('audioPlayerOnButtonId')?.click();
+            navigate(RoutePath.GAME);
           }}
           focusRipple
           key={image.title}

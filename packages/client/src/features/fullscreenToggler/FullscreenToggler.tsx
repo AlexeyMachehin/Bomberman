@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
 import classes from './fullscreenToggler.module.css';
 
 interface IFullscreenTogglerProps {

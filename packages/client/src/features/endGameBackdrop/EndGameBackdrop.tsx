@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
-import NavigateLinks from './components/navigateLinks/NavigateLinks';
-import UserCard from './components/userCard/UserCard';
 import Confetti from 'react-confetti';
-import { IPlayerProfile } from '../../service/types/game/IPlayerProfile';
+import { IPlayerProfile } from '@/service/types/game/IPlayerProfile';
+import UserCard from './components/userCard/UserCard';
+import NavigateLinks from './components/navigateLinks/NavigateLinks';
 import classes from './endGameBackdrop.module.css';
 
 export default function EndGameBackdrop() {

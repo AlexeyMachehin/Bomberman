@@ -1,3 +1,5 @@
+import { useAppSelector } from './utils/hooks';
+import { selectorIsLoaderOn } from './store/user/selectors';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ForumPage from './pages/forumPage/ForumPage';
@@ -14,11 +16,9 @@ import ErrorSnackbar from './features/alerts/ErrorSnackbar';
 import ProfilePage from './pages/profile/Profile';
 import ProfileChangePage from './pages/profileChange/ProfileChange';
 import PasswordChangePage from './pages/passwordChange/PasswordChange';
-import { Route as RoutePath } from './const';
-import { useAppSelector } from './utils/hooks';
-import { selectorIsLoaderOn } from './store/user/selectors';
 import Loader from './features/loader/Loader';
 import AudioPlayer from './features/audioPlayer/AudioPlayer';
+import { Route as RoutePath } from './const';
 import './styles/App.css';
 
 function App() {

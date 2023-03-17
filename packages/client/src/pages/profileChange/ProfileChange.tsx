@@ -2,10 +2,12 @@ import { Container, Typography, Button, Stack, TextField } from '@mui/material';
 import {
   IProfileChangeFormValues,
   useProfileChangeFormik,
-} from '../../features/profileChange/hooks/useProfileChangeFormik';
+} from '@/features/profileChange/hooks/useProfileChangeFormik';
 import { getUser, updateProfile } from '@/store/user/thunk';
 import { useAppDispatch } from '@/utils/hooks';
 import { useNavigate } from 'react-router-dom';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
+import { GoBackButton } from '@/features/goBackButton/GoBackButton';
 import { Route as RoutePath } from '@/const';
 
 const ProfileChange = () => {
@@ -32,17 +34,20 @@ const ProfileChange = () => {
   if (!formik) return null;
 
   return (
-    <Container>
-      <Typography component="h1" variant="h4" mb={3}>
-        Изменить данные
-      </Typography>
+    <Container data-testid="profileChange-component">
+      <div className="profilePageTitle">
+        <Typography component="h1" variant="h4" mb={3}>
+          Change data
+        </Typography>
+        <StartPageButton />
+      </div>
       <form onSubmit={formik.handleSubmit}>
         <Stack spacing={1} width={{ xs: '100%', md: '50%' }} mb={2}>
           <TextField
             value={formik.values.firstName}
             required
             id="firstName"
-            label="Имя"
+            label="Name"
             name="firstName"
             autoFocus
             error={formik.touched.firstName && Boolean(formik.errors.firstName)}
@@ -53,7 +58,7 @@ const ProfileChange = () => {
             value={formik.values.secondName}
             required
             id="secondName"
-            label="Фамилия"
+            label="Surname"
             name="secondName"
             error={
               formik.touched.secondName && Boolean(formik.errors.secondName)
@@ -65,7 +70,7 @@ const ProfileChange = () => {
             value={formik.values.displayName}
             required
             id="displayName"
-            label="Имя в игре"
+            label="Name in game"
             name="displayName"
             error={
               formik.touched.displayName && Boolean(formik.errors.displayName)
@@ -77,7 +82,7 @@ const ProfileChange = () => {
             value={formik.values.login}
             required
             id="login"
-            label="Логин"
+            label="Login"
             name="login"
             error={formik.touched.login && Boolean(formik.errors.login)}
             helperText={formik.touched.login && formik.errors.login}
@@ -97,7 +102,7 @@ const ProfileChange = () => {
             value={formik.values.phone}
             required
             id="phone"
-            label="Телефон"
+            label="Phone"
             name="phone"
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             helperText={formik.touched.phone && formik.errors.phone}
@@ -105,8 +110,9 @@ const ProfileChange = () => {
           />
         </Stack>
         <Button type="submit" variant="contained">
-          Сохранить
+          Save
         </Button>
+        <GoBackButton />
       </form>
     </Container>
   );

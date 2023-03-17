@@ -1,0 +1,4 @@
+.goBackButton {
+  background-color: var(--forumPageBackground) !important;
+  margin: 0 8px !important;
+}
