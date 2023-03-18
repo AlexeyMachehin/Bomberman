@@ -30,12 +30,9 @@ jobs:
       - name: Build, tag, and push image to Yandex Cloud Container Registry
         env:
 
-          CR_REGISTRY: crp6csdgt3p5mbfa9usd
-					
-          CR_REPOSITORY: game.practicum.yandex.ru
-					
-          IMAGE_TAG: ${{ github.sha }}
-				
+          CR_REGISTRY: crp6csdgt3p5mbfa9usd				
+          CR_REPOSITORY: game.practicum.yandex.ru			
+          IMAGE_TAG: ${{ github.sha }}			
           CLIENT_PORT: 3000
           SERVER_PORT: 3001
           POSTGRES_USER: postgres
