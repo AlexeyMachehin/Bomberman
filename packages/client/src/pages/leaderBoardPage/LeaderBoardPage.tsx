@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,8 +10,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { StartPageButton } from '@/features/startPageButton/StartPageButton';
-import { IPlayer } from '@/service/types/liderBoard/IPlayer';
-import { leaderBoardService } from '@/service/LeaderBoardService';
+import { RESOURCE_URL } from '@/const';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { selectorLeaders } from '@/store/user/selectors';
+import { getPlayers } from '@/store/user/thunk';
 import styles from './LeaderBoardPage.module.css';
 
 const Colors = ['gold', 'silver', 'goldenrod', 'tan'];
@@ -30,12 +32,11 @@ const getColor = (index: number) => {
 };
 
 const LeaderBoardPage = () => {
-  const [leaders, setLeaders] = useState<IPlayer[]>([]);
+  const dispatch = useAppDispatch();
+  const leaders = useAppSelector(selectorLeaders);
+
   useEffect(() => {
-    leaderBoardService.getPlayers().then(({ data }) => {
-      const leaders = data.map(player => player.data);
-      setLeaders(leaders);
-    });
+    dispatch(getPlayers());
   }, []);
 
   return (
@@ -50,7 +51,7 @@ const LeaderBoardPage = () => {
           {leaders.map((lider, index) => (
             <ListItem key={lider.id} className={styles.listItem}>
               <ListItemAvatar>
-                <Avatar src={lider.avatarURL} alt={lider.name}>
+                <Avatar src={`${RESOURCE_URL}${lider.avatarURL}`} alt={lider.name}>
                   <AccountCircleIcon />
                 </Avatar>
               </ListItemAvatar>

@@ -1,12 +1,20 @@
 import { useState, useEffect } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Confetti from 'react-confetti';
-import { IPlayerProfile } from '@/service/types/game/IPlayerProfile';
 import UserCard from './components/userCard/UserCard';
 import NavigateLinks from './components/navigateLinks/NavigateLinks';
+import { IPlayer } from '@/service/types/liderBoard/IPlayer';
 import classes from './endGameBackdrop.module.css';
 
-export default function EndGameBackdrop() {
+interface Props {
+  user: IPlayer;
+  level: number;
+  isWin: boolean;
+  winCb: () => void;
+  loseCb: () => void;
+}
+
+export default function EndGameBackdrop({user, level, isWin, winCb, loseCb}: Props) {
   const [width, setWidth] = useState(document.documentElement.clientWidth);
   const [height, setHeight] = useState(document.documentElement.clientHeight);
 
@@ -21,31 +29,6 @@ export default function EndGameBackdrop() {
       window.removeEventListener('resize', onResize);
     };
   }, []);
-
-  const isWin = true;
-  const stage = 1;
-
-  const users: IPlayerProfile[] = [
-    {
-      name: 'Danil',
-      score: 12345,
-      timeToDead: 4,
-      kills: 5,
-      damage: 435,
-      avatarURL:
-        'https://pixelbox.ru/wp-content/uploads/2021/05/ava-vk-animal-91.jpg',
-      id: 1,
-    },
-    {
-      name: 'Anton',
-      score: 54321,
-      timeToDead: 3,
-      kills: 7,
-      damage: 445335,
-      avatarURL: 'https://avatarko.ru/img/kartinka/1/pozitiv_smailik.jpg',
-      id: 2,
-    },
-  ];
 
   return (
     <div>
@@ -63,13 +46,11 @@ export default function EndGameBackdrop() {
               Game over
             </h2>
           )}
-          <div className={classes.stageTitle}>Stage {stage}</div>
+          <div className={classes.stageTitle}>Stage {level}</div>
           <div className={classes.cardsWrapper}>
-            {users.map((user: IPlayerProfile) => (
-              <UserCard key={user.id} user={user} />
-            ))}
+            <UserCard key={user.id} user={user} />
           </div>
-          <NavigateLinks isWin={isWin} />
+          <NavigateLinks isWin={isWin} winCb={winCb} loseCb={loseCb}/>
         </div>
       </Backdrop>
       {isWin && (
