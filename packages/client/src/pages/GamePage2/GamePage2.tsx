@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import classes from './GamePage2.module.css';
 import sprite from '../../assets/sprite.png';
 import { Player } from '../../features/GameEngine2/Player';
+import { PlayerDeath } from '../../features/GameEngine2/PlayerDeath';
 import { Enemy } from '../../features/GameEngine2/Enemy';
+import { EnemyDeath } from '../../features/GameEngine2/EnemyDeath';
 import { Bomb } from '../../features/GameEngine2/Bomb';
 import { Explosion, Direction } from '../../features/GameEngine2/Explosion';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
@@ -22,6 +24,8 @@ export enum MapElement {
   bomb = 2,
   enemy = 3,
   explosion = 4,
+  enemyDeath = 5,
+  playerDeath = 6,
   empty = ' ',
 }
 
@@ -68,7 +72,7 @@ export default function GamePage2() {
   ];
 
   let cells: (MapElement | null)[][] = [];
-  let entities: (Enemy | Bomb | Explosion)[] = [];
+  let entities: (Enemy | Bomb | Explosion | EnemyDeath | PlayerDeath)[] = [];
 
   const generateMap = () => {
     cells = [];
@@ -126,6 +130,13 @@ export default function GamePage2() {
 
     const player = new Player(1, 1, context);
 
+    const endGame = () => {
+      player.drop();
+      setTimeout(() => {
+        canvasGameState = GameState.Over;
+      }, 1500);
+    };
+
     function blowUpBomb(bomb: Bomb) {
       if (!bomb.alive) return;
       bomb.alive = false;
@@ -167,68 +178,30 @@ export default function GamePage2() {
             return;
           }
 
-          if (player.x === col * cell && player.y === row * cell) {
-            canvasGameState = GameState.Over;
-          } else if (
-            player.x === col * cell &&
-            player.y > row * cell &&
-            player.y < (row + 1) * cell
-          ) {
-            canvasGameState = GameState.Over;
-          } else if (
-            player.x === col * cell &&
-            player.y + cell > row * cell &&
-            player.y + cell < (row + 1) * cell
-          ) {
-            canvasGameState = GameState.Over;
-          } else if (
-            player.y === row * cell &&
-            player.x > col * cell &&
-            player.x < (col + 1) * cell
-          ) {
-            canvasGameState = GameState.Over;
-          } else if (
-            player.y === row * cell &&
-            player.x + cell > col * cell &&
-            player.x + cell < (col + 1) * cell
-          ) {
-            canvasGameState = GameState.Over;
+          const isPlayerInExplosionExactly = player.x === col * cell && player.y === row * cell;
+          const isPlayerIntersectExplosionDown = player.x === col * cell && player.y + cell > row * cell && player.y + cell < (row + 1) * cell;
+          const isPlayerIntersectExplosionRight = player.y === row * cell && player.x + cell > col * cell && player.x + cell < (col + 1) * cell;
+          const isPlayerIntersectExplosionUp = player.x === col * cell && player.y > row * cell && player.y < (row + 1) * cell;
+          const isPlayerIntersectExplosionLeft = player.y === row * cell && player.x > col * cell && player.x < (col + 1) * cell;
+
+          if (isPlayerInExplosionExactly || isPlayerIntersectExplosionDown || isPlayerIntersectExplosionRight || isPlayerIntersectExplosionUp || isPlayerIntersectExplosionLeft) {
+            entities.push(new PlayerDeath(player));
+            endGame();
           }
 
           entities
             .filter(entity => entity.type === MapElement.enemy)
             .forEach(enemy => {
-              if (enemy.x === col * cell && enemy.y === row * cell) {
+              const isEnemyInExplosionExactly = enemy.x === col * cell && enemy.y === row * cell;
+              const isEnemyIntersectExplosionDown = enemy.x === col * cell && enemy.y + cell > row * cell && enemy.y + cell < (row + 1) * cell;
+              const isEnemyIntersectExplosionRight = enemy.y === row * cell && enemy.x + cell > col * cell && enemy.x + cell < (col + 1) * cell;
+              const isEnemyIntersectExplosionUp = enemy.x === col * cell && enemy.y > row * cell && enemy.y < (row + 1) * cell;
+              const isEnemyIntersectExplosionLeft = enemy.y === row * cell && enemy.x > col * cell && enemy.x < (col + 1) * cell;
+
+              if (isEnemyInExplosionExactly || isEnemyIntersectExplosionDown || isEnemyIntersectExplosionRight || isEnemyIntersectExplosionUp || isEnemyIntersectExplosionLeft) {
                 enemy.alive = false;
                 canvasScore += 100;
-              } else if (
-                enemy.x === col * cell &&
-                enemy.y > row * cell &&
-                enemy.y < (row + 1) * cell
-              ) {
-                enemy.alive = false;
-                canvasScore += 100;
-              } else if (
-                enemy.x === col * cell &&
-                enemy.y + cell > row * cell &&
-                enemy.y + cell < (row + 1) * cell
-              ) {
-                enemy.alive = false;
-                canvasScore += 100;
-              } else if (
-                enemy.y === row * cell &&
-                enemy.x > col * cell &&
-                enemy.x < (col + 1) * cell
-              ) {
-                enemy.alive = false;
-                canvasScore += 100;
-              } else if (
-                enemy.y === row * cell &&
-                enemy.x + cell > col * cell &&
-                enemy.x + cell < (col + 1) * cell
-              ) {
-                enemy.alive = false;
-                canvasScore += 100;
+                entities.push(new EnemyDeath(enemy as Enemy));
               }
             });
 
@@ -253,7 +226,8 @@ export default function GamePage2() {
 
       enemies.forEach(enemy => {
         if (enemy.checkPlayerTouch(player)) {
-          canvasGameState = GameState.Over;
+          entities.push(new PlayerDeath(player));
+          endGame();
         }
       });
 

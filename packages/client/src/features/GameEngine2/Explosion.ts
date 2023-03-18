@@ -7,7 +7,6 @@ export interface Direction {
 }
 
 export class Explosion extends Entity {
-  alive: boolean;
   timer: number;
   direction: Direction;
   distanceFromCenter: number;
@@ -27,7 +26,6 @@ export class Explosion extends Entity {
     context: CanvasRenderingContext2D
   ) {
     super(row, column, context);
-    this.alive = true;
     this.timer = 0.4;
     this.direction = direction;
     this.distanceFromCenter = distanceFromCenter;

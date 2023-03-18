@@ -105,7 +105,17 @@ export class Player extends Entity {
     return true;
   }
 
+  drop() {
+    this.alive = false;
+    this.x = 0;
+    this.y = 0;
+  }
+
   move(cells: (MapElement | null)[][]) {
+    if (!this.alive) {
+      return;
+    }
+
     for (let row = 0; row < cells.length; row++) {
       for (let column = 0; column < cells[0].length; column++) {
         switch (cells[row][column]) {
@@ -134,6 +144,10 @@ export class Player extends Entity {
   }
 
   update(step: number) {
+    if (!this.alive) {
+      return;
+    }
+
     this.timer += step;
     const interval = Math.ceil(this.timer / 0.25);
 
@@ -172,6 +186,10 @@ export class Player extends Entity {
   }
 
   render() {
+    if (!this.alive) {
+      return;
+    }
+
     this.context.drawImage(
       this.sprite,
       this.spriteX,

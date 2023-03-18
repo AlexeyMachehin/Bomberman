@@ -4,7 +4,6 @@ import { Player } from './Player';
 
 export class Enemy extends Entity {
   speed: number;
-  alive: boolean;
   axis: 'x' | 'y';
   direction: -1 | 1;
   timer: number;
@@ -18,7 +17,6 @@ export class Enemy extends Entity {
     this.direction = Math.random() < 0.5 ? -1 : 1;
     this.timer = 0;
     this.spriteX = 48;
-    this.alive = true;
   }
 
   move(cells: (MapElement | null)[][]) {

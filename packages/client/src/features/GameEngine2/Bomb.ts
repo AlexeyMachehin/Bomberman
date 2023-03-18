@@ -3,7 +3,6 @@ import { MapElement } from '../../pages/GamePage2/GamePage2';
 
 export class Bomb extends Entity {
   size: number;
-  alive: boolean;
   timer: number;
   spriteX: number;
   blowUpCb: (bomb: Bomb) => void;
@@ -18,7 +17,6 @@ export class Bomb extends Entity {
   ) {
     super(row, column, context);
     this.size = size;
-    this.alive = true;
     this.timer = 1.8;
     this.spriteX = 0;
     this.blowUpCb = blowUpCb;

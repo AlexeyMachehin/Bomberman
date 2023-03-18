@@ -1,5 +1,4 @@
 import sprite from '../../assets/sprite.png';
-import { MapElement } from '../../pages/GamePage2/GamePage2';
 
 export abstract class Entity {
   row: number;
@@ -8,6 +7,7 @@ export abstract class Entity {
   y: number;
   context: CanvasRenderingContext2D;
   sprite: HTMLImageElement;
+  alive: boolean;
   readonly spriteSize: number = 16;
   readonly cellSize: number = 32;
 
@@ -19,6 +19,7 @@ export abstract class Entity {
     this.context = context;
     this.sprite = new Image();
     this.sprite.src = sprite;
+    this.alive = true;
   }
 
   abstract update(step?: number): void;
