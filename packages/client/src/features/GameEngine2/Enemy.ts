@@ -21,89 +21,48 @@ export class Enemy extends Entity {
     this.alive = true;
   }
 
-  move(cells: any) {
-    let count = 0;
-
+  move(cells: (MapElement | null)[][]) {
     for (let row = 0; row < cells.length; row++) {
       for (let column = 0; column < cells[0].length; column++) {
+        const isWallUp =
+          this.y === (row + 1) * this.cellSize &&
+          this.x === column * this.cellSize;
+        const isWallRight =
+          this.x + this.cellSize === column * this.cellSize &&
+          this.y === row * this.cellSize;
+        const isWallDown =
+          this.y + this.cellSize === row * this.cellSize &&
+          this.x === column * this.cellSize;
+        const isWallLeft =
+          this.x === (column + 1) * this.cellSize &&
+          this.y === row * this.cellSize;
+
+        const isDirectionUp = this.direction === -1 && this.axis === 'y';
+        const isDirectionRight = this.direction === 1 && this.axis === 'x';
+        const isDirectionDown = this.direction === 1 && this.axis === 'y';
+        const isDirectionLeft = this.direction === -1 && this.axis === 'x';
+
         switch (cells[row][column]) {
           case MapElement.wall:
           case MapElement.softWall:
           case MapElement.bomb:
-            if (
-              this.x === (column + 1) * this.cellSize &&
-              this.y === row * this.cellSize
-            ) {
-              count++;
+            if (isWallLeft && isWallRight && isWallUp && isWallDown) {
+              return;
             }
 
-            if (
-              this.x + this.cellSize === column * this.cellSize &&
-              this.y === row * this.cellSize
-            ) {
-              count++;
-            }
-
-            if (
-              this.y === (row + 1) * this.cellSize &&
-              this.x === column * this.cellSize
-            ) {
-              count++;
-            }
-
-            if (
-              this.y + this.cellSize === row * this.cellSize &&
-              this.x === column * this.cellSize
-            ) {
-              count++;
-            }
-        }
-      }
-    }
-
-    if (count === 4) {
-      return;
-    }
-
-    for (let row = 0; row < cells.length; row++) {
-      for (let column = 0; column < cells[0].length; column++) {
-        switch (cells[row][column]) {
-          case MapElement.wall:
-          case MapElement.softWall:
-          case MapElement.bomb:
-            if (
-              this.direction === -1 &&
-              this.axis === 'x' &&
-              this.x === (column + 1) * this.cellSize &&
-              this.y === row * this.cellSize
-            ) {
+            if (isDirectionLeft && isWallLeft) {
               this.axis = Math.random() < 0.5 ? 'x' : 'y';
               this.direction = Math.random() < 0.5 ? -1 : 1;
               return;
-            } else if (
-              this.direction === 1 &&
-              this.axis === 'x' &&
-              this.x + this.cellSize === column * this.cellSize &&
-              this.y === row * this.cellSize
-            ) {
+            } else if (isDirectionRight && isWallRight) {
               this.axis = Math.random() < 0.5 ? 'x' : 'y';
               this.direction = Math.random() < 0.5 ? -1 : 1;
               return;
-            } else if (
-              this.direction === -1 &&
-              this.axis === 'y' &&
-              this.y === (row + 1) * this.cellSize &&
-              this.x === column * this.cellSize
-            ) {
+            } else if (isDirectionUp && isWallUp) {
               this.axis = Math.random() < 0.5 ? 'x' : 'y';
               this.direction = Math.random() < 0.5 ? -1 : 1;
               return;
-            } else if (
-              this.direction === 1 &&
-              this.axis === 'y' &&
-              this.y + this.cellSize === row * this.cellSize &&
-              this.x === column * this.cellSize
-            ) {
+            } else if (isDirectionDown && isWallDown) {
               this.axis = Math.random() < 0.5 ? 'x' : 'y';
               this.direction = Math.random() < 0.5 ? -1 : 1;
               return;
@@ -115,7 +74,8 @@ export class Enemy extends Entity {
     this[this.axis] += this.speed * this.direction;
   }
 
-  checkPlayerTouch(player: Player) {
+  // Проверяет, было ли касание игрока
+  checkPlayerTouch(player: Player): boolean {
     if (
       ((player.x + this.cellSize > this.x && player.x < this.x) ||
         (player.x < this.x + this.cellSize && player.x > this.x)) &&
@@ -131,6 +91,8 @@ export class Enemy extends Entity {
     ) {
       return true;
     }
+
+    return false;
   }
 
   update(step: number) {

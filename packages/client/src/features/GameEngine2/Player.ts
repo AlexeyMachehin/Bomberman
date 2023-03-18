@@ -33,27 +33,48 @@ export class Player extends Entity {
     };
   }
 
+  // Проверяет возможность движения в определенном направлении (могут мешать стены и бомбы)
   canMove(row: number, column: number) {
-    if ((this.direction.LEFT || this.direction.RIGHT) && (this.direction.UP || this.direction.DOWN))  {
+    if (
+      (this.direction.LEFT || this.direction.RIGHT) &&
+      (this.direction.UP || this.direction.DOWN)
+    ) {
       return false;
     }
 
+    const isIntersectionLeftX =
+      this.x - this.speed < (column + 1) * this.cellSize &&
+      this.x >= (column + 1) * this.cellSize;
+
+    const isIntersectionRightX =
+      this.x + this.cellSize + this.speed > column * this.cellSize &&
+      this.x + this.cellSize <= column * this.cellSize;
+
+    const isIntersectionUpY =
+      this.y - this.speed < (row + 1) * this.cellSize &&
+      this.y >= (row + 1) * this.cellSize;
+
+    const isIntersectionDownY =
+      this.y + this.cellSize + this.speed > row * this.cellSize &&
+      this.y + this.cellSize <= row * this.cellSize;
+
+    const isTouchOrIntersectionX =
+      (this.x >= column * this.cellSize &&
+        this.x < (column + 1) * this.cellSize) ||
+      (this.x + this.cellSize > column * this.cellSize &&
+        this.x + this.cellSize <= (column + 1) * this.cellSize);
+
+    const isTouchOrIntersectionY =
+      (this.y >= row * this.cellSize && this.y < (row + 1) * this.cellSize) ||
+      (this.y + this.cellSize > row * this.cellSize &&
+        this.y + this.cellSize <= (row + 1) * this.cellSize);
+
     if (
-      (this.direction.LEFT &&
-        this.x - this.speed < (column + 1) * this.cellSize &&
-        this.x >= (column + 1) * this.cellSize &&
-        ((this.y >= row * this.cellSize &&
-          this.y < (row + 1) * this.cellSize) ||
-          (this.y + this.cellSize > row * this.cellSize &&
-            this.y + this.cellSize <= (row + 1) * this.cellSize))) ||
-      (this.direction.RIGHT &&
-        this.x + this.cellSize + this.speed > column * this.cellSize &&
-        this.x + this.cellSize <= column * this.cellSize &&
-        ((this.y >= row * this.cellSize &&
-          this.y < (row + 1) * this.cellSize) ||
-          (this.y + this.cellSize > row * this.cellSize &&
-            this.y + this.cellSize <= (row + 1) * this.cellSize)))
+      ((this.direction.LEFT && isIntersectionLeftX) ||
+        (this.direction.RIGHT && isIntersectionRightX)) &&
+      isTouchOrIntersectionY
     ) {
+      // Округление координат для более комфортного управления персонажем при смене направления
       if (this.y % this.cellSize <= 8 && this.y % this.cellSize > 0) {
         this.y -= this.y % this.cellSize;
       }
@@ -66,21 +87,10 @@ export class Player extends Entity {
     }
 
     if (
-      (this.direction.UP &&
-        this.y - this.speed < (row + 1) * this.cellSize &&
-        this.y >= (row + 1) * this.cellSize &&
-        ((this.x >= column * this.cellSize &&
-          this.x < (column + 1) * this.cellSize) ||
-          (this.x + this.cellSize > column * this.cellSize &&
-            this.x + this.cellSize <= (column + 1) * this.cellSize))) ||
-      (this.direction.DOWN &&
-        this.y + this.cellSize + this.speed > row * this.cellSize &&
-        this.y + this.cellSize <= row * this.cellSize &&
-        ((this.x >= column * this.cellSize &&
-          this.x < (column + 1) * this.cellSize) ||
-          (this.x + this.cellSize > column * this.cellSize &&
-            this.x + this.cellSize <= (column + 1) * this.cellSize)))
+      (this.direction.UP && isIntersectionUpY && isTouchOrIntersectionX) ||
+      (this.direction.DOWN && isIntersectionDownY && isTouchOrIntersectionX)
     ) {
+      // Округление координат для более комфортного управления персонажем при смене направления
       if (this.x % this.cellSize <= 8 && this.x % this.cellSize > 0) {
         this.x -= this.x % this.cellSize;
       }
@@ -95,7 +105,7 @@ export class Player extends Entity {
     return true;
   }
 
-  move(cells: any) {
+  move(cells: (MapElement | null)[][]) {
     for (let row = 0; row < cells.length; row++) {
       for (let column = 0; column < cells[0].length; column++) {
         switch (cells[row][column]) {
