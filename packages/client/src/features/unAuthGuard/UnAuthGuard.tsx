@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../../src/utils/hooks';
+import { useAppSelector } from '@/utils/hooks';
 import { useSearchParams } from 'react-router-dom';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Route as RoutePath } from '@/const';
