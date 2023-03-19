@@ -2,31 +2,27 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { IPlayerProfile } from '../../../../service/types/game/IPlayerProfile';
+import { IPlayer } from '@/service/types/liderBoard/IPlayer';
 import classes from './userCard.module.css';
+import { RESOURCE_URL } from '@/const';
 
-export default function UserCard(props: { user: IPlayerProfile }) {
+interface Props {
+  user: IPlayer;
+}
+
+export default function UserCard({ user }: Props) {
   return (
     <Card className={classes.userCard}>
       <CardMedia
         className={classes.userCardAvatar}
-        image={props.user.avatarURL}
+        image={`${RESOURCE_URL}${user.avatarURL}`}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {props.user.name}
+          {user.displayName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Score: {props.user.score}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Time to dead: {props.user.timeToDead}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Kills: {props.user.kills}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Damage: {props.user.damage}
+          Score: {user.score}
         </Typography>
       </CardContent>
     </Card>

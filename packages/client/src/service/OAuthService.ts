@@ -1,4 +1,4 @@
-import { REDIRECT_URI } from '@/common/consts/consts';
+import { REDIRECT_URI_DEV, REDIRECT_URI_PROD } from '@/common/consts/consts';
 import { AxiosService } from './AxiosService';
 import { ApiEndpoint } from './types/api/enums/ApiEndpoint';
 
@@ -9,7 +9,7 @@ class OAuthService extends AxiosService {
 
   public async getServiceId(): Promise<{ service_id: string }> {
     return this.get(ApiEndpoint.GET_SERVICE_ID, {
-      params: { redirect_uri: REDIRECT_URI },
+      params: { redirect_uri: process.env.NODE_ENV === 'development' ? REDIRECT_URI_DEV : REDIRECT_URI_PROD },
     });
   }
 

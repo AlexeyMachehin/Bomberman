@@ -16,6 +16,8 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { CURRENT_MAIN_TOPICS } from '../../../../../../service/types/forumPage/currentMainTopic';
 import classes from './askQuestionModal.module.css';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { loadSection, sendQuestion } from '@/store/forum/thunk';
 
 interface IAskQuestionModal {
   currentMainTheme: string;
@@ -30,6 +32,32 @@ export default function AskQuestionModal({
     useState<string>(currentMainTheme);
   const handleChange = (event: SelectChangeEvent) => {
     setTitleInputValue(event.target.value);
+  };
+
+  const [newQuestionTitle, setNewQuestionTitle] = useState<string>('');
+  const [newQuestionContent, setNewQuestionContent] = useState<string>('');
+
+  const currentUser = useAppSelector(state => state.userReducer.user);
+  const currentSection = useAppSelector(
+    state => state.forumReducer.currentSection
+  );
+
+  const dispatch = useAppDispatch();
+
+  const handleSendButton = () => {
+    if (!currentSection || !currentUser) return;
+    dispatch(
+      sendQuestion({
+        title: newQuestionTitle,
+        time: new Date().toDateString(),
+        userId: currentUser.id,
+        content: newQuestionContent,
+        sectionId: currentSection.id,
+      })
+    );
+    dispatch(loadSection(currentSection.title));
+
+    setOpen(false);
   };
 
   return (
@@ -77,14 +105,27 @@ export default function AskQuestionModal({
           <TextField
             margin="dense"
             fullWidth
-            label="message"
+            label="title"
             multiline
             maxRows={20}
+            onChange={event => {
+              setNewQuestionTitle(event.target.value);
+            }}
+          />
+          <TextField
+            margin="dense"
+            fullWidth
+            label="content"
+            multiline
+            maxRows={20}
+            onChange={event => {
+              setNewQuestionContent(event.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={() => setOpen(false)}>Send</Button>
+          <Button onClick={handleSendButton}>Send</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -1,40 +1,29 @@
 import * as React from 'react';
+import { useAppDispatch } from '@/utils/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import HowToPlayModal from '../howToPlayModal/HowToPlayModal';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
+import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
+import AboutGameModal from '../aboutGameModal/AboutGameModal';
+import { logout } from '@/store/user/thunk';
+import { Route as RoutePath } from '@/const';
 import classes from './navigateLinks.module.css';
-import Alert from '@mui/material/Alert';
-import { useState } from 'react';
-import { useAppDispatch } from '../../../../utils/hooks';
-import { logout } from '../../../../store/user/thunk';
-import {
-  setError,
-  isOpenErrorSnackbar,
-} from '../../../../store/errorSnackbar/errorSnackbarSlice';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
 export default function NavigateLinks() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [logoutError, setLogoutError] = useState<null | string>(null);
 
   const handleLogout = async () => {
-    try {
-      dispatch(logout())
-        .catch(error => {
-          dispatch(isOpenErrorSnackbar(true));
-          dispatch(setError(error));
-        })
-        .then(() => navigate('/login'));
-      setLogoutError(null);
-    } catch (e) {
-      if (typeof e === 'string') {
-        setLogoutError(e);
-      }
-    }
+    dispatch(logout()).then(() => {
+      document.getElementById('audioPlayerOffButtonId')?.click();
+      dispatch(setAudioTrackSRC('@/../static/Main.mp3'));
+      navigate(RoutePath.LOGIN);
+    });
   };
 
   return (
@@ -51,22 +40,41 @@ export default function NavigateLinks() {
       }}
       onClick={preventDefault}>
       <Tooltip title="Logout from system">
-        <Button href="#text-buttons" onClick={handleLogout}>
+        <Button
+          href="#text-buttons"
+          onClick={() => {
+            handleLogout();
+          }}>
           Logout
         </Button>
       </Tooltip>
+      <Tooltip title="Go to Profile/Change profile data">
+        <Button
+          onClick={() => {
+            navigate(RoutePath.PROFILE);
+          }}>
+          Profile
+        </Button>
+      </Tooltip>
       <Tooltip title="Go to Forum">
-        <Button onClick={() => navigate('/forum')}>Forum</Button>
+        <Button
+          onClick={() => {
+            navigate(RoutePath.FORUM);
+          }}>
+          Forum
+        </Button>
       </Tooltip>
       <Tooltip title="Go to Leaderboard">
-        <Button onClick={() => navigate('/leaderboard')}>Leaderboard</Button>
+        <Button
+          onClick={() => {
+            navigate(RoutePath.LEADERBOARD);
+          }}>
+          Leaderboard
+        </Button>
       </Tooltip>
       <HowToPlayModal />
-      {logoutError && (
-        <Alert className={classes.errorWrapper} severity="error">
-          {logoutError}
-        </Alert>
-      )}
+      <AboutGameModal />
+      <AudioPlayerButton />
     </Box>
   );
 }

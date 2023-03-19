@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../../src/utils/hooks';
+import { useAppSelector } from '@/utils/hooks';
 import { createPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 
 export default function AuthGuard() {

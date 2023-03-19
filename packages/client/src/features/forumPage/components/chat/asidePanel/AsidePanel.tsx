@@ -7,12 +7,13 @@ import Button from '@mui/material/Button';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AskQuestionModal from './askQuestionModal/AskQuestionModal';
-import { IQuestion } from '../../../../../service/types/forumPage/IQuestion';
+import { Route as RoutePath } from '@/const';
+import { IQuestion } from '@/service/types/forumPage/IQuestion';
 import classes from './asidePanel.module.css';
 
 interface IAsidePanelProps {
   selectedQuestion: IQuestion | null;
-  foundedQuestions: IQuestion[];
+  foundedQuestions: IQuestion[] | undefined;
 }
 
 const SELECTED_QUESTION_COLOR = '#4caf4f2f';
@@ -84,13 +85,13 @@ export default function AsidePanel({
   };
 
   const sortAsidePanelItems = (items: IQuestion[]) => {
-    return items.sort((a: IQuestion, b: IQuestion) =>
+    return items?.sort((a: IQuestion, b: IQuestion) =>
       a.title.localeCompare(b.title)
     );
   };
 
   const asidePanelItems = useMemo(
-    () => sortAsidePanelItems(foundedQuestions),
+    () => sortAsidePanelItems(foundedQuestions ? [...foundedQuestions] : []),
     [foundedQuestions]
   );
 
@@ -123,7 +124,7 @@ export default function AsidePanel({
           <Link
             className={classes.goBackLink}
             onClick={() => {
-              navigate('/forum');
+              navigate(RoutePath.FORUM);
             }}>
             Go back to main list
           </Link>

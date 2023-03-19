@@ -4,6 +4,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ISignupRequestDto } from '../../service/types/Signup/request/ISignupRequestDto';
 import { oAuthService } from './../../service/OAuthService';
 import { userService } from '@/service/UserService';
+import { IUserRequestProfileDto } from '../../service/types/User/request/IUserRequestProfileDto';
+import { IUserRequestPasswordDto } from '../../service/types/User/request/IUserRequestPasswordDto';
+import { leaderBoardService } from '../../service/LeaderBoardService';
+import { IPlayer } from '../../service/types/liderBoard/IPlayer';
 
 export const getUser = createAsyncThunk('user/getUser', async () => {
   const response = await authService.getUser();
@@ -52,5 +56,42 @@ export const signInYandex = createAsyncThunk(
     redirect_uri: string;
   }): Promise<any> => {
     return await oAuthService.signInYandex(code, redirect_uri);
+  }
+);
+
+export const updateAvatar = createAsyncThunk(
+  'user/updateAvatar',
+  async (file: File) => {
+    await userService.updateAvatar(file);
+  }
+);
+
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async (dto: IUserRequestProfileDto) => {
+    await userService.updateProfile(dto);
+  }
+);
+
+export const updatePassword = createAsyncThunk(
+  'auth/updatePassword',
+  async (dto: IUserRequestPasswordDto) => {
+    await userService.updatePassword(dto);
+  }
+);
+
+export const addPlayer = createAsyncThunk(
+  'leaderboard/addPlayer',
+  async (player: IPlayer) => {
+    await leaderBoardService.addPlayer(player);
+  }
+);
+
+export const getPlayers = createAsyncThunk(
+  'leaderboard/getPlayers',
+  async () => {
+    const response = await leaderBoardService.getPlayers();
+    const leaders = response.data.map(player => player.data);
+    return leaders;
   }
 );

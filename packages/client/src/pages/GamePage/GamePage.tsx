@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { GameLoop } from '../../features/GameEngine/GameLoop';
-import classes from './GamePage.module.css';
 
 export default function GamePage() {
   const canvasRef = useRef(null);

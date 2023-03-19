@@ -32,6 +32,8 @@ export class Message extends Model {
     field: 'user_id',
   })
   userId: string;
+  @BelongsTo(() => User)
+  user: User;
 
   @Index
   @Column(DataType.STRING(10000))
@@ -39,6 +41,15 @@ export class Message extends Model {
 
   @Column(DataType.STRING)
   time: string;
+
+  @Column(DataType.ARRAY(DataType.STRING))
+  reactions: string[];
+
+  @Column({
+    type: DataType.INTEGER,
+    field: 'answered_id',
+  })
+  answeredId: number;
 
   @ForeignKey(() => Question)
   @AllowNull(false)

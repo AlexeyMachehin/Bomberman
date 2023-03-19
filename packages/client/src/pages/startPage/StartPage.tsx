@@ -1,7 +1,7 @@
-import NavigateLinks from '../../features/startPage/components/navigateLinks/NavigateLinks';
-import NumberOfPlayersButtons from '../../features/startPage/components/numberOfPlayersButtons/NumberOfPlayersButtons';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Typography } from '@mui/material';
+import NumberOfPlayersButtons from '@/features/startPage/components/numberOfPlayersButtons/NumberOfPlayersButtons';
+import NavigateLinks from '@/features/startPage/components/navigateLinks/NavigateLinks';
 import classes from './startPage.module.css';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { useEffect } from 'react';

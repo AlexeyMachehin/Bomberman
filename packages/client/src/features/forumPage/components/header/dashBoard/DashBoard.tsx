@@ -5,6 +5,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { Divider } from '@mui/material';
 import { QuestionWithTopic } from '../../../../../service/types/forumPage/questionWithTopic';
 import classes from './dashBoard.module.css';
+import { useAppDispatch } from '@/utils/hooks';
+import { clearFoundedQuestions } from '@/store/forum/forumSlice';
 
 interface IDashBoard {
   foundedQuestions: QuestionWithTopic[];
@@ -12,23 +14,35 @@ interface IDashBoard {
 
 export default function DashBoard({ foundedQuestions }: IDashBoard) {
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
   return (
     <List className={classes.dashBoardWrapper}>
-      {foundedQuestions.map((question, index) => (
-        <div key={`${index}${question.topic}${question.id}`}>
-          <ListItem
-            className={classes.dashBoardItem}
-            button
-            onClick={() => {
-              navigate(`/forum/${question.topic}/${question.id}`);
-            }}>
-            <ListItemText primary={question.title} secondary={question.name} />
-            <ListItemText secondary={new Date(question.time).toDateString()} />
-          </ListItem>
+      {foundedQuestions.map((question, index) => {
+        const handleListItemClick = () => {
+          dispatch(clearFoundedQuestions());
+          navigate(`/forum/${question.section.title}/${question.id}`);
+        };
+        return (
+          <div key={`${index}${question.section.title}${question.id}`}>
+            <ListItem
+              className={classes.dashBoardItem}
+              button
+              onClick={handleListItemClick}>
+              <ListItemText
+                primary={question.title}
+                secondary={question.user.name}
+              />
+              <ListItemText
+                secondary={new Date(question.time).toDateString()}
+              />
+            </ListItem>
 
-          <Divider />
-        </div>
-      ))}
+            <Divider />
+          </div>
+        );
+      })}
     </List>
   );
 }
