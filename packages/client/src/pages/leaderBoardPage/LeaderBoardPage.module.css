@@ -21,3 +21,9 @@
 .listItem:first-child {
   border-top: 1px solid var(--leaderBoardBorder);
 }
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

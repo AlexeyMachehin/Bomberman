@@ -28,7 +28,6 @@ export class SiteTheme extends Model {
   @Column(DataType.STRING)
   title: string;
 
-  @AllowNull(false)
   @Column(DataType.STRING)
   description: string;
 }

@@ -7,6 +7,7 @@ import {
   DataType,
   ForeignKey,
   HasMany,
+  Index,
   Model,
   PrimaryKey,
   Table,
@@ -26,6 +27,7 @@ export class Question extends Model {
   @Column(DataType.INTEGER)
   override id: number;
 
+  @Index
   @AllowNull(false)
   @Column(DataType.STRING)
   title: string;

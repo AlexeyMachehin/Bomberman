@@ -2,10 +2,17 @@ import { SyntheticEvent } from 'react';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import classes from './navigateLinks.module.css';
+import { Link as RouterLink } from 'react-router-dom'
 
 const preventDefault = (event: SyntheticEvent) => event.preventDefault();
 
-export default function NavigateLinks(props: { isWin: boolean }) {
+interface Props {
+  isWin: boolean;
+  winCb: () => void;
+  loseCb: () => void;
+}
+
+export default function NavigateLinks({ isWin, winCb, loseCb }: Props) {
   return (
     <Box
       className={classes.navigateLinksWrapper}
@@ -16,13 +23,15 @@ export default function NavigateLinks(props: { isWin: boolean }) {
         },
       }}
       onClick={preventDefault}>
-      <Button href="#text-buttons">Restart game</Button>
-      <Button href="#text-buttons">Restart level</Button>
-      <Button href="#text-buttons">Leaderboard</Button>
-      {props.isWin && (
-        <Button className={classes.nextLevelButton} href="#text-buttons">
+      {isWin ? (
+        <Button className={classes.nextLevelButton} onClick={winCb}>
           Next level
         </Button>
+      ) : (
+        <>
+          <Button onClick={loseCb}>Restart game</Button>
+          <Button component={RouterLink} to="/leaderboard">Leaderboard</Button>
+        </>
       )}
     </Box>
   );

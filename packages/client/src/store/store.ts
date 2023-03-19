@@ -1,12 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
+// import { errorSnackbarSlice } from './errorSnackbar/errorSnackbarSlice';
+import { audioPlayerSlice } from './audioPlayer/audioPlayerSlice';
 import { userSlice } from './user/userSlice';
 import { forumSlice } from './forum/forumSlice';
+import { themeSlice } from './theme/themeSlice';
 
 export const createStore = () => {
   return configureStore({
     reducer: {
       userReducer: userSlice.reducer,
       forumReducer: forumSlice.reducer,
+      themeReducer: themeSlice.reducer,
+      audioPlayerReducer: audioPlayerSlice.reducer,
+      // errorSnackbarReducer: errorSnackbarSlice.reducer,
     },
   });
 };

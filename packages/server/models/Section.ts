@@ -5,6 +5,7 @@ import {
   Column,
   DataType,
   HasMany,
+  Index,
   Model,
   PrimaryKey,
   Table,
@@ -22,6 +23,7 @@ export class Section extends Model {
   @Column(DataType.INTEGER)
   override id: number;
 
+  @Index
   @AllowNull(false)
   @Column(DataType.STRING)
   title: string;

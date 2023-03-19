@@ -4,39 +4,9 @@ exports[`LeaderBoardPage renders correctly 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
-    <div>
-      <div
-        data-testid="leaderBoardPage-component"
-      >
-        <div
-          class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
-        >
-          <h1>
-            LiderboardPage
-          </h1>
-          <ul
-            class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
-          />
-        </div>
-      </div>
-    </div>
+    <div />
   </body>,
-  "container": <div>
-    <div
-      data-testid="leaderBoardPage-component"
-    >
-      <div
-        class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
-      >
-        <h1>
-          LiderboardPage
-        </h1>
-        <ul
-          class="MuiList-root MuiList-padding css-h4y409-MuiList-root"
-        />
-      </div>
-    </div>
-  </div>,
+  "container": <div />,
   "debug": [Function],
   "findAllByAltText": [Function],
   "findAllByDisplayValue": [Function],

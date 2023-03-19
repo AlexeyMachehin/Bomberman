@@ -1,15 +1,13 @@
 import { FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import DashBoard from './dashBoard/DashBoard';
-import { Button } from '@mui/material';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
 import classes from './header.module.css';
 import { useAppSelector, useAppDispatch } from '../../../../utils/hooks';
 import { findQuestions } from '@/store/forum/thunk';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
 
 const Search = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
@@ -27,8 +25,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const navigate = useNavigate();
-
   const foundedQuestions = useAppSelector(
     state => state.forumReducer.foundedQuestions
   );
@@ -62,13 +58,7 @@ export default function Header() {
           Forum
         </Typography>
       </div>
-      <Button
-        className={classes.startPageButton}
-        onClick={() => navigate('/')}
-        variant="outlined"
-        startIcon={<FirstPageIcon />}>
-        start page
-      </Button>
+      <StartPageButton />
     </div>
   );
 }

@@ -17,3 +17,8 @@ export const selectorIsLoaderOn = createSelector(
   [select],
   store => store.userReducer.isLoaderOn
 );
+
+export const selectorLeaders = createSelector(
+  [select],
+  store => store.userReducer.leaders
+);

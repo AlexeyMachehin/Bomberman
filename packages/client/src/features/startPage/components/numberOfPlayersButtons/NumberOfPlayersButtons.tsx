@@ -2,6 +2,8 @@ import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import ButtonBase from '@mui/material/ButtonBase';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
+import { Route as RoutePath } from '@/const';
 import classes from './numberOfPlayersButtons.module.css';
 
 const images = [
@@ -41,10 +43,15 @@ const ImageButton = styled(ButtonBase)(({ theme }) => ({
 }));
 
 export default function NumberOfPlayersButtons() {
+  const navigate = useNavigate();
+
   return (
     <Box className={classes.container}>
       {images.map(image => (
         <ImageButton
+          onClick={() => {
+            navigate(RoutePath.GAME);
+          }}
           focusRipple
           key={image.title}
           style={{

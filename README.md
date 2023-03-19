@@ -1,3 +1,29 @@
+<div align='center'>
+
+# Bomberman
+
+![node](https://img.shields.io/badge/node-15-green)
+![lerna](https://img.shields.io/badge/lerna-5.4.3-green)
+![vite](https://img.shields.io/badge/vite-3.0.7-green)
+![typescript](https://img.shields.io/badge/typescript-4.8.2-blue)
+![react](https://img.shields.io/badge/react-18.2.0-blueviolet)
+![redux](https://img.shields.io/badge/redux-8.0.5-blueviolet)
+
+</div>
+
+***
+
+## Демо:
+
+***
+
+## Описание:
+
+***
+## Стек технологий: 
+
+***
+
 ### Как запускать?
 
 1. Убедитесь что у вас установлен `node` и `docker`
@@ -6,6 +32,17 @@
 3. Выполните команду `yarn dev --scope=client` чтобы запустить только клиент
 4. Выполните команду `yarn dev --scope=server` чтобы запустить только server
 
+## Production окружение в докере
+Перед первым запуском выполните `node init.js`
+`docker compose up` - запустит три сервиса
+1. nginx, раздающий клиентскую статику (client)
+2. node, ваш сервер (server)
+3. postgres, вашу базу данных (postgres)
+
+Если вам понадобится только один сервис, просто уточните какой в команде
+`docker compose up {sevice_name}`, например `docker compose up server`
+
+***
 
 ### Как добавить зависимости?
 В этом проекте используется `monorepo` на основе [`lerna`](https://github.com/lerna/lerna)
@@ -44,33 +81,13 @@
 
 И чтобы посмотреть что получилось
 
-
 `yarn preview --scope client`
 `yarn preview --scope server`
 
-## Хуки
-В проекте используется [lefthook](https://github.com/evilmartians/lefthook)
-Если очень-очень нужно пропустить проверки, используйте `--no-verify` (но не злоупотребляйте :)
-
-## Ой, ничего не работает :(
-
-Откройте issue, я приду :)
-
-## Автодеплой статики на vercel
-Зарегистрируйте аккаунт на [vercel](https://vercel.com/)
-Следуйте [инструкции](https://vitejs.dev/guide/static-deploy.html#vercel-for-git)
-В качестве `root directory` укажите `packages/client`
-
-Все ваши PR будут автоматически деплоиться на vercel. URL вам предоставит деплоящий бот
-
-## Production окружение в докере
-Перед первым запуском выполните `node init.js`
 
 
-`docker compose up` - запустит три сервиса
-1. nginx, раздающий клиентскую статику (client)
-2. node, ваш сервер (server)
-3. postgres, вашу базу данных (postgres)
 
-Если вам понадобится только один сервис, просто уточните какой в команде
-`docker compose up {sevice_name}`, например `docker compose up server`
+
+
+
+

@@ -6,6 +6,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  Index,
   Model,
   PrimaryKey,
   Table,
@@ -34,6 +35,7 @@ export class Message extends Model {
   @BelongsTo(() => User)
   user: User;
 
+  @Index
   @Column(DataType.STRING(10000))
   message: string;
 

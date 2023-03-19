@@ -1,0 +1,18 @@
+.modalWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.textModal {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 800px;
+  height: 800px;
+  overflow-y: auto;
+  background-color: var(--modalBackground);
+  border: 2px solid var(--borderColor);
+  box-shadow: 24px;
+  padding: 32px;
+}
