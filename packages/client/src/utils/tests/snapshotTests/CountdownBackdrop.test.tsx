@@ -1,3 +1,4 @@
+import '../../../matchMedia.mock';
 import CountdownBackdrop from '@/features/countdownBackdrop/CountdownBackdrop';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';

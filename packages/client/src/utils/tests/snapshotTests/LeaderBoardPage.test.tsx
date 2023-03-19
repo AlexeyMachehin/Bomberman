@@ -1,3 +1,4 @@
+import '../../../matchMedia.mock';
 import LeaderBoardPage from '@/pages/leaderBoardPage/LeaderBoardPage';
 import { render } from '@testing-library/react';
 import { store } from '@/store/store';

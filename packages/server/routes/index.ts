@@ -1,5 +1,6 @@
 import forumController from '../controllers/ForumController';
 import themeController from '../controllers/ThemeController';
+import userController from '../controllers/UserController';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Router = require('express').Router;
@@ -15,5 +16,7 @@ router.post('/questions', forumController.addQuestion);
 router.post('/messages', forumController.addMessage);
 router.post('/reactions', forumController.addReaction);
 // routes for theme
-router.get('/theme', themeController.findTheme);
-router.post('/theme', themeController.createTheme);
+router.get('/theme', themeController.getUserTheme);
+router.post('/theme', themeController.setUserTheme);
+// routes for user
+router.post('/user', userController.createUser);

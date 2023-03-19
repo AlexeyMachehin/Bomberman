@@ -1,3 +1,4 @@
+import '../../matchMedia.mock';
 import ForumPage from '@/pages/forumPage/ForumPage';
 import Login from '@/pages/Login/Login';
 import Signup from '@/pages/Signup/Signup';

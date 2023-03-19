@@ -1,3 +1,4 @@
+import '../../../matchMedia.mock';
 import Loader from '@/features/loader/Loader';
 import { render } from '@testing-library/react';
 import { store } from '@/store/store';

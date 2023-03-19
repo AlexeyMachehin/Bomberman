@@ -1,3 +1,11 @@
 @import './nullstyle.css';
 @import './variables.css';
 @import '@fontsource/orbitron';
+
+:root[data-theme='light'] {
+  --startPageTitle: #4caf50;
+}
+
+:root[data-theme='dark'] {
+  --bstartPageTitle: #ffb74d;
+}
