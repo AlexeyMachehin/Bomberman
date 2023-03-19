@@ -1,7 +1,8 @@
-import { useAppDispatch } from '../../../utils/hooks';
+import { REDIRECT_URI_DEV, REDIRECT_URI_PROD } from '@/common/consts/consts';
+import { getServiceId } from '@/store/user/thunk';
+import { useAppDispatch } from '@/utils/hooks';
 import { Button } from '@mui/material';
-import { getServiceId } from '../../../store/user/thunk';
-import { REDIRECT_URI_PROD, REDIRECT_URI_DEV } from '../../../common/consts/consts';
+
 import classes from './yandexAuth.module.css';
 
 function YandexAuth() {
@@ -9,7 +10,7 @@ function YandexAuth() {
 
   const handleOnClick = () => {
     dispatch(getServiceId()).then(result => {
-      if(process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === 'development') {
         document.location = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${result.payload.service_id}&redirect_uri=${REDIRECT_URI_DEV}`;
       } else {
         document.location = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${result.payload.service_id}&redirect_uri=${REDIRECT_URI_PROD}`;

@@ -1,13 +1,15 @@
 import * as React from 'react';
+import { useAppDispatch } from '@/utils/hooks';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import HowToPlayModal from '../howToPlayModal/HowToPlayModal';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import { useAppDispatch } from '../../../../utils/hooks';
-import { logout } from '../../../../store/user/thunk';
 import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
 import { setAudioTrackSRC } from '@/store/audioPlayer/audioPlayerSlice';
+import AboutGameModal from '../aboutGameModal/AboutGameModal';
+import { logout } from '@/store/user/thunk';
+import { Route as RoutePath } from '@/const';
 import classes from './navigateLinks.module.css';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -20,7 +22,7 @@ export default function NavigateLinks() {
     dispatch(logout()).then(() => {
       document.getElementById('audioPlayerOffButtonId')?.click();
       dispatch(setAudioTrackSRC('@/../static/Main.mp3'));
-      navigate('/login');
+      navigate(RoutePath.LOGIN);
     });
   };
 
@@ -46,11 +48,18 @@ export default function NavigateLinks() {
           Logout
         </Button>
       </Tooltip>
+      <Tooltip title="Go to Profile/Change profile data">
+        <Button
+          onClick={() => {
+            navigate(RoutePath.PROFILE);
+          }}>
+          Profile
+        </Button>
+      </Tooltip>
       <Tooltip title="Go to Forum">
         <Button
           onClick={() => {
-            navigate('/forum');
-            document.getElementById('audioPlayerOnButtonId')?.click();
+            navigate(RoutePath.FORUM);
           }}>
           Forum
         </Button>
@@ -58,12 +67,13 @@ export default function NavigateLinks() {
       <Tooltip title="Go to Leaderboard">
         <Button
           onClick={() => {
-            navigate('/leaderboard');
+            navigate(RoutePath.LEADERBOARD);
           }}>
           Leaderboard
         </Button>
       </Tooltip>
       <HowToPlayModal />
+      <AboutGameModal />
       <AudioPlayerButton />
     </Box>
   );

@@ -7,7 +7,8 @@ import Button from '@mui/material/Button';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AskQuestionModal from './askQuestionModal/AskQuestionModal';
-import { IQuestion } from '../../../../../service/types/forumPage/IQuestion';
+import { Route as RoutePath } from '@/const';
+import { IQuestion } from '@/service/types/forumPage/IQuestion';
 import classes from './asidePanel.module.css';
 
 interface IAsidePanelProps {
@@ -123,7 +124,7 @@ export default function AsidePanel({
           <Link
             className={classes.goBackLink}
             onClick={() => {
-              navigate('/forum');
+              navigate(RoutePath.FORUM);
             }}>
             Go back to main list
           </Link>

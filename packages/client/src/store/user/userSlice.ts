@@ -1,4 +1,4 @@
-import { getUser, login, logout, signup } from './thunk';
+import { getUser, login, logout, signup, getPlayers } from './thunk';
 import { createSlice } from '@reduxjs/toolkit';
 import { userState } from './userState';
 
@@ -43,6 +43,9 @@ export const userSlice = createSlice({
     });
     builder.addCase(signup.fulfilled, state => {
       state.error = null;
+    });
+    builder.addCase(getPlayers.fulfilled, (state, action) => {
+      state.leaders = action.payload;
     });
   },
 });

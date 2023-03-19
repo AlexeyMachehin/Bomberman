@@ -1,3 +1,5 @@
+import { useAppSelector } from './utils/hooks';
+import { selectorIsLoaderOn } from './store/user/selectors';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ForumPage from './pages/forumPage/ForumPage';
@@ -6,7 +8,6 @@ import Chat from './features/forumPage/components/chat/Chat';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import LeaderBoard from './pages/leaderBoardPage/LeaderBoardPage';
-import GamePage from './pages/GamePage/GamePage';
 import AuthGuard from './features/authGuard/AuthGuard';
 import UnAuthGuard from './features/unAuthGuard/UnAuthGuard';
 import { Layout } from './features/layout/Layout';
@@ -14,11 +15,10 @@ import ErrorSnackbar from './features/alerts/ErrorSnackbar';
 import ProfilePage from './pages/profile/Profile';
 import ProfileChangePage from './pages/profileChange/ProfileChange';
 import PasswordChangePage from './pages/passwordChange/PasswordChange';
-import { Route as RoutePath } from './const';
-import { useAppSelector } from './utils/hooks';
-import { selectorIsLoaderOn } from './store/user/selectors';
+import GamePage2 from './pages/GamePage2/GamePage2';
 import Loader from './features/loader/Loader';
 import AudioPlayer from './features/audioPlayer/AudioPlayer';
+import { Route as RoutePath } from './const';
 import './styles/App.css';
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
             </Route>
             <Route element={<AuthGuard />}>
               <Route path={RoutePath.INDEX} element={<StartPage />} />
-              <Route path={RoutePath.GAME} element={<GamePage />} />
+              <Route path={RoutePath.GAME} element={<GamePage2 />} />
               <Route path={RoutePath.PROFILE} element={<ProfilePage />} />
               <Route
                 path={RoutePath.PROFILE_CHANGE}

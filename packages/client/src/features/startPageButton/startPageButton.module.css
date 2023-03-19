@@ -1,0 +1,6 @@
+.startPageButton {
+  height: 42px;
+  min-width: 190px !important;
+  background-color: var(--forumPageBackground) !important;
+  margin: 0 8px !important;
+}
