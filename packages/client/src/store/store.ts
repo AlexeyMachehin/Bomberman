@@ -1,13 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { audioPlayerSlice } from './audioPlayer/audioPlayerSlice';
 import { userSlice } from './user/userSlice';
+import { forumSlice } from './forum/forumSlice';
 
-export const store = configureStore({
-  reducer: {
-    userReducer: userSlice.reducer,
-    audioPlayerReducer: audioPlayerSlice.reducer,
-  },
-});
+export const createStore = () => {
+  return configureStore({
+    reducer: {
+      userReducer: userSlice.reducer,
+      forumReducer: forumSlice.reducer,
+      audioPlayerReducer: audioPlayerSlice.reducer,
+    },
+  });
+};
+
+export const store = createStore();
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;

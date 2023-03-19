@@ -9,19 +9,25 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { IMessage } from '../../../../../service/types/forumPage/IMessage';
 import { IQuestion } from '../../../../../service/types/forumPage/IQuestion';
-import { myProfile } from '../../../../mockData/myProfile';
 import classes from './chatPanel.module.css';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { loadSection, sendMessage } from '@/store/forum/thunk';
+import { useParams } from 'react-router-dom';
 
 interface IChatPanelProps {
   selectedQuestion: null | IQuestion;
 }
 
 export default function ChatPanel({ selectedQuestion }: IChatPanelProps) {
+  const { mainTopic } = useParams();
   const [inputValue, setInputValue] = useState<string>('');
   const [answerMessage, setAnswerMessage] = useState<null | JSX.Element>(null);
-  const [answerMessageComponent, setAnswerMessageComponent] =
-    useState<null | JSX.Element>(null);
+  const [answerMessageId, setAnswerMessageId] = useState<number | null>();
   const messagesPanelRef = useRef<HTMLDivElement>(null);
+
+  const currentUser = useAppSelector(state => state.userReducer.user);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (messagesPanelRef.current) {
@@ -53,26 +59,56 @@ export default function ChatPanel({ selectedQuestion }: IChatPanelProps) {
   const createAnswer = (newMessage: IMessage) => {
     const templateNewMessage = createAnswerTemplate(newMessage);
     setAnswerMessage(templateNewMessage);
+    setAnswerMessageId(newMessage.id);
   };
 
   const closeAnswerMessageBox = (): void => {
     setAnswerMessage(null);
+    setAnswerMessageId(null);
   };
 
-  const renderMessages = (messages: any) => {
-    return messages.map((message: IMessage) => (
-      <Message
-        createAnswer={createAnswer}
-        key={`${message.name}${message.id}`}
-        message={message}
-      />
-    ));
+  const renderMessages = (messages: IMessage[]) => {
+    return [...messages]
+      .sort((a, b) => +new Date(a.time) - +new Date(b.time))
+      .map((message: IMessage) => {
+        const answerMessage = message.answeredId
+          ? messages.find(item => item.id === message.answeredId)
+          : null;
+
+        return (
+          <Message
+            createAnswer={createAnswer}
+            key={`${message.name}${message.id}`}
+            message={message}
+            answerMessage={
+              answerMessage ? createAnswerTemplate(answerMessage) : null
+            }
+          />
+        );
+      });
   };
 
   const messages = useMemo(
     () => renderMessages(selectedQuestion?.messages ?? []),
     [selectedQuestion]
   );
+
+  const sendButtonHandler = () => {
+    if (inputValue === '') return;
+    closeAnswerMessageBox();
+    setInputValue('');
+    dispatch(
+      sendMessage({
+        userId: currentUser?.id,
+        message: inputValue,
+        time: new Date().toString(),
+        questionId: selectedQuestion?.id,
+        answeredId: answerMessageId,
+      })
+    ).then(() => {
+      if (mainTopic) dispatch(loadSection(mainTopic));
+    });
+  };
 
   return (
     <>
@@ -91,12 +127,7 @@ export default function ChatPanel({ selectedQuestion }: IChatPanelProps) {
         </div>
 
         <div ref={messagesPanelRef} className={classes.chatPanelMain}>
-          <>
-            {messages}
-
-            {/* test answer */}
-            {answerMessageComponent}
-          </>
+          {messages}
         </div>
 
         <div className={classes.chatPanelFooterWrapper}>
@@ -107,7 +138,6 @@ export default function ChatPanel({ selectedQuestion }: IChatPanelProps) {
                   <CloseIcon className={classes.answerMessageBoxCloseIcon} />
                 </IconButton>
               </div>
-
               {answerMessage}
             </div>
           )}
@@ -125,24 +155,7 @@ export default function ChatPanel({ selectedQuestion }: IChatPanelProps) {
             <Button
               className={classes.sendButton}
               component="button"
-              onClick={() => {
-                closeAnswerMessageBox();
-                setInputValue('');
-                setAnswerMessageComponent(
-                  <Message
-                    message={{
-                      name: myProfile.name,
-                      id: myProfile.id,
-                      isMyMessage: true,
-                      time: new Date().toDateString(),
-                      message: inputValue,
-                      avatarURL: myProfile.avatarURL,
-                    }}
-                    createAnswer={createAnswer}
-                    answerMessage={answerMessage}
-                  />
-                );
-              }}
+              onClick={sendButtonHandler}
               variant="outlined"
               endIcon={<SendIcon />}>
               Send

@@ -30,11 +30,21 @@ class ForumController {
     }
   }
 
+  async getSection(req: any, res: any, next: any) {
+    try {
+      const { section } = req.body;
+      const result = await forumService.getSection(section);
+      return res.json(result[0]);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async addQuestion(req: any, res: any, next: any) {
     try {
-      const payload = req.body;
+      const { question } = req.body;
 
-      const result = await forumService.addQuestion({ ...payload });
+      const result = await forumService.addQuestion(question);
       return res.json(result);
     } catch (error) {
       next(error);
@@ -45,6 +55,16 @@ class ForumController {
     try {
       const payload = req.body;
       const result = await forumService.addMessage({ ...payload });
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async addReaction(req: any, res: any, next: any) {
+    try {
+      const payload = req.body;
+      const result = await forumService.addReaction({ ...payload });
       return res.json(result);
     } catch (error) {
       next(error);

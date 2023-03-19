@@ -38,6 +38,9 @@ export class Question extends Model {
   })
   userId: string;
 
+  @BelongsTo(() => User)
+  user: User;
+
   @Column(DataType.STRING(1024))
   content: string;
 
