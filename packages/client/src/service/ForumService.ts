@@ -2,6 +2,7 @@ import { AxiosResponse } from 'axios';
 import { AxiosService, IBasePayload } from './AxiosService';
 import { IQuestion } from './types/forumPage/IQuestion';
 import { ISection } from './types/forumPage/ISection';
+import { ITopic } from './types/forumPage/ITopic';
 
 class ForumService extends AxiosService {
   public constructor() {
@@ -27,7 +28,7 @@ class ForumService extends AxiosService {
   }
 
   public async getTopics() {
-    const response = await this.get('/topics');
+    const response = await this.get<ITopic[]>('/topics');
     return response;
   }
 
