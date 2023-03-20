@@ -19,13 +19,6 @@ export const proxyMiddleware: RequestHandler = (req, res, next) => {
     onProxyReq: fixRequestBody,
     onProxyRes: responseInterceptor(
       async (responseBuffer, _proxyRes, _req, _res) => {
-        const sc = _proxyRes.headers['set-cookie'];
-        if (Array.isArray(sc)) {
-          _proxyRes.headers['set-cookie'] = sc.map(sc => {
-            return sc.replace('Path=/', 'Path=/bomberapi/auth');
-          });
-        }
-
         if (req.url.includes('/auth/user') && req.method === 'GET') {
           const response = responseBuffer.toString(); // convert buffer to string
           let user;
