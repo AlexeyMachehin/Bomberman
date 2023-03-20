@@ -12,7 +12,7 @@ export const themeSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(getUserTheme.fulfilled, (state, action) => {
-      if (action.payload.theme) state.theme = action.payload.theme;
+      if (action.payload?.theme) state.theme = action.payload.theme;
     });
   },
 });
