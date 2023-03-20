@@ -16,22 +16,9 @@ export const proxyMiddleware: RequestHandler = (req, res, next) => {
     selfHandleResponse: true,
     logLevel: 'debug',
     cookiePathRewrite: '/',
-    // onProxyReq: (proxyReq, _req, _res) => {
-    //   proxyReq.removeHeader('cookie');
-    // },
     onProxyReq: fixRequestBody,
     onProxyRes: responseInterceptor(
       async (responseBuffer, _proxyRes, _req, _res) => {
-        // const sc = proxyRes.headers['set-cookie'];
-        // if (Array.isArray(sc)) {
-        //   proxyRes.headers['set-cookie'] = sc.map(sc => {
-        //     return sc
-        //       .split(';')
-        //       .filter(v => v.trim().toLowerCase() !== 'secure')
-        //       .join('; ');
-        //   });
-        // }
-
         const sc = _proxyRes.headers['set-cookie'];
         if (Array.isArray(sc)) {
           _proxyRes.headers['set-cookie'] = sc.map(sc => {
