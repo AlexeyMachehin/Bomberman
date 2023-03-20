@@ -1,6 +1,6 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-const SERVER_API = 'https://ya-praktikum.tech/api/v2';
+const SERVER_API = 'http://localhost:3001/bomberapi';
 
 const apiAxiosInstance = Axios.create({
   withCredentials: true,

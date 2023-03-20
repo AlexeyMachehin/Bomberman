@@ -1,11 +1,10 @@
+import { Router } from 'express';
+import { proxyMiddleware } from '../middlewares/proxyMiddleware';
 import forumController from '../controllers/ForumController';
 import themeController from '../controllers/ThemeController';
 import userController from '../controllers/UserController';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Router = require('express').Router;
-
-export const router = new Router();
+export const router = Router();
 
 // routes for forum
 router.get('/topics', forumController.getSections);
@@ -20,3 +19,5 @@ router.get('/theme', themeController.getUserTheme);
 router.post('/theme', themeController.setUserTheme);
 // routes for user
 router.post('/user', userController.createUser);
+//
+router.use('/', proxyMiddleware);
