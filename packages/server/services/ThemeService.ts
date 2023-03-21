@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import type { IUserTheme } from 'index';
 import { SiteTheme } from '../models/SiteTheme';
 import { UserTheme } from '../models/UserTheme';
 
@@ -30,10 +31,7 @@ class ThemeService {
     return result;
   };
 
-  public setUserTheme = async (payload: {
-    userId?: number;
-    newTheme: string;
-  }) => {
+  public setUserTheme = async (payload: IUserTheme) => {
     const { userId, newTheme } = payload;
 
     if (!userId) {
