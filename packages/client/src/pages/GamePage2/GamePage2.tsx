@@ -7,11 +7,17 @@ import { Enemy } from '../../features/GameEngine2/Enemy';
 import { EnemyDeath } from '../../features/GameEngine2/EnemyDeath';
 import { Bomb } from '../../features/GameEngine2/Bomb';
 import { Explosion, Direction } from '../../features/GameEngine2/Explosion';
+import { SoundPool, Sound } from '@/features/GameEngine2/SoundPool';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { addPlayer } from '@/store/user/thunk';
 import { selectorUser } from '@/store/user/selectors';
+import {
+  selectorIsOnMusic,
+  selectorVolumeLevel,
+} from '@/store/audioPlayer/selectors';
 import CountdownBackdrop from '@/features/countdownBackdrop/CountdownBackdrop';
 import EndGameBackdrop from '@/features/endGameBackdrop/EndGameBackdrop';
+import FullscreenToggler from '@/features/fullscreenToggler/FullscreenToggler';
 
 interface Door {
   x: number;
@@ -39,21 +45,40 @@ enum GameState {
 export default function GamePage2() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectorUser)!;
+  const isOnPlayer = useAppSelector(selectorIsOnMusic);
+  const volumeLevelState = useAppSelector(selectorVolumeLevel);
+
   let canvasGameState = GameState.StartBackdrop;
   let canvasScore = 0;
+
   const [gameState, setGameState] = useState<GameState>(canvasGameState);
   const [level, setLevel] = useState(1);
   const [score, setScore] = useState<number>(canvasScore);
   const [canvasKey, setCanvasKey] = useState<number>(1);
+
   let door: Door | null = null;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cell = 32;
   const columns = 31;
   const rows = 13;
   const screenWidth = cell * columns;
-  const screenHeight = cell * rows;
+  const screenHeight = cell * (rows + 1);
   const img = new Image();
   img.src = sprite;
+
+  const volume = isOnPlayer ? volumeLevelState : 0;
+  
+  // const volume = 1;
+  const stepSound = new SoundPool(12, volume);
+	stepSound.init(Sound.step);
+  const bombInstalSound = new SoundPool(5, volume);
+	bombInstalSound.init(Sound.bombInstall);
+	const explosionSound = new SoundPool(5, volume);
+	explosionSound.init(Sound.explosion);
+  const enemyDeathSound = new SoundPool(5, volume);
+	enemyDeathSound.init(Sound.enemyDeath);
+  const playerDeathSound = new SoundPool(2, volume);
+	playerDeathSound.init(Sound.playerDeath);
 
   const initialMap = [
     [
@@ -493,6 +518,7 @@ export default function GamePage2() {
   const generateMap = () => {
     cells = [];
     door = null;
+    let enemiesCount = 0;
 
     for (let row = 0; row < rows; row++) {
       cells[row] = [];
@@ -509,6 +535,18 @@ export default function GamePage2() {
           Math.random() > 0.95
         ) {
           cells[row][column] = MapElement.enemy;
+          enemiesCount++;
+        }
+      }
+    }
+
+    while (enemiesCount < 8) {
+      for (let row = 0; row < rows; row++) {
+        for (let column = 0; column < columns; column++) {
+          if (!cells[row][column] && initialMap[row][column] === MapElement.empty && Math.random() > 0.95) {
+            cells[row][column] = MapElement.enemy;
+            enemiesCount++;
+          }
         }
       }
     }
@@ -531,6 +569,8 @@ export default function GamePage2() {
 
     const canvas = canvasRef.current;
     const context = canvas.getContext('2d')!;
+    context.font = "30px Arial";
+    context.fillStyle = "#ffffff";
 
     const generateEnemies = () => {
       entities = [];
@@ -588,6 +628,7 @@ export default function GamePage2() {
           }
 
           entities.push(new Explosion(row, col, dir, i, context));
+          explosionSound.get();
 
           if (mapCell === MapElement.softWall) {
             cells[row][col] = null;
@@ -621,6 +662,7 @@ export default function GamePage2() {
             isPlayerIntersectExplosionLeft
           ) {
             entities.push(new PlayerDeath(player));
+            playerDeathSound.get();
             endGame();
           }
 
@@ -656,6 +698,7 @@ export default function GamePage2() {
                 enemy.alive = false;
                 canvasScore += 100;
                 entities.push(new EnemyDeath(enemy as Enemy));
+                enemyDeathSound.get();
               }
             });
 
@@ -681,6 +724,7 @@ export default function GamePage2() {
       enemies.forEach(enemy => {
         if (enemy.checkPlayerTouch(player)) {
           entities.push(new PlayerDeath(player));
+          playerDeathSound.get();
           endGame();
         }
       });
@@ -700,6 +744,10 @@ export default function GamePage2() {
         player.y === door.y
       ) {
         canvasGameState = GameState.Win;
+      }
+
+      if ((player.direction.UP || player.direction.RIGHT || player.direction.DOWN || player.direction.LEFT) && player.stepNumber % 10 === 0) {
+        stepSound.get();
       }
 
       player.move(cells);
@@ -752,6 +800,8 @@ export default function GamePage2() {
       });
 
       player.render();
+
+      context.fillText(`SCORE: ${score + canvasScore}`, 0, screenHeight - 5);
     };
 
     let last = performance.now();
@@ -816,6 +866,7 @@ export default function GamePage2() {
       ) {
         const bomb = new Bomb(row, col, player.bombSize, blowUpBomb, context);
         entities.push(bomb);
+        bombInstalSound.get();
         cells[row][col] = MapElement.bomb;
       }
     }
@@ -887,13 +938,19 @@ export default function GamePage2() {
       ) : null}
       <div className={classes.page}>
         {gameState === GameState.Active ? (
-          <canvas
-            className={classes.canvas}
-            ref={canvasRef}
-            width={screenWidth}
-            height={screenHeight}
-            key={canvasKey}
-          />
+          <>
+            <canvas
+              id={`game${canvasKey}`}
+              className={classes.canvas}
+              ref={canvasRef}
+              width={screenWidth}
+              height={screenHeight}
+              key={canvasKey}
+            />
+            <div className={classes.fullscreenBtn}>
+              <FullscreenToggler elementId={`game${canvasKey}`} />
+            </div>
+          </>
         ) : null}
         {gameState === GameState.Over || gameState === GameState.Win ? (
           <EndGameBackdrop
