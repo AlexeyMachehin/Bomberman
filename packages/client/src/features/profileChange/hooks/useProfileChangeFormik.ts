@@ -47,16 +47,14 @@ export const useProfileChangeFormik = ({ onSubmit }: IParams) => {
     phone: yup.string().required('Phone is required'),
   });
 
-  if (!secondName || !displayName || !login || !email || !phone) return;
-
   return useFormik({
     initialValues: {
       firstName,
-      secondName,
-      displayName,
-      login,
-      email,
-      phone,
+      secondName: secondName ??  '',
+      displayName: displayName ?? '',
+      login: login ?? '',
+      email: email ?? '',
+      phone: phone ?? '',
     },
     validationSchema,
     onSubmit,

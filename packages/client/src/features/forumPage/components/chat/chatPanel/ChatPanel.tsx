@@ -13,6 +13,7 @@ import classes from './chatPanel.module.css';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { loadSection, sendMessage } from '@/store/forum/thunk';
 import { useParams } from 'react-router-dom';
+import '../../../../../utils/Extensions';
 
 interface IChatPanelProps {
   selectedQuestion: null | IQuestion;
@@ -69,7 +70,7 @@ export default function ChatPanel({ selectedQuestion }: IChatPanelProps) {
 
   const renderMessages = (messages: IMessage[]) => {
     return [...messages]
-      .sort((a, b) => +new Date(a.time) - +new Date(b.time))
+      .bomberSort((a, b) => +new Date(a.time) - +new Date(b.time))
       .map((message: IMessage) => {
         const answerMessage = message.answeredId
           ? messages.find(item => item.id === message.answeredId)

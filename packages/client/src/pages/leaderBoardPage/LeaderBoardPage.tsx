@@ -51,7 +51,7 @@ const LeaderBoardPage = () => {
           {leaders.map((lider, index) => (
             <ListItem key={lider.id} className={styles.listItem}>
               <ListItemAvatar>
-                <Avatar src={`${RESOURCE_URL}${lider.avatarURL}`} alt={lider.name}>
+                <Avatar src={lider.avatarURL ? `${RESOURCE_URL}${lider.avatarURL}`:''} alt={lider.name}>
                   <AccountCircleIcon />
                 </Avatar>
               </ListItemAvatar>
