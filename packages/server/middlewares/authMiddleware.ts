@@ -1,6 +1,7 @@
 import { ApiError } from '../exceptions/ApiError';
+import type { RequestHandler } from 'express';
 
-export function authMiddleware(req: any, _res: any, next: any) {
+export const authMiddleware: RequestHandler = (req, _res, next) => {
   if (req.headers.cookie) {
     fetch('https://ya-praktikum.tech/api/v2/auth/user', {
       headers: {
@@ -24,4 +25,4 @@ export function authMiddleware(req: any, _res: any, next: any) {
   } else {
     return next(ApiError.UnauthorizedError());
   }
-}
+};

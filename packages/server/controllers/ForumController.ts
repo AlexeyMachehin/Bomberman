@@ -32,8 +32,6 @@ class ForumController {
 
   async getSection(req: any, res: any, next: any) {
     try {
-      console.log(req.body);
-
       const { section } = req.body;
       const result = await forumService.getSection(section);
       return res.json(result[0]);
