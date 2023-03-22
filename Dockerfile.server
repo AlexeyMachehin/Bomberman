@@ -19,9 +19,14 @@ RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
 FROM node:$NODE_VERSION-buster-slim as production
 WORKDIR /app
 
+# COPY --from=builder /app/packages/client/ /client/
 COPY --from=builder /app/packages/server/dist/ /app/
 COPY --from=builder /app/packages/server/package.json /app/package.json
-RUN yarn install --production=true
+
+# Подменяем пакет клиента на физический путь к пакету, т.к. в Docker
+#  нельзя подключить соседний пакет из monorepo
+# RUN sed -i 's/"client": "0.0.0"/"client": "file:..\/client"/g' /app/package.json \
+#   && yarn install --production=true
 
 EXPOSE $SERVER_PORT
 CMD [ "node", "/app/index.js" ]
