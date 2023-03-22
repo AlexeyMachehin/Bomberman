@@ -1,20 +1,23 @@
-import Axios, { AxiosInstance } from 'axios';
+import { AxiosResponse } from 'axios';
+import { AxiosService } from './AxiosService';
 
-const apiAxiosInstance = Axios.create({
-  // withCredentials: true,
-  baseURL: 'http://localhost:3001/bomberapi',
-});
-
-class ThemeService {
-  private readonly axios: AxiosInstance = apiAxiosInstance;
+class ThemeService extends AxiosService {
+  public constructor() {
+    super();
+  }
 
   public async saveUserTheme(payload: { userId?: number; newTheme: string }) {
-    const response = await this.axios.post('/theme', payload);
+    const response = await this.post<
+      { userId?: number; newTheme: string },
+      AxiosResponse
+    >('/theme', payload);
     return response.data;
   }
 
   public async getUserTheme(userId?: number) {
-    const response = await this.axios.get('/theme', { params: { userId } });
+    const response = await this.get<AxiosResponse>('/theme', {
+      params: { userId },
+    });
     return response.data;
   }
 }

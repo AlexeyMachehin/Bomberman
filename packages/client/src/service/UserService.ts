@@ -1,12 +1,8 @@
-import Axios from 'axios';
 import { AxiosService, IBasePayload } from './AxiosService';
 import { IUserRequestProfileDto } from './types/User/request/IUserRequestProfileDto';
 import { IUserRequestPasswordDto } from './types/User/request/IUserRequestPasswordDto';
 import { ApiEndpoint } from './types/api/enums/ApiEndpoint';
-
-const apiAxiosInstance = Axios.create({
-  baseURL: 'http://localhost:3001/bomberapi',
-});
+import { AxiosResponse } from 'axios';
 
 class UserService extends AxiosService {
   public constructor() {
@@ -14,7 +10,10 @@ class UserService extends AxiosService {
   }
 
   public async addUserToDB(payload: { userId: number; userName: string }) {
-    const response = await apiAxiosInstance.post('/user', payload);
+    const response = await this.post<
+      { userId: number; userName: string },
+      AxiosResponse
+    >('/user', payload);
     return response.data;
   }
 

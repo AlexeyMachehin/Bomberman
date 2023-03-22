@@ -1,4 +1,3 @@
-import cors from 'cors';
 import express from 'express';
 import dotenv from 'dotenv';
 import { createServer as createViteServer } from 'vite';
@@ -8,13 +7,15 @@ import { router } from './routes/index';
 import { errorMiddleware } from './middlewares/errorMiddleware';
 import * as fs from 'fs';
 import * as path from 'path';
+import { corsMiddleware } from './middlewares/corsMiddleware';
+import { requestDataSaverMiddleware } from './middlewares/requestMiddleware';
 
 dotenv.config();
 const isDev = process.env.NODE_ENV === 'development';
 
 async function startServer() {
   const app = express();
-  app.use(cors());
+  app.use([corsMiddleware(), requestDataSaverMiddleware]);
   app.use(express.json()); // parse requests of content-type - application/json
   app.use(express.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
   app.use(errorMiddleware);

@@ -79,7 +79,7 @@ export default function ChatPanel({ selectedQuestion }: IChatPanelProps) {
         return (
           <Message
             createAnswer={createAnswer}
-            key={`${message.name}${message.id}`}
+            key={`${message.userId}-${message.id}`}
             message={message}
             answerMessage={
               answerMessage ? createAnswerTemplate(answerMessage) : null

@@ -1,3 +1,4 @@
+import type { IMessage, IQuestion, IReaction } from 'index';
 import { Op } from 'sequelize';
 import { Message } from '../models/Message';
 import { Question } from '../models/Question';
@@ -19,19 +20,18 @@ class ForumService {
     return sections;
   }
 
-  async addQuestion(question: any) {
-    const newQuestion = await Question.create({
+  async addQuestion(question: IQuestion) {
+    const newQuestion = await Question.upsert({
       title: question.title,
       time: question.time,
       userId: question.userId,
       content: question.content,
       sectionId: question.sectionId,
     });
-
     return newQuestion;
   }
 
-  async addMessage(payload: any) {
+  async addMessage(payload: IMessage) {
     const newMessage = await Message.create({
       userId: payload.userId,
       message: payload.message,
@@ -73,7 +73,7 @@ class ForumService {
     return result;
   }
 
-  async addReaction(payload: { reaction: string; messageId: number }) {
+  async addReaction(payload: IReaction) {
     const result = await Message.update(
       {
         reactions: Message.sequelize?.fn(
