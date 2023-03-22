@@ -18,6 +18,8 @@ import {
 import CountdownBackdrop from '@/features/countdownBackdrop/CountdownBackdrop';
 import EndGameBackdrop from '@/features/endGameBackdrop/EndGameBackdrop';
 import FullscreenToggler from '@/features/fullscreenToggler/FullscreenToggler';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
+import { AudioPlayerButton } from '@/features/audioPlayer/AudioPlayerButton';
 
 interface Door {
   x: number;
@@ -947,7 +949,9 @@ export default function GamePage2() {
               height={screenHeight}
               key={canvasKey}
             />
-            <div className={classes.fullscreenBtn}>
+            <div className={classes.buttons}>
+              <StartPageButton />
+              <AudioPlayerButton />
               <FullscreenToggler elementId={`game${canvasKey}`} />
             </div>
           </>
