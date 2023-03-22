@@ -1,3 +1,4 @@
+import '../../matchMedia.mock';
 import ForumPage from '@/pages/forumPage/ForumPage';
 import Login from '@/pages/Login/Login';
 import Signup from '@/pages/Signup/Signup';
@@ -7,16 +8,17 @@ import { BrowserRouter, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
+import { Route as RoutePath } from '@/const';
 import App from '@/App';
 import '@testing-library/jest-dom';
 
 describe('Routes rendering', () => {
   test('Renders Login component when on /login route', () => {
     render(
-      <MemoryRouter initialEntries={['/login']}>
+      <MemoryRouter initialEntries={[RoutePath.LOGIN]}>
         <Provider store={store}>
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path={RoutePath.LOGIN} element={<Login />} />
           </Routes>
         </Provider>
       </MemoryRouter>
@@ -26,10 +28,10 @@ describe('Routes rendering', () => {
 
   test('Renders Signup component when on /signup route', () => {
     render(
-      <MemoryRouter initialEntries={['/signup']}>
+      <MemoryRouter initialEntries={[RoutePath.SIGNUP]}>
         <Provider store={store}>
           <Routes>
-            <Route path="/signup" element={<Signup />} />
+            <Route path={RoutePath.SIGNUP} element={<Signup />} />
           </Routes>
         </Provider>
       </MemoryRouter>
@@ -40,10 +42,10 @@ describe('Routes rendering', () => {
 
   test('Renders StartPage component when on / route', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={[RoutePath.INDEX]}>
         <Provider store={store}>
           <Routes>
-            <Route path="/" element={<StartPage />} />
+            <Route path={RoutePath.INDEX} element={<StartPage />} />
           </Routes>
         </Provider>
       </MemoryRouter>
@@ -54,10 +56,10 @@ describe('Routes rendering', () => {
 
   test('Renders ForumPage component when on /forum route', () => {
     render(
-      <MemoryRouter initialEntries={['/forum']}>
+      <MemoryRouter initialEntries={[RoutePath.FORUM]}>
         <Provider store={store}>
           <Routes>
-            <Route path="/forum" element={<ForumPage />} />
+            <Route path={RoutePath.FORUM} element={<ForumPage />} />
           </Routes>
         </Provider>
       </MemoryRouter>
@@ -68,15 +70,14 @@ describe('Routes rendering', () => {
 
   test('Renders LeaderBoard component when on /leaderboard route', () => {
     render(
-      <MemoryRouter initialEntries={['/leaderboard']}>
+      <MemoryRouter initialEntries={[RoutePath.LEADERBOARD]}>
         <Provider store={store}>
           <Routes>
-            <Route path="/leaderboard" element={<LeaderBoard />} />
+            <Route path={RoutePath.LEADERBOARD} element={<LeaderBoard />} />
           </Routes>
         </Provider>
       </MemoryRouter>
     );
-
     expect(screen.getByTestId('leaderBoardPage-component')).toBeInTheDocument();
   });
 

@@ -1,6 +1,7 @@
+import { LOCAL_SERVER_PORT } from '@/common/consts/consts';
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-const SERVER_API = 'https://ya-praktikum.tech/api/v2';
+const SERVER_API = `http://localhost:${LOCAL_SERVER_PORT}/bomberapi`;
 
 const apiAxiosInstance = Axios.create({
   withCredentials: true,
@@ -31,5 +32,12 @@ export abstract class AxiosService {
     payload?: Request
   ): Promise<Payload> {
     return this.axios.post(url, payload);
+  }
+
+  public async put<Request, Payload extends IBasePayload>(
+    url: string,
+    payload?: Request
+  ): Promise<Payload> {
+    return this.axios.put(url, payload);
   }
 }

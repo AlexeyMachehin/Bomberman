@@ -2,20 +2,20 @@
 import themeService from '../services/ThemeService';
 
 class ThemeController {
-  async findTheme(req: any, res: any, next: any) {
+  async getUserTheme(req: any, res: any, next: any) {
     try {
       const payload = req.body;
-      const result = await themeService.find({ ...payload });
+      const result = await themeService.getUserTheme({ ...payload });
       return res.json(result);
     } catch (error) {
       next(error);
     }
   }
 
-  async createTheme(req: any, res: any, next: any) {
+  async setUserTheme(req: any, res: any, next: any) {
     try {
       const payload = req.body;
-      const result = await themeService.create({ ...payload });
+      const result = await themeService.setUserTheme({ ...payload });
       return res.json(result);
     } catch (error) {
       next(error);

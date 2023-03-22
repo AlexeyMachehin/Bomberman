@@ -1,17 +1,28 @@
+import { Router } from 'express';
+import { proxyMiddleware } from '../middlewares/proxyMiddleware';
 import forumController from '../controllers/ForumController';
 import themeController from '../controllers/ThemeController';
+import userController from '../controllers/UserController';
+import { authMiddleware } from '../middlewares/authMiddleware';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Router = require('express').Router;
-
-export const router = new Router();
+export const router = Router();
 
 // routes for forum
-router.get('/sections', forumController.getSections);
-router.get('/allstate', forumController.getAllState);
-router.post('/findquestions', forumController.findQuestionsByTitle);
-router.post('/questions', forumController.addQuestion);
-router.post('/messages', forumController.addMessage);
+router.get('/topics', authMiddleware, forumController.getSections);
+router.get('/allstate', authMiddleware, forumController.getAllState);
+router.post(
+  '/findquestions',
+  authMiddleware,
+  forumController.findQuestionsByTitle
+);
+router.post('/getsection', authMiddleware, forumController.getSection);
+router.post('/questions', authMiddleware, forumController.addQuestion);
+router.post('/messages', authMiddleware, forumController.addMessage);
+router.post('/reactions', authMiddleware, forumController.addReaction);
 // routes for theme
-router.get('/theme', themeController.findTheme);
-router.post('/theme', themeController.createTheme);
+router.get('/theme', themeController.getUserTheme);
+router.post('/theme', themeController.setUserTheme);
+// routes for user
+router.post('/user', authMiddleware, userController.createUser);
+//
+router.use('/', proxyMiddleware);

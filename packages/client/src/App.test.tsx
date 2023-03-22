@@ -1,3 +1,4 @@
+import './matchMedia.mock';
 import App from './App';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';

@@ -1,6 +1,6 @@
 export interface UserDto {
   readonly id: number;
-  readonly first_name: string | null;
+  readonly first_name: string;
   readonly second_name: string | null;
   readonly display_name: string | null;
   readonly login: string | null;

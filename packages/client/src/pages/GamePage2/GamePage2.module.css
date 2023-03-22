@@ -1,0 +1,19 @@
+.page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #006f00;
+}
+
+.canvas {
+  background-color: #009600;
+}
+
+.buttons {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
+  display: flex;
+}

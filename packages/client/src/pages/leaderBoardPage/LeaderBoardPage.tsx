@@ -1,5 +1,4 @@
-import styles from './LeaderBoardPage.module.css';
-
+import { useEffect } from 'react';
 import Container from '@mui/material/Container';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,9 +9,12 @@ import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { useEffect, useState } from 'react';
-import { leaderBoardService } from '../../service/LeaderBoardService';
-import { IPlayer } from '../../service/types/liderBoard/IPlayer';
+import { StartPageButton } from '@/features/startPageButton/StartPageButton';
+import { RESOURCE_URL } from '@/const';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
+import { selectorLeaders } from '@/store/user/selectors';
+import { getPlayers } from '@/store/user/thunk';
+import styles from './LeaderBoardPage.module.css';
 
 const Colors = ['gold', 'silver', 'goldenrod', 'tan'];
 
@@ -29,24 +31,27 @@ const getColor = (index: number) => {
   return Colors[index] ?? Colors[-1];
 };
 
-const LiderBoardPage = () => {
-  const [leaders, setLeaders] = useState<IPlayer[]>([]);
+const LeaderBoardPage = () => {
+  const dispatch = useAppDispatch();
+  const leaders = useAppSelector(selectorLeaders);
+
   useEffect(() => {
-    leaderBoardService.getPlayers().then(({ data }) => {
-      const leaders = data.map(player => player.data);
-      setLeaders(leaders);
-    });
+    dispatch(getPlayers());
   }, []);
 
   return (
     <div data-testid="leaderBoardPage-component" className={styles.liderBoard}>
       <Container maxWidth="lg">
-        <h1 className={styles.title}>LiderboardPage</h1>
+        <div className={styles.titleContainer}>
+          <h1 className={styles.title}>LeaderboardPage</h1>
+          <StartPageButton />
+        </div>
+
         <List>
           {leaders.map((lider, index) => (
             <ListItem key={lider.id} className={styles.listItem}>
               <ListItemAvatar>
-                <Avatar src={lider.avatarURL} alt={lider.name}>
+                <Avatar src={lider.avatarURL ? `${RESOURCE_URL}${lider.avatarURL}`:''} alt={lider.name}>
                   <AccountCircleIcon />
                 </Avatar>
               </ListItemAvatar>
@@ -68,4 +73,4 @@ const LiderBoardPage = () => {
   );
 };
 
-export default LiderBoardPage;
+export default LeaderBoardPage;

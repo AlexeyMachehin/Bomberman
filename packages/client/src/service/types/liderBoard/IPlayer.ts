@@ -1,7 +1,7 @@
 export interface IPlayer {
-  name: string;
+  displayName: string | null;
   score: number;
-  avatarURL: string;
+  avatarURL: string | null;
   id: number;
 }
 

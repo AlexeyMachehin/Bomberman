@@ -1,5 +1,5 @@
-import * as yup from 'yup'
-import { useFormik } from 'formik'
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 interface IFormValue {
   email: string;
@@ -22,30 +22,21 @@ const initialValues = {
   passwordAgain: '',
   firstName: '',
   surname: '',
-  phone: ''
-}
+  phone: '',
+};
 
-export type ISignupFormValues = typeof initialValues
+export type ISignupFormValues = typeof initialValues;
 
-export const useSignupFormik = ({onSubmit}:IParams) => {
-
+export const useSignupFormik = ({ onSubmit }: IParams) => {
   const validationSchema = yup.object({
     email: yup
       .string()
       .email('Enter a valid email')
       .required('Email is required'),
-    phone: yup
-      .string()
-      .required('Phone is required'),
-    login: yup
-      .string()
-      .required('Login is required'),
-    firstName: yup
-      .string()
-      .required('First name is required'),
-    surname: yup
-      .string()
-      .required('Surname is required'),
+    phone: yup.string().required('Phone is required'),
+    login: yup.string().required('Login is required'),
+    firstName: yup.string().required('First name is required'),
+    surname: yup.string().required('Surname is required'),
     password: yup
       .string()
       .min(8, 'Password should be of minimum 8 characters length')
@@ -54,7 +45,7 @@ export const useSignupFormik = ({onSubmit}:IParams) => {
       .string()
       .required('Password is required')
       .min(8, 'Password should be of minimum 8 characters length')
-      .oneOf([yup.ref('password'), null], 'Passwords must match')
+      .oneOf([yup.ref('password'), null], 'Passwords must match'),
   });
 
   return useFormik({
@@ -62,5 +53,4 @@ export const useSignupFormik = ({onSubmit}:IParams) => {
     validationSchema,
     onSubmit,
   });
-}
-
+};

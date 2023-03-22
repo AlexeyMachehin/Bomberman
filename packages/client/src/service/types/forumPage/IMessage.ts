@@ -1,8 +1,12 @@
 export interface IMessage {
-  name: string;
-  id: number;
+  userId?: number;
+  questionId?: number;
+  name?: string;
+  id?: number;
   isMyMessage: boolean;
   time: string;
   message: string;
   avatarURL: string;
+  reactions?: string[];
+  answeredId?: number;
 }

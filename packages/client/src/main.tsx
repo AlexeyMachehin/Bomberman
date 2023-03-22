@@ -5,6 +5,8 @@ import App from './App';
 import { store } from './store/store';
 import { register } from '../serviceWorkerBase';
 import './index.css';
+import '@/../static/Main.mp3';
+import '@/../static/LevelTheme.mp3';
 
 // Регистрация Service Worker.
 register();
