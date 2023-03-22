@@ -1,11 +1,21 @@
+import Axios from 'axios';
 import { AxiosService, IBasePayload } from './AxiosService';
 import { IUserRequestProfileDto } from './types/User/request/IUserRequestProfileDto';
 import { IUserRequestPasswordDto } from './types/User/request/IUserRequestPasswordDto';
 import { ApiEndpoint } from './types/api/enums/ApiEndpoint';
 
+const apiAxiosInstance = Axios.create({
+  baseURL: 'http://localhost:3001/bomberapi',
+});
+
 class UserService extends AxiosService {
   public constructor() {
     super();
+  }
+
+  public async addUserToDB(payload: { userId: number; userName: string }) {
+    const response = await apiAxiosInstance.post('/user', payload);
+    return response.data;
   }
 
   public updateProfile(dto: IUserRequestProfileDto): Promise<IBasePayload> {

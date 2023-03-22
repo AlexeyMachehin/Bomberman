@@ -19,7 +19,7 @@ export default function UserCard({ user }: Props) {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {user.name}
+          {user.displayName}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Score: {user.score}

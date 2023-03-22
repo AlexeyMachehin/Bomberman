@@ -1,3 +1,4 @@
+import '../../../matchMedia.mock';
 import ForumPage from '@/pages/forumPage/ForumPage';
 import { render } from '@testing-library/react';
 import { store } from '@/store/store';

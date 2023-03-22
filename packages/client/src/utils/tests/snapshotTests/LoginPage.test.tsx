@@ -1,3 +1,4 @@
+import '../../../matchMedia.mock';
 import Login from '@/pages/Login/Login';
 import { render } from '@testing-library/react';
 import { store } from '@/store/store';

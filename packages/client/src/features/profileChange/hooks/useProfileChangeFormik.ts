@@ -50,11 +50,11 @@ export const useProfileChangeFormik = ({ onSubmit }: IParams) => {
   return useFormik({
     initialValues: {
       firstName,
-      secondName,
-      displayName,
-      login,
-      email,
-      phone,
+      secondName: secondName ??  '',
+      displayName: displayName ?? '',
+      login: login ?? '',
+      email: email ?? '',
+      phone: phone ?? '',
     },
     validationSchema,
     onSubmit,

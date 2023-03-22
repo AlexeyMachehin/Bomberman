@@ -1,15 +1,12 @@
-import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FormEvent } from 'react';
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import DashBoard from './dashBoard/DashBoard';
-import { IForumState } from '../../../../service/types/forumPage/IForumState';
-import { IQuestion } from '../../../../service/types/forumPage/IQuestion';
-import { forumState } from '../../../mockData/forumState';
-import { QuestionWithTopic } from '../../../../service/types/forumPage/questionWithTopic';
 import classes from './header.module.css';
+import { useAppSelector, useAppDispatch } from '../../../../utils/hooks';
+import { findQuestions } from '@/store/forum/thunk';
 import { StartPageButton } from '@/features/startPageButton/StartPageButton';
 
 const Search = styled('div')(({ theme }) => ({
@@ -28,39 +25,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const [foundedQuestions, setFoundedQuestions] = useState<QuestionWithTopic[]>(
-    []
+  const foundedQuestions = useAppSelector(
+    state => state.forumReducer.foundedQuestions
   );
 
-  const navigate = useNavigate();
-
-  const getFilteredQuestions = (
-    inputValue: string,
-    mainTopics: IForumState
-  ): QuestionWithTopic[] => {
-    const regExp = new RegExp(inputValue.toLowerCase());
-
-    return Object.entries(mainTopics).reduce<QuestionWithTopic[]>(
-      (foundQuestions, [mainTopic, questions]) => {
-        return foundQuestions.concat(
-          questions
-            .filter((question: IQuestion) =>
-              regExp.test(question.title.toLowerCase())
-            )
-            .map(question => ({ ...question, topic: mainTopic }))
-        );
-      },
-      []
-    );
-  };
+  const dispatch = useAppDispatch();
 
   const handleOnChangeInput = (event: FormEvent<HTMLInputElement>) => {
     const searchInputValue = (event.target as HTMLInputElement).value;
-    const foundedQuestions =
-      searchInputValue !== ''
-        ? getFilteredQuestions(searchInputValue, forumState)
-        : [];
-    setFoundedQuestions(foundedQuestions);
+    dispatch(findQuestions(searchInputValue));
   };
 
   return (

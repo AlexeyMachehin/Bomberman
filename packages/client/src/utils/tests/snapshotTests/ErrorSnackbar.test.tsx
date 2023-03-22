@@ -1,3 +1,4 @@
+import '../../../matchMedia.mock';
 import ErrorSnackbar from '@/features/alerts/ErrorSnackbar';
 import { render } from '@testing-library/react';
 import { store } from '@/store/store';

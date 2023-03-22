@@ -1,3 +1,12 @@
-import { IQuestion } from './IQuestion';
-
-export type QuestionWithTopic = IQuestion & { topic: string };
+export type QuestionWithTopic = {
+  id: number;
+  title: string;
+  content: string;
+  time: string;
+  user: {
+    name: string;
+  };
+  section: {
+    title: string;
+  };
+};

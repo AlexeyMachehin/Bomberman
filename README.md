@@ -14,13 +14,34 @@
 ***
 
 ## Демо:
+Ссылка на Я.Облако: [Bomberman](https://bombers-bomberman-21.ya-praktikum.tech/)
 
 ***
 
 ## Описание:
+Bomberman — компьютерная игра. Жанр - аркадный лабиринт. Игрок управляет персонажем, находящимся в лабиринте, состоящем из разрушаемых и неразрушаемых стен. Он может оставлять бомбу, взрывающуюся через некоторое фиксированное время и разрушающую стены рядом с ней. На уровне присутствуют противники. Целью игры является нахождение скрытой за одной из разрушаемых стен двери, ведущей в следующий уровень с предварительным уничтожением врагов.
+
+![image](https://user-images.githubusercontent.com/99137228/226882759-7e981fe5-0fbf-4893-9784-2fcc972df58e.png)
+
 
 ***
 ## Стек технологий: 
+- React
+- React Router
+- Redux
+- Redux Thunk
+- Typescript
+- Canvas API
+- NodeJS
+- Axios
+- Vite
+- Jest
+- Server Side Rendering
+- OAuth
+- Nginx
+- Yandex Cloud
+- Service Workers
+- Docker-Compose
 
 ***
 

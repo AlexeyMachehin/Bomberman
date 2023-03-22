@@ -30,6 +30,8 @@ const ProfileChange = () => {
   };
 
   const formik = useProfileChangeFormik({ onSubmit: handleSubmit });
+  
+  if (!formik) return null;
 
   return (
     <Container data-testid="profileChange-component">

@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { REDIRECT_URI_PROD, REDIRECT_URI_DEV } from '@/common/consts/consts';
-import { useAppDispatch } from '@/utils/hooks';
+import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { getUser, signInYandex } from '@/store/user/thunk';
+import { getUserTheme } from '@/store/theme/thunk';
 
 export function Layout({ children }: { children: JSX.Element }) {
   const dispatch = useAppDispatch();
   const location = useLocation();
+
+  const currentUser = useAppSelector(state => state.userReducer.user);
 
   const oAuth = () => {
     if (location.search) {
@@ -30,6 +33,7 @@ export function Layout({ children }: { children: JSX.Element }) {
 
   useEffect(() => {
     oAuth();
+    dispatch(getUserTheme(currentUser?.id));
   }, []);
 
   return children;

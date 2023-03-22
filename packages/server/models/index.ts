@@ -24,4 +24,4 @@ export const db: Record<string, any> = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-sequelize.addModels([Message, Question, Section, User, SiteTheme, UserTheme]);
+sequelize.addModels([Message, Question, Section, User, UserTheme, SiteTheme]);

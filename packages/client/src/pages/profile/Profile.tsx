@@ -83,9 +83,9 @@ const Profile = () => {
           alignItems="center">
           <Avatar
             src={`${RESOURCE_URL}${avatar}`}
-            alt={displayName}
+            alt={displayName!}
             sx={{ width: 200, height: 200, fontSize: 48 }}>
-            {`${firstName[0]}${secondName[0]}`}
+            {`${firstName[0]}${secondName![0]}`}
           </Avatar>
 
           <Box sx={{ transform: 'translateY(-50%)' }}>
