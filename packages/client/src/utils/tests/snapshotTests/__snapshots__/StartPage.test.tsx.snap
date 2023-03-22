@@ -5,6 +5,30 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
+      <div>
+        <span
+          class="MuiSwitch-root MuiSwitch-sizeMedium css-lu9khh-MuiSwitch-root"
+        >
+          <span
+            class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+          >
+            <input
+              checked=""
+              class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+              type="checkbox"
+            />
+            <span
+              class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+            />
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </span>
+          <span
+            class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+          />
+        </span>
+      </div>
       <div
         data-testid="startPage-component"
       >
@@ -181,6 +205,30 @@ Object {
     </div>
   </body>,
   "container": <div>
+    <div>
+      <span
+        class="MuiSwitch-root MuiSwitch-sizeMedium css-lu9khh-MuiSwitch-root"
+      >
+        <span
+          class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary Mui-checked Mui-checked css-5ryogn-MuiButtonBase-root-MuiSwitch-switchBase"
+        >
+          <input
+            checked=""
+            class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+            type="checkbox"
+          />
+          <span
+            class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+          />
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </span>
+        <span
+          class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+        />
+      </span>
+    </div>
     <div
       data-testid="startPage-component"
     >
