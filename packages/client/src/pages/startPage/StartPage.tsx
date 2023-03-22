@@ -6,6 +6,7 @@ import classes from './startPage.module.css';
 import { useAppDispatch, useAppSelector } from '@/utils/hooks';
 import { useEffect } from 'react';
 import { addUserToDB } from '@/store/user/thunk';
+import { ThemeToggler } from '@/features/theme/ThemeToggler';
 
 const theme = createTheme({
   typography: {
@@ -24,6 +25,9 @@ export default function StartPage() {
 
   return (
     <ThemeProvider theme={theme}>
+      <div className={classes.buttonContainer}>
+        <ThemeToggler />
+      </div>
       <div
         data-testid="startPage-component"
         className={classes.startPageWrapper}>
