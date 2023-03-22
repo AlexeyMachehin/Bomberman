@@ -15,3 +15,9 @@
   font-size: 70px;
   color: var(--startPageTitle);
 }
+
+.buttonContainer {
+  display: flex;
+  background-color: var(--startPageBackground);
+  justify-content: end;
+}

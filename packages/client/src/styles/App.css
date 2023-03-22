@@ -4,8 +4,10 @@
 
 :root[data-theme='light'] {
   --startPageTitle: #4caf50;
+  --startPageBackground: 'white';
 }
 
 :root[data-theme='dark'] {
   --bstartPageTitle: #ffb74d;
+  --bstartPageBackground: 'black';
 }
