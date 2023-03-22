@@ -55,12 +55,24 @@ export default function HowToPlayModal() {
         closeAfterTransition>
         <Fade in={isModalOpen}>
           <Box className={classes.textModal}>
-            <Typography id="spring-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="spring-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+            <div className={classes.iconsContainer}>
+              <img
+                className={classes.icon}
+                src="@../../static/img/arrows.jpg"
+                alt="arrows"
+              />
+              <Typography id="spring-modal-title">arrows - move</Typography>
+            </div>
+            <div className={classes.iconsContainer}>
+              <img
+                className={classes.icon}
+                src="@../../static/img/space.png"
+                alt="space"
+              />
+              <Typography id="spring-modal-title">
+                space - plant a bomb
+              </Typography>
+            </div>
           </Box>
         </Fade>
       </Modal>

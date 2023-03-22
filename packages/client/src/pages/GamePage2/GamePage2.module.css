@@ -1,4 +1,5 @@
 .page {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,4 +9,10 @@
 
 .canvas {
   background-color: #009600;
+}
+
+.fullscreenBtn {
+  position: absolute;
+  right: 40px;
+  bottom: 40px;
 }

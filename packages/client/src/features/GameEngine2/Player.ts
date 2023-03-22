@@ -14,6 +14,7 @@ export class Player extends Entity {
   bombsCount: number;
   bombSize: number;
   timer: number;
+  stepNumber: number;
   spriteX: number;
   spriteY: number;
 
@@ -23,6 +24,7 @@ export class Player extends Entity {
     this.bombsCount = 1;
     this.bombSize = 2;
     this.timer = 0;
+    this.stepNumber = 0;
     this.spriteX = 48;
     this.spriteY = 0;
     this.direction = {
@@ -148,7 +150,14 @@ export class Player extends Entity {
       return;
     }
 
+    if (!this.direction.UP && !this.direction.RIGHT && !this.direction.DOWN && !this.direction.LEFT) {
+      this.spriteX = 64;
+      this.spriteY = 0;
+      return;
+    }
+
     this.timer += step;
+    this.stepNumber++;
     const interval = Math.ceil(this.timer / 0.25);
 
     if (this.direction.RIGHT || this.direction.UP) {
