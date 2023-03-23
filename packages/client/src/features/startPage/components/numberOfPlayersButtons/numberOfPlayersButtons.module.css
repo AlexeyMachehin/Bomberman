@@ -56,3 +56,11 @@
   padding: 32px;
   padding-top: 16px;
 }
+
+.oneBomberImgSrc {
+  background-image: url('@/../static/img/oneBomber.jpg');
+}
+
+.twoBombersImgSrc {
+  background-image: url('@/../static/img/twoBombers.jpg');
+}
