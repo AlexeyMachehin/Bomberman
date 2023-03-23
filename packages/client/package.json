@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.0.0",
   "type": "module",
-  "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
     "build": "tsc && vite build --config vite.config.ts",
