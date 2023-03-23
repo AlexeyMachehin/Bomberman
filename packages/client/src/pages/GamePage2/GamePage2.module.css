@@ -11,8 +11,9 @@
   background-color: #009600;
 }
 
-.fullscreenBtn {
+.buttons {
   position: absolute;
   right: 40px;
   bottom: 40px;
+  display: flex;
 }
