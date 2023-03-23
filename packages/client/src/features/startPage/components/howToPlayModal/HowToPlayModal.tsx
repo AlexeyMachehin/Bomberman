@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import classes from './howToPlayModal.module.css';
+import arrowsImg from '../../../../../static/img/arrows.jpg';
+import spaceImg from '../../../../../static/img/space.png';
 
 interface FadeProps {
   children?: React.ReactElement;
@@ -56,19 +58,11 @@ export default function HowToPlayModal() {
         <Fade in={isModalOpen}>
           <Box className={classes.textModal}>
             <div className={classes.iconsContainer}>
-              <img
-                className={classes.icon}
-                src="@../../static/img/arrows.jpg"
-                alt="arrows"
-              />
+              <img className={classes.icon} src={arrowsImg} alt="arrows" />
               <Typography id="spring-modal-title">arrows - move</Typography>
             </div>
             <div className={classes.iconsContainer}>
-              <img
-                className={classes.icon}
-                src="@../../static/img/space.png"
-                alt="space"
-              />
+              <img className={classes.icon} src={spaceImg} alt="space" />
               <Typography id="spring-modal-title">
                 space - plant a bomb
               </Typography>
