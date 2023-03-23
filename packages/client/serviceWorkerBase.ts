@@ -14,7 +14,7 @@ type Config = {
 };
 
 export function register(config?: Config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       const swUrl = `sw.js`;
 
