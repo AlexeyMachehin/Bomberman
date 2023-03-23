@@ -11,6 +11,7 @@ import AboutGameModal from '../aboutGameModal/AboutGameModal';
 import { logout } from '@/store/user/thunk';
 import { Route as RoutePath } from '@/const';
 import classes from './navigateLinks.module.css';
+import mainTrack from '../../../../../static/Main.mp3';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
@@ -21,7 +22,7 @@ export default function NavigateLinks() {
   const handleLogout = async () => {
     dispatch(logout()).then(() => {
       document.getElementById('audioPlayerOffButtonId')?.click();
-      dispatch(setAudioTrackSRC('@/../static/Main.mp3'));
+      dispatch(setAudioTrackSRC(mainTrack));
       navigate(RoutePath.LOGIN);
     });
   };

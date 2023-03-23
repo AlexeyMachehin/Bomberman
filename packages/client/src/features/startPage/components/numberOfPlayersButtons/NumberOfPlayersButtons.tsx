@@ -6,19 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { Route as RoutePath } from '@/const';
 import classes from './numberOfPlayersButtons.module.css';
 
-const images = [
-  {
-    url: '@/../static/img/oneBomber.jpg',
-    title: 'ONE PLAYER',
-    width: '50%',
-  },
-  {
-    url: '@/../static/img/twoBombers.jpg',
-    title: 'TWO PLAYERS',
-    width: '50%',
-  },
-];
-
 const ImageButton = styled(ButtonBase)(({ theme }) => ({
   position: 'relative',
   height: 300,
@@ -47,38 +34,55 @@ export default function NumberOfPlayersButtons() {
 
   return (
     <Box className={classes.container}>
-      {images.map(image => (
-        <ImageButton
-          onClick={() => {
-            navigate(RoutePath.GAME);
-          }}
-          focusRipple
-          key={image.title}
-          style={{
-            width: image.width,
-          }}>
-          <span
-            className={classes.imageSrc}
-            style={{ backgroundImage: `url(${image.url})` }}
-          />
-          <span className={`MuiImageBackdrop-root ${classes.imageBackdrop}`} />
-          <span className={classes.image}>
-            <Typography
-              component="span"
-              color="inherit"
-              className={classes.buttonTitle}
-              sx={{
-                fontSize: '20px',
-                pb: theme => `calc(${theme.spacing(1)} + 6px)`,
-              }}>
-              {image.title}
-              <span
-                className={`MuiImageBackdrop-root ${classes.imageMarked}`}
-              />
-            </Typography>
-          </span>
-        </ImageButton>
-      ))}
+      <ImageButton
+        onClick={() => {
+          navigate(RoutePath.GAME);
+        }}
+        focusRipple
+        style={{
+          width: '50%',
+        }}>
+        <span className={`${classes.imageSrc} ${classes.oneBomberImgSrc}`} />
+        <span className={`MuiImageBackdrop-root ${classes.imageBackdrop}`} />
+        <span className={classes.image}>
+          <Typography
+            component="span"
+            color="inherit"
+            className={classes.buttonTitle}
+            sx={{
+              fontSize: '20px',
+              pb: theme => `calc(${theme.spacing(1)} + 6px)`,
+            }}>
+            {'ONE PLAYER'}
+            <span className={`MuiImageBackdrop-root ${classes.imageMarked}`} />
+          </Typography>
+        </span>
+      </ImageButton>
+
+      <ImageButton
+        onClick={() => {
+          navigate(RoutePath.GAME);
+        }}
+        focusRipple
+        style={{
+          width: '50%',
+        }}>
+        <span className={`${classes.imageSrc} ${classes.twoBombersImgSrc}`} />
+        <span className={`MuiImageBackdrop-root ${classes.imageBackdrop}`} />
+        <span className={classes.image}>
+          <Typography
+            component="span"
+            color="inherit"
+            className={classes.buttonTitle}
+            sx={{
+              fontSize: '20px',
+              pb: theme => `calc(${theme.spacing(1)} + 6px)`,
+            }}>
+            {'TWO PLAYERS'}
+            <span className={`MuiImageBackdrop-root ${classes.imageMarked}`} />
+          </Typography>
+        </span>
+      </ImageButton>
     </Box>
   );
 }

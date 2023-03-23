@@ -47,7 +47,7 @@ Object {
             type="button"
           >
             <span
-              style="background-image: url(@/../static/img/oneBomber.jpg);"
+              class="undefined undefined"
             />
             <span
               class="MuiImageBackdrop-root undefined"
@@ -73,7 +73,7 @@ Object {
             type="button"
           >
             <span
-              style="background-image: url(@/../static/img/twoBombers.jpg);"
+              class="undefined undefined"
             />
             <span
               class="MuiImageBackdrop-root undefined"
@@ -247,7 +247,7 @@ Object {
           type="button"
         >
           <span
-            style="background-image: url(@/../static/img/oneBomber.jpg);"
+            class="undefined undefined"
           />
           <span
             class="MuiImageBackdrop-root undefined"
@@ -273,7 +273,7 @@ Object {
           type="button"
         >
           <span
-            style="background-image: url(@/../static/img/twoBombers.jpg);"
+            class="undefined undefined"
           />
           <span
             class="MuiImageBackdrop-root undefined"
