@@ -1,3 +1,5 @@
+import mainTrack from '../../../static/Main.mp3';
+
 export const audioPlayerState: {
   isOnMusic: boolean;
   trackSRC: string;
@@ -5,7 +7,7 @@ export const audioPlayerState: {
   loop: boolean;
 } = {
   isOnMusic: false,
-  trackSRC: '@/../static/Main.mp3',
+  trackSRC: mainTrack,
   volumeLevel: 1,
   loop: false,
 };

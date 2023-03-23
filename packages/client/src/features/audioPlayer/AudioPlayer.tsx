@@ -15,6 +15,8 @@ import {
 } from '@/store/audioPlayer/selectors';
 import { localStorageAudioPlayerUtils } from './localStorageAudioPlayerUtils';
 import { Route as RoutePath } from '@/const';
+import mainTrack from '../../../static/Main.mp3';
+import levelTrack from '../../../static/LevelTheme.mp3';
 
 export default function AudioPlayer() {
   const dispatch = useAppDispatch();
@@ -42,23 +44,23 @@ export default function AudioPlayer() {
   useEffect(() => {
     if (location.pathname === RoutePath.INDEX) {
       dispatch(setIsOnLoop(false));
-      dispatch(setAudioTrackSRC('@/../static/Main.mp3'));
+      dispatch(setAudioTrackSRC(mainTrack));
     }
     if (location.pathname === RoutePath.LEADERBOARD) {
       dispatch(setIsOnLoop(true));
-      dispatch(setAudioTrackSRC('@/../static/LevelTheme.mp3'));
+      dispatch(setAudioTrackSRC(levelTrack));
     }
     if (location.pathname === RoutePath.FORUM) {
       dispatch(setIsOnLoop(true));
-      dispatch(setAudioTrackSRC('@/../static/LevelTheme.mp3'));
+      dispatch(setAudioTrackSRC(levelTrack));
     }
     if (location.pathname === RoutePath.GAME) {
       dispatch(setIsOnLoop(true));
-      dispatch(setAudioTrackSRC('@/../static/LevelTheme.mp3'));
+      dispatch(setAudioTrackSRC(levelTrack));
     }
     if (location.pathname === RoutePath.PROFILE) {
       dispatch(setIsOnLoop(true));
-      dispatch(setAudioTrackSRC('@/../static/LevelTheme.mp3'));
+      dispatch(setAudioTrackSRC(levelTrack));
     }
     setTimeout(() => {
       if (user) {
