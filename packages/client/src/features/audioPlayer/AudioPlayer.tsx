@@ -54,7 +54,7 @@ export default function AudioPlayer() {
     }
     if (location.pathname === RoutePath.GAME) {
       dispatch(setIsOnLoop(true));
-      dispatch(setAudioTrackSRC('@/../static/LevelTheme.mp3'));
+      dispatch(setAudioTrackSRC('assets/LevelTheme.mp3'));
     }
     if (location.pathname === RoutePath.PROFILE) {
       dispatch(setIsOnLoop(true));
