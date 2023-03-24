@@ -7,6 +7,7 @@ export const corsMiddleware = () => {
     origin: [
       `http://127.0.0.1:${clientPort}`,
       `http://localhost:${clientPort}`,
+      `http://158.160.60.43`,
     ],
     optionsSuccessStatus: 200,
   };
