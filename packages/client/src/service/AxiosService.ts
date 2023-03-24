@@ -1,3 +1,4 @@
+import { LOCAL_SERVER_PORT } from './../../../../../../packages/client/src/common/consts/consts';
 import Axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const SERVER_API = `http://localhost:${LOCAL_SERVER_PORT}/bomberapi`;
